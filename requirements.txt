@@ -1,0 +1,6 @@
+flask
+flask-mysql
+torch
+transformers
+requests
+json
