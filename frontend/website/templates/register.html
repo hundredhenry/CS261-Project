@@ -1,0 +1,30 @@
+<!-- need to add extensions batoul this is just basic testing-->
+
+{%block title%} Registration {%endblock%}
+
+{%block content%} 
+
+        <h1> Register as New User </h1> 
+        <br><br>
+
+        <form action="#" method="post">
+            
+            <label for="name"> Name: </label>
+            <input type="text" id="name" name="name" placeholder="Bob" required/><br><br>
+            
+            <label for="email"> Email: </label>
+            <input type="email" id="email" name="email" placeholder="test@gmail.com" required/><br><br>
+            
+            <label for "password"> Password: </label>
+            <input type="password" id="password" name="password" required/><br><br>
+            
+            <label for "confirm_password"> Confirm Password: </label>
+            <input type="password" id="confirm_password" name="confirm_password" required/><br><br>
+
+            <p>Already have an Account? <a href="/login"> Login Here <a> </p>
+
+            <input type="submit" value="GET STARTED" />
+        </form>
+
+
+{%endblock%}
