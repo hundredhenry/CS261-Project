@@ -6,3 +6,5 @@ class SentimentAnalysis:
 
     def get_sentiment(self, content):
         sentiment = self.sentiment_pipeline(content)
+
+        return sentiment
