@@ -1,5 +1,7 @@
 flask
+flask-mail
 flask-mysql
+flask_login
 torch
 transformers
 requests
