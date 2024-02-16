@@ -5,3 +5,4 @@ flask_login
 torch
 transformers
 requests
+bs4
