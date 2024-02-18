@@ -1,16 +1,14 @@
 <!-- all of this code is preliminary-->
 
-{%block title%} Registration {%endblock%}
+{%block title%} Login {%endblock%}
 
 {%block content%} 
 
-        <h1> Register as New User </h1> 
+        <h1> Login </h1> 
         <br><br>
 
         <form action="#" method="post">
             
-            <label for="name"> Firstname: </label>
-            <input type="text" id="name" name="name" placeholder="John" required/><br><br>
             
             <label for="email"> Email: </label>
             <input type="email" id="email" name="email" placeholder="jd@test.com" required/><br><br>
@@ -18,28 +16,23 @@
             <label for "password"> Password: </label>
             <input type="password" id="password" name="password" required/><br><br>
 
-            <label for "confirm_password"> Confirm Password: </label>
-            <input type="password" id="confirm_password" name="confirm_password" required/><br><br>
             <p><input type="checkbox" id="togglePassword"> Show password</p>
 
-            <p>Already have an Account? <a href="/login"> Login Here <a> </p>
+            <p>Don't have an Account? <a href="/register"> Register Here <a> </p>
 
-            <input type="submit" value="GET STARTED" />
+            <input type="submit" value="LOG IN" />
         </form>
 
 <!-- basic check box toggle script-->
 <script>
     var password = document.getElementById("password")
-  , confirm_password = document.getElementById("confirm_password");
     var togglePassword = document.getElementById("togglePassword");
 
     togglePassword.addEventListener('change', function() {
         if (password.type === 'password') {
             password.type = 'text';
-            confirm_password.type = 'text';
         } else {
             password.type = 'password';
-            confirm_password.type = 'password';
         }
     });
 </script>

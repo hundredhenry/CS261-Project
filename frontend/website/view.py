@@ -66,13 +66,40 @@ def confirm_email(token):
     except:
         flash('The confirmation link is invalid or has expired.', category='error')
     user = User.query.filter_by(email=email).first()
-    if user.verified:
-        flash('Account already confirmed. Please login.', category='success')
-    else:
-        user.verified = True
-        db.session.add(user)
-        db.session.commit()
-        flash('You have confirmed your account. Please Login.', category='success')
-    return redirect('/')
+    
+    if user:
+        if user.verified:
+            flash('Account already confirmed. Please login.', category='success')
+            return redirect('/login')
+        else:
+            user.verified = True
+            db.session.add(user)
+            db.session.commit()
+            flash('You have confirmed your account. Please login.', category='success')
+        return redirect('/login')
+        
+
+@views.route('/login/', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        user = User.query.filter_by(email=email).first()
+        
+        if user and not user.verified:
+            flash("Please verify your email first", category="error")
+            print("Please verify your email first")
+            return redirect(url_for("views.test_page"))
+        
+        if user and check_password_hash(user.password_hash, password):
+            flash("Logged in successfully", category="success")
+            print("Logged in successfully")
+            return redirect(url_for("views.test_page"))
+        else:
+            flash("Email or password is incorrect", category="error")
+            print("Email or password is incorrect")
+    return render_template('login.html')
+    
     
 

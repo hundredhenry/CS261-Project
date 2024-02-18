@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+from flask_login import LoginManager
 
 
 db = SQLAlchemy()
@@ -22,14 +23,21 @@ def create_app():
     db.init_app(app)   
     mail.init_app(app)
         
-    from .models import User
+    #registering blueprints 
+    from .view import views 
+    app.register_blueprint(views, url_prefix="/")
     
+    from .models import User
     with app.app_context():
         db.drop_all()
         db.create_all()
 
-    #registering blueprints 
-    from .view import views 
-    app.register_blueprint(views, url_prefix="/")
+    login_manager = LoginManager()
+    login_manager.login_view = 'views.login'
+    login_manager.init_app(app)
+    
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
        
     return app
