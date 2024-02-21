@@ -39,7 +39,7 @@ def register():
         elif len(password) < 8:
             flash('Password must be at least 8 characters', category='error')
         else:
-            new_user = User(name=name, email=email, password_hash=generate_password_hash(password))# create a new user with generate_password_hash(password) default values are sufficient
+            new_user = User(firstname=name, email=email, password_hash=generate_password_hash(password))# create a new user with generate_password_hash(password) default values are sufficient
             # add this user to the DB
             db.session.add(new_user)
             db.session.commit()
