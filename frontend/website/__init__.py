@@ -27,7 +27,7 @@ def create_app():
     from .view import views 
     app.register_blueprint(views, url_prefix="/")
     
-    from .models import User
+    from .models import User, Notification, Follow, Sector, Source, Company, Article
     with app.app_context():
         db.drop_all()
         db.create_all()
