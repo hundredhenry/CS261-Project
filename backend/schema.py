@@ -1,20 +1,24 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from . import db
+
+db = SQLAlchemy()
 
 # Model of a user
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    verified = db.Column(db.Boolean(), nullable=False, default=False) 
-    firstname = db.Column(db.String(15), nullable=False)
+    verified = db.Column(db.Integer, nullable=False) # Default: 0 - 1 for verified, 0 for not verified
+    username = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    salt = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, firstname, email, password_hash):
-        self.firstname = firstname
+    def __init__(self, verified, username, email, password_hash, salt):
+        self.verified = verified
+        self.username = username
         self.email = email
         self.password_hash = password_hash
+        self.salt = salt
 
 # Model of a notification
 class Notification(UserMixin, db.Model):
@@ -90,3 +94,13 @@ class Article(UserMixin, db.Model):
         self.link = link
         self.summary = summary
         self.published = published
+
+# Add data to the database
+def  dbinit():
+    user_list = [
+        User(0, "John", "john@email.com", "john_password", "john_salt"),
+        User(0, "Jane", "jane@email.com", "jane_password", "jane_salt")
+    ]
+    db.session.add_all(user_list)
+
+    db.session.commit()
