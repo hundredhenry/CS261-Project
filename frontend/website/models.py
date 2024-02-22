@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from . import db
+
 # Model of a user
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -89,13 +90,3 @@ class Article(UserMixin, db.Model):
         self.link = link
         self.summary = summary
         self.published = published
-
-# Add data to the database
-def  dbinit():
-    user_list = [
-        User(0, "John", "john@email.com", "john_password", "john_salt"),
-        User(0, "Jane", "jane@email.com", "jane_password", "jane_salt")
-    ]
-    db.session.add_all(user_list)
-
-    db.session.commit()
