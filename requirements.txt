@@ -2,7 +2,9 @@ flask
 flask-mail
 flask-mysql
 flask_login
+sql_alchemy
 torch
 transformers
 requests
 bs4
+mysql-connector-python
