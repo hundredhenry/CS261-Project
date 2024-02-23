@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "123"
     app.config['SECURITY_PASSWORD_SALT'] = "f36d7eda6b91ecaff1a9e7045529ec71" # random hash idk maybe we can be more secure
+    # URI: "mysql+pymysql://[username]:[password]@[host]:[port_no]/[database_name]"
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///database.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
