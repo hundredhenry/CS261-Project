@@ -1,6 +1,7 @@
 flask
 flask-mail
 flask-mysql
+flask-sqlalchemy
 flask_login
 sqlalchemy
 torch
