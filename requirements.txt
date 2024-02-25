@@ -1,8 +1,9 @@
 flask
 flask-mail
 flask-mysql
+flask-sqlalchemy
 flask_login
-sql_alchemy
+sqlalchemy
 torch
 transformers
 requests
