@@ -33,7 +33,7 @@ class Notification(UserMixin, db.Model):
     read = db.Column(db.Integer, default = False)
     message = db.Column(db.Text, nullable = False)
 
-    def __init__(self, userID, read, message):
+    def __init__(self, userID, message):
         self.userID = userID
         self.message = message
         
@@ -118,3 +118,46 @@ class Article(UserMixin, db.Model):
         self.link = link
         self.summary = summary
         self.published = date.today()
+
+# Add data to the database
+def  dbinit():
+
+    # Add sectors in alphabetical order
+    sector_list = [
+        Sector("Entertainment"),
+        Sector("Healthcare"),
+        Sector("Finance"),
+        Sector("Food and Beverage"),
+        Sector("Manufacturing"),
+        Sector("Retail"),
+        Sector("Technology")
+    ]
+    db.session.add_all(sector_list)
+
+    # Add companies alphabetically by stock ticker
+    company_list = [
+        Company("AAPL", "Apple Inc.", 6),
+        Company("AMZN", "Amazon.com, Inc.", 6),
+        Company("COST", "Costco Wholesale Corporation", 5),
+        Company("GOOGL", "Alphabet Inc.", 6),
+        Company("HD", "The Home Depot, Inc.", 5),
+        Company("JNJ", "Johnson & Johnson", 1),
+        Company("JPM", "JP Morgan Chase & Co.", 2),
+        Company("KO", "The Coca-Cola Company", 3),    
+        Company("LLY", "Eli Lilly and Company", 1),
+        Company("MA", "Mastercard Incorporated", 2),
+        Company("MCD", "McDonald's Corporation", 3),
+        Company("MSFT", "Microsoft Corporation", 6),
+        Company("NFLX", "Netflix, Inc.", 0),
+        Company("NVDA", "NVIDIA Corporation", 6),
+        Company("NVO", "Novo Nordisk A/S", 1),
+        Company("PEP", "PepsiCo, Inc.", 3),
+        Company("PG", "The Procter & Gamble", 4),
+        Company("TM", "Toyota Motor Corporation", 4),
+        Company("V", "Visa Inc.", 2),
+        Company("WMT", "Walmart Inc.", 5),   
+    ]
+    db.session.add_all(company_list)
+
+    # Commit changes to the database
+    db.session.commit()
