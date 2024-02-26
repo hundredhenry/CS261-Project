@@ -246,8 +246,6 @@ input:focus {
 
 .macbook-air-1 {
     background-color: #fbfbfb;
-    border: 1px solid;
-    border-color: var(--black);
     height: 3930px;
     overflow: hidden;
     overflow-x: hidden;
