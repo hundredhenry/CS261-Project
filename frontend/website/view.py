@@ -26,10 +26,10 @@ def register():
         # check if the user is already registered 
         if len(name) < 1:
             flash("Name is too short!", category="name_error")
-            return render_template('register_page.html')
+            return render_template('register.html')
         if len(email) < 1:
             flash("Email is too short!", category="email_error")
-            return render_template('register_page.html')
+            return render_template('register.html')
                 
         if not re.match("^[a-zA-Z]*$", name):
             flash('Name must contain only letters', category='name_error')
@@ -60,7 +60,7 @@ def register():
             
             return render_template('unconfirmed.html')
 
-    return render_template('register_page.html')
+    return render_template('register.html')
 
 @views.route('/confirm/<token>')
 def confirm_email(token):
