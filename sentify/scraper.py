@@ -36,7 +36,7 @@ class ArticleScraper:
         return None
 
     def __dynamic_delay(self):
-        time.sleep(random.uniform(0.5, 3.0))
+        time.sleep(0.1)
 
     def get_meta_desc(self, url):
         html = self.__get_html(url)
@@ -44,8 +44,9 @@ class ArticleScraper:
             soup = BeautifulSoup(html, 'html.parser')
             meta_tag = soup.find('meta', attrs={'name': 'description'})
             if meta_tag:
+                print(meta_tag.get('content'))
                 return meta_tag.get('content')
             else:
-                return "Description not found."
+                return None
         else:
-            return "Failed to retrieve HTML content."
+            return None

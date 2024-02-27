@@ -1,7 +1,6 @@
 from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
-from sentiment import SentimentAnalysis
-from sqlalchemy import create_engine, select, insert, delete
+from sqlalchemy import create_engine, select, insert, delete, text
 from website.models import User, Notification, Follow, Company, Article
 from transformers import pipeline
 
@@ -11,7 +10,7 @@ class NewsSystem:
     def __init__(self):
         self.alpha_vantage = AlphaVantageWrapper()
         self.scraper = ArticleScraper()
-        self.sentiment = pipeline(model="distilbert-base-uncased-finetuned-sst-2-english")
+        self.sentiment_pipeline = pipeline(model="distilbert-base-uncased-finetuned-sst-2-english")
 
     def get_sentiment(self, content):
         sentiment = self.sentiment_pipeline(content)
@@ -57,10 +56,11 @@ class NewsSystem:
                 )
                 conn.execute(query)
 
-        print(self.get_articles('AAPL', conn))
         conn.close()
+        print(self.get_articles('AAPL'))
 
-    def get_articles(self, ticker, conn):
+    def get_articles(self, ticker):
+        conn = engine.connect()
         articles = []
 
         # Get all articles for the specified company
@@ -81,6 +81,7 @@ class NewsSystem:
                 'sentiment_score': row[10],
             })
 
+        conn.close()
         return articles
 
     def collection(self, ticker):
@@ -89,9 +90,9 @@ class NewsSystem:
         
         for article in articles:
             meta_desc = self.scraper.get_meta_desc(article['url'])
-            if meta_desc == "No content could be displayed":
+            if meta_desc == None:
                 meta_desc = article['title']
-            sentiment = self.sentiment.get_sentiment(meta_desc)
+            sentiment = self.get_sentiment(meta_desc)
             
             # Append specified article details to the filtered list
             filtered.append({
@@ -108,6 +109,15 @@ class NewsSystem:
             })
 
         return filtered
+    
+    def show_tables(self):
+        conn = engine.connect()
+        query = text("SHOW TABLES")
+        result = conn.execute(query)
+        for row in result:
+            print(row)
+        conn.close()
 
 system = NewsSystem()
+system.show_tables()
 system.update_companies()
