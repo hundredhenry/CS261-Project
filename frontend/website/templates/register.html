@@ -1,52 +1,47 @@
-<!-- all of this code is preliminary-->
-
-{%block title%} Registration {%endblock%}
-
-<head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css') }}">
-    <title> Registration </title>
-</head>
-
-{%block content%} 
-
-        <h1> Register as New User </h1> 
-        <br><br>
-
-        <form action="#" method="post">
-            
-            <label for="name"> First Name: </label>
-            <input type="text" id="name" name="name" placeholder="John" required/><br><br>
-            
-            <label for="email"> Email: </label>
-            <input type="email" id="email" name="email" placeholder="jd@test.com" required/><br><br>
-            
-            <label for "password"> Password: </label>
-            <input type="password" id="password" name="password" required/><br><br>
-
-            <label for "confirm_password"> Confirm Password: </label>
-            <input type="password" id="confirm_password" name="confirm_password" required/><br><br>
-            <p><input type="checkbox" id="togglePassword"> Show password</p>
-
-            <p>Already have an Account? <a href="/login"> Login Here <a> </p>
-
-            <input type="submit" value="Submit" />
-        </form>
-
-<!-- basic check box toggle script-->
-<script>
-    var password = document.getElementById("password")
-  , confirm_password = document.getElementById("confirm_password");
-    var togglePassword = document.getElementById("togglePassword");
-
-    togglePassword.addEventListener('change', function() {
-        if (password.type === 'password') {
-            password.type = 'text';
-            confirm_password.type = 'text';
-        } else {
-            password.type = 'password';
-            confirm_password.type = 'password';
-        }
-    });
-</script>
-
-{%endblock%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Roboto:wght@200;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/register.css">
+  </head>
+  <body>
+    <div class="site-header">
+      <a href="/" class="site-title">Sentify</a>
+      <nav class="navigation">
+        <a href="/strategy">Strategy</a>
+        <a href="/technologies">Technologies</a>
+        <a href="/contact">Contact</a>
+        <a href="" class="register-button">Register</a> <!-- Add this line -->
+      </nav>
+    </div>
+    <div class="container">
+      <h2 class="site-title">Register</h2>
+      <form action="" method="POST">
+        <div class="input-group"> 
+          <input type="text" name="name" placeholder="First Name" autocomplete="given-name" required> 
+        </div>
+        <div class="input-group"> 
+          <input type="email" name="email" placeholder="Email" autocomplete="email" required> 
+        </div>
+        <div class="input-group"> 
+          <input type="password" name="password" placeholder="Password" required> 
+        </div>
+        <div class="input-group">
+          <input type="password" name="confirm_password" placeholder="Confirm Password" required> 
+        </div>
+        <div class="input-group">
+          <label for="showPasswordCheckbox">Show Password</label>
+          <input type="checkbox" id="showPasswordCheckbox" onclick="togglePasswordVisibility()">
+        </div>
+        <div class="visual-text"> 
+          Already have an account? <a class="link" href="/login">Login here</a> 
+        </div>
+        <button type="submit" class="button">Get Started</button> 
+      </form>
+    </div>
+  </body>
+  <script src="/static/scripts/register.js"></script>
+</html>
