@@ -161,3 +161,9 @@ cython_debug/
 
 # Temporary json files
 .json
+
+# VSCode temporary files
+.vscode/
+
+# Pycache files
+__pycache__/
