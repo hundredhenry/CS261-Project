@@ -1418,3 +1418,66 @@ input:focus {
     position: absolute;
     text-align: left;
 }
+
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 0px;
+
+  }
+  
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .toggle-btn {
+    cursor: pointer;
+    margin-left: 18px;
+  }
+  
+  .button {
+    border: 1px solid black;
+    border-radius: 50px;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease; 
+  }
+  .arrow {
+    height: 25px;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; 
+    width: 250px;
+    height: 800px;
+    background-color: #222;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px;
+  }
+  
+  .sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .content {
+    margin-left: 0px; /* Adjust this value based on your sidebar width */
+    padding: 0px;
+    transition: margin-left 0.4s ease;
+  }
+  

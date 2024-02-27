@@ -107,3 +107,4 @@ def login():
 @views.route('/landing/')
 def landing():
     return render_template('landing_page.html')
+
