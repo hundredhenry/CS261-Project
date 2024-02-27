@@ -1,6 +1,6 @@
 import unittest
-from frontend.website import create_app, db
-from frontend.website.models import User
+from sentify.website import create_app, db
+from sentify.website.models import User
 
 class AuthBase(unittest.TestCase):
     def setUp(self):
@@ -31,7 +31,7 @@ class RegistrationTest(AuthBase):
     def test_load_register_form(self):
         response = self.client.get('/register', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        test_strings = [b'Register', b'First Name', b'Password', b'Confirm Password', b'Submit']
+        test_strings = [b'Register', b'First Name', b'Password', b'Confirm Password', b'Get Started']
 
         for test_string in test_strings:
             self.assertIn(test_string, response.data)

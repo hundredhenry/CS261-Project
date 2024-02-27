@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Roboto:wght@200;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/register.css">
+  </head>
+  <body>
+    <div class="site-header">
+      <a href="/" class="site-title">Sentify</a>
+      <nav class="navigation">
+        <a href="/strategy">Strategy</a>
+        <a href="/technologies">Technologies</a>
+        <a href="/contact">Contact</a>
+        <a href="" class="register-button">Register</a> <!-- Add this line -->
+      </nav>
+    </div>
+    <div class="container">
+      <h2 class="site-title">Register</h2>
+      <form action="" method="POST">
+        <div class="input-group"> 
+          <input type="text" name="name" placeholder="First Name" autocomplete="given-name" required> 
+        </div>
+        <div class="input-group"> 
+          <input type="email" name="email" placeholder="Email" autocomplete="email" required> 
+        </div>
+        <div class="input-group"> 
+          <input type="password" name="password" placeholder="Password" required> 
+        </div>
+        <div class="input-group">
+          <input type="password" name="confirm_password" placeholder="Confirm Password" required> 
+        </div>
+        <div class="input-group">
+          <label for="showPasswordCheckbox">Show Password</label>
+          <input type="checkbox" id="showPasswordCheckbox" onclick="togglePasswordVisibility()">
+        </div>
+        <div class="visual-text"> 
+          Already have an account? <a class="link" href="/login">Login here</a> 
+        </div>
+        <button type="submit" class="button">Get Started</button> 
+      </form>
+    </div>
+  </body>
+  <script src="/static/scripts/register.js"></script>
+</html>
