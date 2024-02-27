@@ -44,7 +44,6 @@ class ArticleScraper:
             soup = BeautifulSoup(html, 'html.parser')
             meta_tag = soup.find('meta', attrs={'name': 'description'})
             if meta_tag:
-                print(meta_tag.get('content'))
                 return meta_tag.get('content')
             else:
                 return None

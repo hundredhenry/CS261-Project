@@ -27,12 +27,13 @@ def create_app():
     from .view import views 
     app.register_blueprint(views, url_prefix="/")
     
-    from .models import User, Notification, Follow, Company, Article
+    from .models import User, Notification, Follow, Company, Article, dbinit
     resetdb = True
     if resetdb:
         with app.app_context():
             db.drop_all()
             db.create_all()
+            dbinit()
 
     login_manager = LoginManager()
     login_manager.login_view = 'views.login'

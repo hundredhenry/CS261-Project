@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, select, insert, delete, text
 from website.models import User, Notification, Follow, Company, Article
 from transformers import pipeline
 
-engine = create_engine("mysql://sql8687160:KTs1xXmwZC@sql8.freemysqlhosting.net:3306/sql8687160")
+engine = create_engine("mysql://sql8687211:iwcRTfjlEi@sql8.freemysqlhosting.net:3306/sql8687211")
 
 class NewsSystem:
     def __init__(self):
@@ -29,36 +29,6 @@ class NewsSystem:
 
         return companies
     
-    def update_companies(self):
-        conn = engine.connect()
-        companies = [{'stock_ticker': 'AAPL'}]
-
-        for company in companies:
-            articles = self.collection(company['stock_ticker'])
-
-            # Drop all articles for the current company
-            query = delete(Article).where(Article.stock_ticker == company['stock_ticker'])
-            conn.execute(query)
-
-            # Insert all articles for the current company
-            for article in articles:
-                query = insert(Article).values(
-                    title = article['title'],
-                    stock_ticker = article['stock_ticker'],
-                    source_name = article['source'],
-                    source_domain = article['source_domain'],
-                    url = article['url'],
-                    published = article['time_published'],
-                    description = article['description'],
-                    banner_image = article['banner_image'],
-                    sentiment_label = article['sentiment_label'],
-                    sentiment_score = article['sentiment_score'],
-                )
-                conn.execute(query)
-
-        conn.close()
-        print(self.get_articles('AAPL'))
-
     def get_articles(self, ticker):
         conn = engine.connect()
         articles = []
@@ -83,21 +53,60 @@ class NewsSystem:
 
         conn.close()
         return articles
+    
+    def show_tables(self):
+        conn = engine.connect()
+        query = text("SHOW TABLES")
+        result = conn.execute(query)
+        for row in result:
+            print(row)
+        conn.close()
+    
+    def update_companies(self):
+        conn = engine.connect()
+        companies = [{'stock_ticker': 'AAPL'}]
 
-    def collection(self, ticker):
+        for company in companies:
+            ticker = company['stock_ticker']
+            articles = self.collection(ticker, conn)
+
+            # Drop all articles for the current company
+            query = delete(Article).where(Article.stock_ticker == ticker)
+            conn.execute(query)
+
+            # Insert all articles for the current company
+            for article in articles:
+                query = insert(Article).values(
+                    title = article['title'],
+                    stock_ticker = ticker,
+                    source_name = article['source'],
+                    source_domain = article['source_domain'],
+                    url = article['url'],
+                    published = article['time_published'],
+                    description = article['description'],
+                    banner_image = article['banner_image'],
+                    sentiment_label = article['sentiment_label'],
+                    sentiment_score = article['sentiment_score'],
+                )
+                conn.execute(query)
+
+        conn.close()
+
+    def collection(self, ticker, conn):
         articles = self.alpha_vantage.week_articles(ticker)
         filtered = []
         
         for article in articles:
             meta_desc = self.scraper.get_meta_desc(article['url'])
+
             if meta_desc == None:
-                meta_desc = article['title']
-            sentiment = self.get_sentiment(meta_desc)
+                sentiment = self.get_sentiment(article['title'])
+            else:
+                sentiment = self.get_sentiment(meta_desc)
             
             # Append specified article details to the filtered list
             filtered.append({
                 'title': article['title'],
-                'stock_ticker': ticker,
                 'url': article['url'],
                 'time_published': article['time_published'],
                 'description': meta_desc,
@@ -109,15 +118,7 @@ class NewsSystem:
             })
 
         return filtered
-    
-    def show_tables(self):
-        conn = engine.connect()
-        query = text("SHOW TABLES")
-        result = conn.execute(query)
-        for row in result:
-            print(row)
-        conn.close()
 
 system = NewsSystem()
-system.show_tables()
 system.update_companies()
+print(system.get_articles('AAPL'))
