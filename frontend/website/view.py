@@ -108,3 +108,7 @@ def login():
 def landing():
     return render_template('landing_page.html')
 
+
+@views.route('/nav')
+def nav():
+    return render_template('navigation_bar.html')
