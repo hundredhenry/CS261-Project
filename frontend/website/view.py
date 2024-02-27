@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 
 from . import db
 from .models import User
@@ -26,10 +26,10 @@ def register():
         # check if the user is already registered 
         if len(name) < 1:
             flash("Name is too short!", category="name_error")
-            return render_template('register_page.html')
+            return render_template('register.html')
         if len(email) < 1:
             flash("Email is too short!", category="email_error")
-            return render_template('register_page.html')
+            return render_template('register.html')
                 
         if not re.match("^[a-zA-Z]*$", name):
             flash('Name must contain only letters', category='name_error')
@@ -60,7 +60,7 @@ def register():
             
             return render_template('unconfirmed.html')
 
-    return render_template('register_page.html')
+    return render_template('register.html')
 
 @views.route('/confirm/<token>')
 def confirm_email(token):
@@ -89,7 +89,6 @@ def login():
         password = request.form.get('password')
         
         user = User.query.filter_by(email=email).first()
-        
         if user and not user.verified:
             flash("Please verify your email first", category="error")
             return redirect(url_for("views.test_page"))
@@ -99,11 +98,21 @@ def login():
             login_user(user, remember=True)
             return redirect(url_for("views.test_page"))
         else:
+            print("Email or password is incorrect")
             flash("Email or password is incorrect", category="error")
     return render_template('login.html')
     
-
+@views.route("/logout/")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("views.test_page"))
 
 @views.route('/landing/')
 def landing():
     return render_template('landing_page.html')
+
+
+@views.route('/nav')
+def nav():
+    return render_template('navigation_bar.html')
