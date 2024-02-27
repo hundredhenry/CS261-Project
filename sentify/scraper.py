@@ -49,7 +49,3 @@ class ArticleScraper:
                 return "Description not found."
         else:
             return "Failed to retrieve HTML content."
-
-# Example usage
-scraper = ArticleScraper()
-print(scraper.get_meta_desc("https://www.investors.com/news/warren-buffett-stock-berkshire-hathaway-on-cusp-of-1-trillion-market-cap/"))

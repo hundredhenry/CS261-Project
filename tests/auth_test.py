@@ -1,6 +1,6 @@
 import unittest
-from frontend.website import create_app, db
-from frontend.website.models import User
+from sentify.website import create_app, db
+from sentify.website.models import User
 
 class AuthBase(unittest.TestCase):
     def setUp(self):

@@ -27,7 +27,7 @@ def create_app():
     from .view import views 
     app.register_blueprint(views, url_prefix="/")
     
-    from .models import User, Notification, Follow, Sector, Source, Company, Article
+    from .models import User, Notification, Follow, Company, Article
     resetdb = True
     if resetdb:
         with app.app_context():
