@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key = True)
     verified = db.Column(db.Boolean(), default = False) 
-    username = db.Column(db.String(15), nullable = False)
+    firstname = db.Column(db.String(15), nullable = False)
     email = db.Column(db.String(30), unique = True, nullable = False)
     password_hash = db.Column(db.String(128), nullable = False)
 
@@ -18,8 +18,8 @@ class User(UserMixin, db.Model):
     notifications = db.relationship('Notification', backref = 'user_notif')
     follows = db.relationship('Follow', backref = 'user_follow')
 
-    def __init__(self, username, email, password_hash):
-        self.username = username
+    def __init__(self, firstname, email, password_hash):
+        self.firstname = firstname
         self.email = email
         self.password_hash = password_hash
 
