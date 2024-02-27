@@ -36,7 +36,7 @@ class ArticleScraper:
         return None
 
     def __dynamic_delay(self):
-        time.sleep(0.1)
+        time.sleep(0.1) # Kept constant and small value for the sake of testing
 
     def get_meta_desc(self, url):
         html = self.__get_html(url)
