@@ -6,48 +6,50 @@ from bs4 import BeautifulSoup
 
 logging.basicConfig(level=logging.INFO)
 
-# Need to add a list of user agents to randomise choice from, mimicing user behaviour
-# Some github repos available but may be outdated
-USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-              "Chrome/80.0.3987.149 Safari/537.36")
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0"
+]
+
 class ArticleScraper:
-    def __init__(self):
-        pass
+    def __init__(self, user_agents=None):
+        self.user_agents = user_agents or USER_AGENTS
+        self.session = requests.Session()
     
-    def __get_html(self, url, referer = None, delay = 1):
-        # Added delay to mimic user behaviour if requesting from same site multiple times
+    def __get_html(self, url, referer='https://www.google.com', delay=1):
         if delay:
-            # Could be randomised if run into more 403s
-            time.sleep(delay)
+            self.__dynamic_delay()
         headers = {
-            'User-Agent': USER_AGENT,
-            # Added referer to header to further mimic user
-            # Could be randomised if run into more 403s
-            'Referer': referer if referer else 'https://www.google.co.uk'
+            'User-Agent': random.choice(self.user_agents),
+            'Referer': referer,
+            'Accept-Language': 'en-US,en;q=0.9',
         }
         try:
-            with requests.get(url, headers=headers, timeout=10) as response:
-                if response.status_code == 403:
-                    logging.warning(f"Access Denied with 403 Forbidden Error to {url}")
-                return response.text
-        except requests.RequestException as e:
-            logging.error(f"Error during requests to {url} : {str(e)}")
-            return None
-        
+            response = self.session.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            return response.text
+        except requests.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {http_err}")
+        except Exception as err:
+            logging.error(f"An error occurred: {err}")
+        return None
+
+    def __dynamic_delay(self):
+        time.sleep(random.uniform(0.5, 3.0))
+
     def get_meta_desc(self, url):
-        # Get HTML
         html = self.__get_html(url)
-        # Parse HTML
-        soup = BeautifulSoup(html, 'html.parser')
-        # Find meta tag
-        meta_tag = soup.find('meta', attrs={'name': 'description'})
-        # Check if tag found
-        if meta_tag:
-            return meta_tag.get('content')
+        if html:
+            soup = BeautifulSoup(html, 'html.parser')
+            meta_tag = soup.find('meta', attrs={'name': 'description'})
+            if meta_tag:
+                return meta_tag.get('content')
+            else:
+                return "Description not found."
         else:
-            return "No content could be displayed"
-                
+            return "Failed to retrieve HTML content."
+
 # Example usage
 scraper = ArticleScraper()
-print("Attempting to scrape a BBC article")
-print(scraper.get_meta_desc("https://www.bbc.co.uk/news/business-68282487"))
+print(scraper.get_meta_desc("https://www.investors.com/news/warren-buffett-stock-berkshire-hathaway-on-cusp-of-1-trillion-market-cap/"))
