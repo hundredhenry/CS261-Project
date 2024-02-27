@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 from . import db
 from .models import User
@@ -17,6 +17,8 @@ def test_page():
 
 @views.route('/register/', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('views.test_page'))
     if request.method == "POST":                
         name = request.form.get('name')
         email = request.form.get('email')
