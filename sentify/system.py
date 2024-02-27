@@ -1,9 +1,9 @@
 from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
 from sentiment import SentimentAnalysis
-from sqlalchemy import create_engine, text, select, insert, delete
-import sys
+from sqlalchemy import create_engine, select, insert, delete
 from website.models import User, Notification, Follow, Company, Article
+from transformers import pipeline
 
 engine = create_engine("mysql://sql8687160:KTs1xXmwZC@sql8.freemysqlhosting.net:3306/sql8687160")
 
@@ -11,7 +11,12 @@ class NewsSystem:
     def __init__(self):
         self.alpha_vantage = AlphaVantageWrapper()
         self.scraper = ArticleScraper()
-        self.sentiment = SentimentAnalysis()
+        self.sentiment = pipeline(model="distilbert-base-uncased-finetuned-sst-2-english")
+
+    def get_sentiment(self, content):
+        sentiment = self.sentiment_pipeline(content)
+
+        return sentiment
 
     def get_companies(self, conn):
         companies = []
