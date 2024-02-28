@@ -274,6 +274,9 @@ input:focus {
     left: 1397px;
     top: 27px;
     width: 128px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .macbook-air-1 .rectangle-2-a1gY0A {
@@ -306,18 +309,24 @@ input:focus {
 }
 
 .macbook-air-1 .join-us-a1gY0A {
-    color: var(--white);
-    font-family: var(--font-family-inter);
-    font-size: var(--font-size-s);
-    font-style: normal;
-    font-weight: 300;
-    height: auto;
-    left: 27px;
-    letter-spacing: 0.70px;
-    line-height: normal;
-    text-align: left;
-    top: 16px;
-    width: 46px;
+  color: var(--white);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-l);
+  font-style: normal;
+  font-weight: 400;
+  height: 100%;  /* Take up full height of the container */
+  letter-spacing: 0.70px;
+  line-height: normal;
+  text-align: center;
+  width: 100%;  /* Take up full width of the container */
+  display: flex;  /* Make this a flex container */
+  justify-content: center;  /* Center children horizontally */
+  align-items: center;  /* Center children vertically */
+  transition: font-size 0.3s ease;  /* Add this line to animate the change in font size */
+}
+
+.macbook-air-1 .join-us-a1gY0A:hover {
+  font-size: var(--font-size-xl);  /* Change as needed */
 }
 
 .macbook-air-1 .learn-more-about-how-cbxlvq {
@@ -378,6 +387,32 @@ input:focus {
     width: 132px;
 }
 
+.macbook-air-1 .sentify-cbxlvq {
+  background-color: transparent;
+  color: var(--black);
+  font-family: var(--font-family-inter);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 300;
+  height: auto;
+  left: 45px;
+  letter-spacing: 0.84px;
+  line-height: normal;
+  position: absolute;
+  text-align: left;
+  top: 22px;
+  width: 132px;
+}
+
+.macbook-air-1 .sentify-cbxlvq {
+  /* ...existing styles... */
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.macbook-air-1 .sentify-cbxlvq:hover {
+  color: darkgrey;  /* Change as needed */
+  cursor: pointer;
+}
 .macbook-air-1 .strat-techno-cbxlvq {
     background-color: transparent;
     height: 29px;
