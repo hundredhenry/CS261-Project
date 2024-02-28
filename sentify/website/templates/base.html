@@ -1,281 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1554, maximum-scale=1.0">
-    
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png">
     <meta name="og:type" content="website">
     <meta name="twitter:card" content="photo">
-
     <title>{% block title %} {% endblock %}</title>
     {% block stylesheet %} {% endblock %}
-    
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='landing_page.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
-    
-
-
-</head>
-<body style="margin: 0px; background: rgb(251, 251, 251); overflow-x: hidden;" dark-scroll="">
-
-
-
+  </head>
+  <body style="margin: 0px; background: rgb(251, 251, 251); overflow-x: hidden;" dark-scroll="">
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        
-        <div class="sidebar-WjYNi3" >
-            <div class="general-0TSxxs general" data-id="196:748">
-              <div class="frame-1000001840-GW8UXT" data-id="196:749">
-                
-                <div class="search-container">
-                    <input type="text" placeholder="Search" class="search-box">
-                </div>
-            
-                
-              </div>
-              <div class="general-GW8UXT general" data-id="196:754">
-                <div class="general-aCqfMN general roboto-normal-black-14px" data-id="196:755">
-                        General
-                </div>
-                <div class="frame-1000001749-aCqfMN" data-id="196:756">
-                  <div class="frame-1000001711-RdjiIr" data-id="196:757"><img class="home-yjJvjE" data-id="196:758" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/home.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/home.svg" alt="Home">
-                    <div class="dashboard-yjJvjE" data-id="196:759">
-                        <a href="#">
-                            Dashboard
-                        </a>
-                    </div>
-                  </div>
-                  <div class="frame-1000001746-RdjiIr" data-id="196:760">
-                    <div class="frame-1000001715-Waq7SZ" data-id="196:761"><img class="message-mail-oDTmqV" data-id="196:762" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" alt="Message-Mail">
-                      <div class="inbox-oDTmqV roboto-extra-light-black-16px" data-id="196:763">
-                        <a href="#">
-                        Inbox
-                        </a>
-                    </div>
-                    </div>
-                    <div class="add-Waq7SZ add" data-id="196:764"><img class="vector" data-id="196:772" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" alt="Vector">
-                      <div class="x2-2yU72H" data-id="196:774">2</div>
-                    </div>
-                  </div>
-                  <div class="frame-1000001747-RdjiIr" data-id="196:775">
-                    <div class="frame-1000001717-59uErq" data-id="196:776"><img class="event-calendar-kgQfG4" data-id="196:777" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" alt="Event Calendar">
-                      <div class="companies-kgQfG4" data-id="196:778">
-                        <a href="#">
-                            Companies
-                        </a>
-                    </div>
-                    </div>
-                    <div class="frame-1000001718-59uErq" data-id="196:779">
-                      <div class="add-Y90JDp add" data-id="196:780"><img class="vector" data-id="196:788" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" alt="Vector">
-                        <div class="x3-oSJO6k" data-id="196:790">3</div>
-                      </div><img class="add" data-id="196:791" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" alt="Add">
-                    </div>
-                  </div>
-                  <div class="frame-1000001721-RdjiIr" data-id="196:792"><img class="form-i52fqj" data-id="196:793" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" alt="Form">
-                    <div class="news-i52fqj roboto-extra-light-black-16px" data-id="196:794">
-                        <a href="#">
-                            News
-                        </a>
-                    </div>
-                  </div>
-                  <div class="frame-1000001722-RdjiIr" data-id="196:795"><img class="briefcase-kYTqIm" data-id="196:796" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/briefcase.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/briefcase.svg" alt="Briefcase">
-                    <div class="all-companies-kYTqIm roboto-extra-light-black-16px" data-id="196:797">
-                        <a href="#">
-                            All Companies
-                        </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div class="sidebar-WjYNi3" >
+        <div class="general-0TSxxs general" data-id="196:748">
+          <div class="frame-1000001840-GW8UXT" data-id="196:749">
+            <div class="search-container">
+              <input type="text" placeholder="Search" class="search-box">
             </div>
-            <div class="myspace-0TSxxs myspace" data-id="196:798">
-              <div class="myspace-0twadG myspace" data-id="196:799">
-                <div class="myspace-a7CxBb myspace roboto-normal-black-14px" data-id="196:800">
-                    Myspace
-                </div>
-                <div class="frame-1000001733-a7CxBb" data-id="196:801">
-                  <div class="frame-1000001725-pHkhk4" data-id="196:802"><img class="flag-dSGQah" data-id="196:803" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/flag.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/flag.svg" alt="Flag">
-                    <div class="activity-dSGQah roboto-extra-light-black-16px" data-id="196:804">
-                        <a href="#">
-                            Activity
-                        </a>
-                    </div>
-                  </div>
-                  <div class="frame-1000001727-pHkhk4" data-id="196:805"><img class="privacy-shield-q8RcAF" data-id="196:806" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/privacy-shield.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/privacy-shield.svg" alt="Privacy Shield">
-                    <div class="privacy-q8RcAF roboto-extra-light-black-16px" data-id="196:807">
-                        <a href="#">
-                            Privacy
-                        </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          </div>
+          <div class="general-GW8UXT general" data-id="196:754">
+            <div class="general-aCqfMN general roboto-normal-black-14px" data-id="196:755">
+              General
             </div>
-            <div class="support-0TSxxs support" data-id="196:808">
-              <div class="frame-1000001754-SOLF21" data-id="196:809">
-                <div class="support-wXRIjv support roboto-normal-black-14px" data-id="196:810">
-                    Support</div>
-                <div class="frame-1000001753-wXRIjv" data-id="196:811">
-                  <div class="frame-1000001728-qfXu1U" data-id="196:812"><img class="setting-gear-aLWhnL" data-id="196:813" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/setting-gear.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/setting-gear.svg" alt="Setting-Gear">
-                    <div class="setting-aLWhnL roboto-extra-light-black-16px" data-id="196:814">
-                        <a href="#">
-                            Settings
-                            </a>
-                        </div>
-                  </div>
-                  <div class="frame-1000001729-qfXu1U" data-id="196:815"><img class="question-mark-IFWzvw" data-id="196:816" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" alt="Question Mark">
-                    <div class="help-IFWzvw roboto-extra-light-black-16px" data-id="196:817">
-                        <a href="#">
-                            Help!
-                            </a>
-                    </div>
-                  </div>
+            <div class="frame-1000001749-aCqfMN" data-id="196:756">
+              <div class="frame-1000001711-RdjiIr" data-id="196:757">
+                <img class="home-yjJvjE" data-id="196:758" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/home.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/home.svg" alt="Home">
+                <div class="dashboard-yjJvjE" data-id="196:759">
+                  <a href="#">
+                  Dashboard
+                  </a>
                 </div>
               </div>
-            </div>
-            <div class="buttom-0TSxxs" data-id="196:818">
-              <div class="frame-1000001765-nmWx00" data-id="196:819">
-                <div class="frame-1000001704-kvkcHP" data-id="196:820">
-                  <div class="ellipse-982-06TEVn" data-id="196:821"></div><img class="sun-brightness-06TEVn" data-id="196:822" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" alt="Sun-Brightness"><img class="half-moon-06TEVn" data-id="196:823" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" alt="Half Moon">
-                </div>
-                <div class="lightmode-kvkcHP roboto-extra-light-black-16px" data-id="196:824">Lightmode</div>
-              </div>
-              <div class="frame-1000001740-nmWx00" data-id="196:825">
-                <div class="frame-1000001738-pY8mGy" data-id="196:826">
-                  <div class="frame-1000001702-wVa9Jb" data-id="196:827"><img class="male-user-GMsvWa" data-id="196:828" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" alt="Male User"></div>
-                  <div class="profile-wVa9Jb roboto-extra-light-black-16px" data-id="196:829">
+              <div class="frame-1000001746-RdjiIr" data-id="196:760">
+                <div class="frame-1000001715-Waq7SZ" data-id="196:761">
+                  <img class="message-mail-oDTmqV" data-id="196:762" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" alt="Message-Mail">
+                  <div class="inbox-oDTmqV roboto-extra-light-black-16px" data-id="196:763">
                     <a href="#">
-                        Profile
-                        </a>
+                    Inbox
+                    </a>
+                  </div>
                 </div>
+                <div class="add-Waq7SZ add" data-id="196:764">
+                  <img class="vector" data-id="196:772" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" alt="Vector">
+                  <div class="x2-2yU72H" data-id="196:774">2</div>
                 </div>
-                <div class="frame-1000001739-pY8mGy" data-id="196:830"><img class="logout-exit-bfsqxW" data-id="196:831" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" alt="Logout-Exit">
-                  <div class="ellipse-983-bfsqxW" data-id="196:832"></div>
+              </div>
+              <div class="frame-1000001747-RdjiIr" data-id="196:775">
+                <div class="frame-1000001717-59uErq" data-id="196:776">
+                  <img class="event-calendar-kgQfG4" data-id="196:777" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" alt="Event Calendar">
+                  <div class="companies-kgQfG4" data-id="196:778">
+                    <a href="#">
+                    Companies
+                    </a>
+                  </div>
+                </div>
+                <div class="frame-1000001718-59uErq" data-id="196:779">
+                  <div class="add-Y90JDp add" data-id="196:780">
+                    <img class="vector" data-id="196:788" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" alt="Vector">
+                    <div class="x3-oSJO6k" data-id="196:790">3</div>
+                  </div>
+                  <img class="add" data-id="196:791" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" alt="Add">
+                </div>
+              </div>
+              <div class="frame-1000001721-RdjiIr" data-id="196:792">
+                <img class="form-i52fqj" data-id="196:793" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" alt="Form">
+                <div class="news-i52fqj roboto-extra-light-black-16px" data-id="196:794">
+                  <a href="#">
+                  News
+                  </a>
+                </div>
+              </div>
+              <div class="frame-1000001722-RdjiIr" data-id="196:795">
+                <img class="briefcase-kYTqIm" data-id="196:796" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/briefcase.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/briefcase.svg" alt="Briefcase">
+                <div class="all-companies-kYTqIm roboto-extra-light-black-16px" data-id="196:797">
+                  <a href="#">
+                  All Companies
+                  </a>
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
+        </div>
+        <div class="myspace-0TSxxs myspace" data-id="196:798">
+          <div class="myspace-0twadG myspace" data-id="196:799">
+            <div class="myspace-a7CxBb myspace roboto-normal-black-14px" data-id="196:800">
+              Myspace
+            </div>
+            <div class="frame-1000001733-a7CxBb" data-id="196:801">
+              <div class="frame-1000001725-pHkhk4" data-id="196:802">
+                <img class="flag-dSGQah" data-id="196:803" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/flag.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/flag.svg" alt="Flag">
+                <div class="activity-dSGQah roboto-extra-light-black-16px" data-id="196:804">
+                  <a href="#">
+                  Activity
+                  </a>
+                </div>
+              </div>
+              <div class="frame-1000001727-pHkhk4" data-id="196:805">
+                <img class="privacy-shield-q8RcAF" data-id="196:806" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/privacy-shield.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/privacy-shield.svg" alt="Privacy Shield">
+                <div class="privacy-q8RcAF roboto-extra-light-black-16px" data-id="196:807">
+                  <a href="#">
+                  Privacy
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="support-0TSxxs support" data-id="196:808">
+          <div class="frame-1000001754-SOLF21" data-id="196:809">
+            <div class="support-wXRIjv support roboto-normal-black-14px" data-id="196:810">
+              Support
+            </div>
+            <div class="frame-1000001753-wXRIjv" data-id="196:811">
+              <div class="frame-1000001728-qfXu1U" data-id="196:812">
+                <img class="setting-gear-aLWhnL" data-id="196:813" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/setting-gear.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/setting-gear.svg" alt="Setting-Gear">
+                <div class="setting-aLWhnL roboto-extra-light-black-16px" data-id="196:814">
+                  <a href="#">
+                  Settings
+                  </a>
+                </div>
+              </div>
+              <div class="frame-1000001729-qfXu1U" data-id="196:815">
+                <img class="question-mark-IFWzvw" data-id="196:816" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" alt="Question Mark">
+                <div class="help-IFWzvw roboto-extra-light-black-16px" data-id="196:817">
+                  <a href="#">
+                  Help!
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="buttom-0TSxxs" data-id="196:818">
+          <div class="frame-1000001765-nmWx00" data-id="196:819">
+            <div class="frame-1000001704-kvkcHP" data-id="196:820">
+              <div class="ellipse-982-06TEVn" data-id="196:821"></div>
+              <img class="sun-brightness-06TEVn" data-id="196:822" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" alt="Sun-Brightness"><img class="half-moon-06TEVn" data-id="196:823" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" alt="Half Moon">
+            </div>
+            <div class="lightmode-kvkcHP roboto-extra-light-black-16px" data-id="196:824">Lightmode</div>
+          </div>
+          <div class="frame-1000001740-nmWx00" data-id="196:825">
+            <div class="frame-1000001738-pY8mGy" data-id="196:826">
+              <div class="frame-1000001702-wVa9Jb" data-id="196:827"><img class="male-user-GMsvWa" data-id="196:828" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" alt="Male User"></div>
+              <div class="profile-wVa9Jb roboto-extra-light-black-16px" data-id="196:829">
+                <a href="#">
+                Profile
+                </a>
+              </div>
+            </div>
+            <div class="frame-1000001739-pY8mGy" data-id="196:830">
+              <img class="logout-exit-bfsqxW" data-id="196:831" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" alt="Logout-Exit">
+              <div class="ellipse-983-bfsqxW" data-id="196:832"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
     <!-- Main Content -->
     <div class="content">
-        <div class="container-center-horizontal">
-            <div class="macbook-air-1 screen " data-id="1:2">
-
-                    <!-- top header  -->
-                <div>
-                <div class="rectangle-1-cbxlvq" data-id="1:3"></div>
+      <div class="container-center-horizontal">
+        <div class="macbook-air-1 screen " data-id="1:2">
+          <!-- top header  -->
+          <div>
+            <div class="rectangle-1-cbxlvq" data-id="1:3"></div>
+            {% if current_user.is_authenticated %}
+            <a href="/logout">
                 <div class="join-us-cbxlvq join-us" data-id="1:26">
                     <div class="rectangle-2-a1gY0A" data-id="1:17"></div>
-                    <div class="ellipse-1-a1gY0A" data-id="1:18"></div>
-                    <img class="lines-a1gY0A" data-id="1:19"
-                        src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/lines@2x.png"
-                        anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/lines@2x.png"
-                        alt="Lines">
+                    <div class="join-us-a1gY0A join-us" data-id="1:25">
+                        Log Out
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <a href="/register">
+                <div class="join-us-cbxlvq join-us" data-id="1:26">
+                    <div class="rectangle-2-a1gY0A" data-id="1:17"></div>
                     <div class="join-us-a1gY0A join-us" data-id="1:25">
                         Join Us
                     </div>
                 </div>
-                <a href="/">
-                  <div class="sentify-cbxlvq" data-id="1:32">
-                      Sentify
-                  </div>
-              </a>
-                <div class="strat-techno-cbxlvq" data-id="1:37">
-                    <div class="technologies-16wFgt inter-light-black-10px" data-id="1:35">
-                        Technologies
-                    </div>
-                    <div class="strategy-16wFgt inter-light-black-10px" data-id="1:36">
-                        Strategy
-                    </div>
-                </div>
-                </div>  
-
-                <!-- side arrow for the navigation bar -->
-                <div class="side-arrow-cbxlvq" data-id="2:46">
-                    <span class="toggle-btn" onclick="toggleSidebar()">
-                        <div class="button">
-                            <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
-                        </div>
-                    </span>
-                </div>
-
-                {% block content %}{% endblock %}
-
-                            <!-- Footer -->
-                <div class="footer-blog-post-cbxlvq" data-id="2:417">
-                    <div class="background-8FKmvk" data-id="2:418"></div>
-                    <div class="logo-8FKmvk" data-id="2:419">TRADE</div>
-                        class="divider-8FKmvk" data-id="2:422"
-                        src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/divider.svg"
-                        anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/divider.svg"
-                        alt="Divider">
-                    <div class="links-right-8FKmvk" data-id="2:423">
-                        <div class="link-pJRqBZ link roboto-bold-black-14px" data-id="2:424">Product</div>
-                        <div class="link-S9xt33 link roboto-normal-black-14px" data-id="2:425">Product</div>
-                        <div class="link-y7udaH link roboto-normal-black-14px" data-id="2:426">Product</div>
-                        <div class="link-rbOeSM link roboto-normal-black-14px" data-id="2:427">Product</div>
-                        <div class="link-SsIKvv link roboto-normal-black-14px" data-id="2:428">Product</div>
-                        <div class="link-eOP2ls link roboto-normal-black-14px" data-id="2:429">Product</div>
-                        <div class="link-5PRWVQ link roboto-normal-black-14px" data-id="2:430">Company</div>
-                        <div class="link-p4qECs link roboto-normal-black-14px" data-id="2:431">Company</div>
-                        <div class="link-1uVbe5 link roboto-normal-black-14px" data-id="2:432">Company</div>
-                        <div class="link-rxNdnZ link roboto-normal-black-14px" data-id="2:433">Company</div>
-                        <div class="link-WIoINf link roboto-normal-black-14px" data-id="2:434">Company</div>
-                        <div class="link-LDZsMe link roboto-bold-black-14px" data-id="2:435">Company</div>
-                    </div>
-                    <div class="blog-post-8FKmvk" data-id="2:436">
-                        <p class="summary-O6WEVA roboto-normal-black-14px" data-id="2:437">Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat.</p>
-                    </div>
-                    <div class="title-8FKmvk title" data-id="2:470">Ready to get started?</div><img
-                        class="chevron-right-8FKmvk chevron-right" data-id="2:471"
-                        src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-                        anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-                        alt="Chevron Right"><img class="chevron-right-4CaX5g chevron-right" data-id="2:472"
-                        src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-                        anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-                        alt="Chevron Right"><img class="chevron-right-s7eQYn chevron-right" data-id="2:473"
-                        src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-                        anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-                        alt="Chevron Right">
-                </div>
-
+            </a>
+        {% endif %}
+            <a href="/">
+              <div class="sentify-cbxlvq" data-id="1:32">
+                Sentify
+              </div>
+            </a>
+            <div class="strat-techno-cbxlvq" data-id="1:37">
+              <div class="technologies-16wFgt inter-light-black-10px" data-id="1:35">
+                Technologies
+              </div>
+              <div class="strategy-16wFgt inter-light-black-10px" data-id="1:36">
+                Strategy
+              </div>
             </div>
+          </div>
+          <!-- side arrow for the navigation bar -->
+          <div class="side-arrow-cbxlvq" data-id="2:46">
+            <span class="toggle-btn" onclick="toggleSidebar()">
+              <div class="button">
+                <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
+              </div>
+            </span>
+          </div>
+          {% block content %}{% endblock %}
+          <!-- Footer -->
+          <div class="footer-blog-post-cbxlvq" data-id="2:417">
+            <div class="background-8FKmvk" data-id="2:418"></div>
+            <div class="logo-8FKmvk" data-id="2:419">TRADE</div>
+            <div class="links-right-8FKmvk" data-id="2:423">
+              <div class="link-pJRqBZ link roboto-bold-black-14px" data-id="2:424">Product</div>
+              <div class="link-S9xt33 link roboto-normal-black-14px" data-id="2:425">Product</div>
+              <div class="link-y7udaH link roboto-normal-black-14px" data-id="2:426">Product</div>
+              <div class="link-rbOeSM link roboto-normal-black-14px" data-id="2:427">Product</div>
+              <div class="link-SsIKvv link roboto-normal-black-14px" data-id="2:428">Product</div>
+              <div class="link-eOP2ls link roboto-normal-black-14px" data-id="2:429">Product</div>
+              <div class="link-5PRWVQ link roboto-normal-black-14px" data-id="2:430">Company</div>
+              <div class="link-p4qECs link roboto-normal-black-14px" data-id="2:431">Company</div>
+              <div class="link-1uVbe5 link roboto-normal-black-14px" data-id="2:432">Company</div>
+              <div class="link-rxNdnZ link roboto-normal-black-14px" data-id="2:433">Company</div>
+              <div class="link-WIoINf link roboto-normal-black-14px" data-id="2:434">Company</div>
+              <div class="link-LDZsMe link roboto-bold-black-14px" data-id="2:435">Company</div>
+            </div>
+            <div class="blog-post-8FKmvk" data-id="2:436">
+              <p class="summary-O6WEVA roboto-normal-black-14px" data-id="2:437">Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat.
+              </p>
+            </div>
+            <div class="title-8FKmvk title" data-id="2:470">Ready to get started?</div>
+            <img
+              class="chevron-right-8FKmvk chevron-right" data-id="2:471"
+              src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
+              anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
+              alt="Chevron Right"><img class="chevron-right-4CaX5g chevron-right" data-id="2:472"
+              src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
+              anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
+              alt="Chevron Right"><img class="chevron-right-s7eQYn chevron-right" data-id="2:473"
+              src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
+              anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
+              alt="Chevron Right">
+          </div>
         </div>
-        
-    
-
+      </div>
     </div>
-
     <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            var content = document.querySelector(".content");
-            var arrowIcon = document.getElementById("arrow-icon");
-            var arrow = document.querySelector(".arrow");
-            var button = document.querySelector(".button");
-            
-            if (sidebar.style.left === "0px") {
-                sidebar.style.left = "-500px";
-                content.style.marginLeft = "0px"; 
-                button.style.backgroundColor = "white"; 
-                arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png"
-
-            } else {
-                sidebar.style.left = "0px";
-                content.style.marginLeft = "490px"; 
-                button.style.backgroundColor = "black"; 
-                arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65dce3fc5df743f8480a7019/img/chevron-left@2x.png"
-            }
-        }
+      function toggleSidebar() {
+          var sidebar = document.getElementById("sidebar");
+          var content = document.querySelector(".content");
+          var arrowIcon = document.getElementById("arrow-icon");
+          var arrow = document.querySelector(".arrow");
+          var button = document.querySelector(".button");
+          
+          if (sidebar.style.left === "0px") {
+              sidebar.style.left = "-500px";
+              content.style.marginLeft = "0px"; 
+              button.style.backgroundColor = "white"; 
+              arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png"
+      
+          } else {
+              sidebar.style.left = "0px";
+              content.style.marginLeft = "490px"; 
+              button.style.backgroundColor = "black"; 
+              arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65dce3fc5df743f8480a7019/img/chevron-left@2x.png"
+          }
+      }
     </script>
-
     {% block javascript %}
     {% endblock %}
-
-</body>
+  </body>
 </html>

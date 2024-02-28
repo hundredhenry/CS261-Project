@@ -12,8 +12,8 @@ import re
 views = Blueprint("views", __name__)
 
 @views.route('/')
-def test_page():
-    return render_template('index.html')
+def landing():
+    return render_template('landing_page.html')
 
 @views.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -43,7 +43,7 @@ def register():
             user_exists  = User.query.filter_by(email=email).first()
             if user_exists:
                 flash("This email is already registered!", category="email_error")
-                return redirect(url_for("views.test_page"))
+                return redirect(url_for("views.landing"))
 
             new_user = User(firstname=name, email=email, password_hash=generate_password_hash(password))# create a new user with generate_password_hash(password) default values are sufficient
             # add this user to the DB
@@ -91,12 +91,15 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and not user.verified:
             flash("Please verify your email first", category="error")
-            return redirect(url_for("views.test_page"))
+            return redirect(url_for("views.landing"))
         
+        print(password)
+        print(len(user.password_hash))
+        print(check_password_hash(user.password_hash, password))
         if user and check_password_hash(user.password_hash, password):
             flash("Logged in successfully", category="success")
             login_user(user, remember=True)
-            return redirect(url_for("views.test_page"))
+            return redirect(url_for("views.landing"))
         else:
             print("Email or password is incorrect")
             flash("Email or password is incorrect", category="error")
@@ -106,13 +109,8 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("views.test_page"))
+    return redirect(url_for("views.landing"))
 
-@views.route('/landing/')
-def landing():
-    return render_template('landing_page.html')
-
-
-@views.route('/companies')
+@views.route('/companies/')
 def companies():
     return render_template('company_search.html')
