@@ -103,7 +103,26 @@ class Article(UserMixin, db.Model):
 def dbinit():
     # Add companies alphabetically by stock ticker
     company_list = [
-        Company("AAPL", "Apple Inc.", "Technology")   
+        Company("AAPL", "Apple Inc.", "Technology"),
+        Company("AMZN", "Amazon.com, Inc.", "Technology"),
+        Company("COST", "Costco Wholesale Corporation", "Retail"),
+        Company("GOOGL", "Alphabet Inc.", "Technology"),
+        Company("HD", "The Home Depot, Inc", "Retail"),
+        Company("JNJ", "Johnson & Johnson", "Healthcare"),
+        Company("JPM", "JPMorgan Chase & Co.", "Finance"),
+        Company("KO", "The Coca-Cola Company", "Food and Beverage"),
+        Company("LLY", "Eli Lilly and Company", "Healthcare"),
+        Company("MA", "Mastercard Incorporated", "Finance"),
+        Company("MCD", "McDonald's Corporation", "Food and Beverage"),
+        Company("MSFT", "Microsoft Corporation", "Technology"),
+        Company("NFLX", "Netflix, Inc.", "Entertainment"),
+        Company("NVDA", "NVIDIA Corporation", "Technology"),
+        Company("NVO", "Novo Nordisk A/S", "Healthcare"),
+        Company("PEP", "PepsiCo, Inc.", "Food and Beverage"),
+        Company("PG", "The Proctor & Gamble", "Manufacturing"),
+        Company("TM", "Toyota Motor Corporation", "Manufacturing"),
+        Company("V", "Visa Inc.", "Finance"),
+        Company("WMT", "Walmart Inc.", "Retail")   
     ]
     db.session.add_all(company_list)
 
