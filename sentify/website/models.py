@@ -58,6 +58,7 @@ class Company(UserMixin, db.Model):
     stock_ticker = db.Column(db.String(10), primary_key = True)
     company_name = db.Column(db.String(20), nullable = False)
     sector_name = db.Column(db.String(20), nullable = False)
+    description = db.Column(db.Text)
 
     # Relations
     articles = db.relationship('Article', backref = 'company_article')

@@ -1,6 +1,6 @@
 from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
-from sqlalchemy import create_engine, select, insert, delete, text
+from sqlalchemy import create_engine, select, insert, delete, update
 from website.models import User, Notification, Follow, Company, Article
 from transformers import pipeline
 
@@ -53,6 +53,30 @@ class NewsSystem:
 
         conn.close()
         return articles
+    
+    def get_company_desc(self, ticker):
+        conn = engine.connect()
+
+        # Get the description for the specified company
+        query = select(Company.description).where(Company.stock_ticker == ticker)
+        result = conn.execute(query)
+        desc = result.fetchone()[0]
+
+        conn.close()
+        return desc
+    
+    def update_companies_desc(self):
+        conn = engine.connect()
+        companies = self.get_companies(conn)
+
+        for ticker in companies:
+            desc = self.alpha_vantage.company_overview(ticker)
+
+            # Update the description for the current company
+            query = update(Company).where(Company.stock_ticker == ticker).values(description = desc['Description'])
+            conn.execute(query)
+            conn.commit()   
+        conn.close()
     
     def update_companies(self):
         conn = engine.connect()
@@ -112,5 +136,5 @@ class NewsSystem:
         return filtered
 
 system = NewsSystem()
-system.update_companies()
-print(system.get_articles('AAPL'))
+system.update_companies_desc()
+print(system.get_company_desc('AAPL'))
