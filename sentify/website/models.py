@@ -49,6 +49,20 @@ class Follow(UserMixin, db.Model):
     def __init__(self, userID, stock_ticker):
         self.userID = userID
         self.stock_ticker = stock_ticker
+
+# Model of a sector
+class Sector(UserMixin, db.Model):
+    __tablename__ = 'sectors'
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key = True)
+    sector_name = db.Column(db.String(20), nullable = False)
+
+    # Relation
+    companies = db.relationship('Company', backref = 'sector_company')
+
+    def __init__(self, sector_name):
+        self.sector_name = sector_name
         
 # Model of a company
 class Company(UserMixin, db.Model):
@@ -57,29 +71,28 @@ class Company(UserMixin, db.Model):
     # Attributes
     stock_ticker = db.Column(db.String(10), primary_key = True)
     company_name = db.Column(db.String(20), nullable = False)
-    sector_name = db.Column(db.String(20), nullable = False)
+    sectorID = db.Column(db.Integer, db.ForeignKey('sectors.id'), nullable = False)
     description = db.Column(db.Text)
 
     # Relations
     articles = db.relationship('Article', backref = 'company_article')
     follows = db.relationship('Follow', backref = 'company_follow')
 
-    def __init__(self, stock_ticker, company_name, sector_name):
+    def __init__(self, stock_ticker, company_name, sectorID):
         self.stock_ticker = stock_ticker
         self.company_name = company_name
-        self.sector_name = sector_name
+        self.sectorID = sectorID
         
 # Model of an article
 class Article(UserMixin, db.Model):
     __tablename__ = 'articles'
 
     # Attributes
-    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    url = db.Column(db.String(100), primary_key = True)
     title = db.Column(db.String(100), nullable = False)
     stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False)
     source_name = db.Column(db.String(20), nullable = False)
     source_domain = db.Column(db.String(20), nullable = False)
-    url = db.Column(db.String(100), nullable = False)
     published = db.Column(db.Date, nullable = False)
     description = db.Column(db.Text)
     banner_image = db.Column(db.String(100))
@@ -101,28 +114,49 @@ class Article(UserMixin, db.Model):
 
 # Add data to the database
 def dbinit():
+    # Add sectors alphabetically
+    sector_list = [
+        Sector("Entertainment"),
+        Sector("Finance"),
+        Sector("Food and Beverage"),
+        Sector("Healthcare"),
+        Sector("Manufacturing"),
+        Sector("Retail"),
+        Sector("Technology")
+    ]
+    db.session.add_all(sector_list)
+
+    # Get the IDs of the sectors
+    entertainmentID = Sector.query.filter_by(sector_name = "Entertainment").first().id
+    financeID = Sector.query.filter_by(sector_name = "Finance").first().id
+    foodbevID = Sector.query.filter_by(sector_name = "Food and Beverage").first().id
+    healthcareID = Sector.query.filter_by(sector_name = "Healthcare").first().id
+    manufacturingID = Sector.query.filter_by(sector_name = "Manufacturing").first().id
+    retailID = Sector.query.filter_by(sector_name = "Retail").first().id
+    techID = Sector.query.filter_by(sector_name = "Technology").first().id
+
     # Add companies alphabetically by stock ticker
     company_list = [
-        Company("AAPL", "Apple Inc.", "Technology"),
-        Company("AMZN", "Amazon.com, Inc.", "Technology"),
-        Company("COST", "Costco Wholesale Corporation", "Retail"),
-        Company("GOOGL", "Alphabet Inc.", "Technology"),
-        Company("HD", "The Home Depot, Inc", "Retail"),
-        Company("JNJ", "Johnson & Johnson", "Healthcare"),
-        Company("JPM", "JPMorgan Chase & Co.", "Finance"),
-        Company("KO", "The Coca-Cola Company", "Food and Beverage"),
-        Company("LLY", "Eli Lilly and Company", "Healthcare"),
-        Company("MA", "Mastercard Incorporated", "Finance"),
-        Company("MCD", "McDonald's Corporation", "Food and Beverage"),
-        Company("MSFT", "Microsoft Corporation", "Technology"),
-        Company("NFLX", "Netflix, Inc.", "Entertainment"),
-        Company("NVDA", "NVIDIA Corporation", "Technology"),
-        Company("NVO", "Novo Nordisk A/S", "Healthcare"),
-        Company("PEP", "PepsiCo, Inc.", "Food and Beverage"),
-        Company("PG", "The Proctor & Gamble", "Manufacturing"),
-        Company("TM", "Toyota Motor Corporation", "Manufacturing"),
-        Company("V", "Visa Inc.", "Finance"),
-        Company("WMT", "Walmart Inc.", "Retail")   
+        Company("AAPL", "Apple Inc.", techID),
+        Company("AMZN", "Amazon.com, Inc.", techID),
+        Company("COST", "Costco Wholesale Corporation", retailID),
+        Company("GOOGL", "Alphabet Inc.", techID),
+        Company("HD", "The Home Depot, Inc", retailID),
+        Company("JNJ", "Johnson & Johnson", healthcareID),
+        Company("JPM", "JPMorgan Chase & Co.", financeID),
+        Company("KO", "The Coca-Cola Company", foodbevID),
+        Company("LLY", "Eli Lilly and Company", healthcareID),
+        Company("MA", "Mastercard Incorporated", financeID),
+        Company("MCD", "McDonald's Corporation", foodbevID),
+        Company("MSFT", "Microsoft Corporation", techID),
+        Company("NFLX", "Netflix, Inc.", entertainmentID),
+        Company("NVDA", "NVIDIA Corporation", techID),
+        Company("NVO", "Novo Nordisk A/S", healthcareID),
+        Company("PEP", "PepsiCo, Inc.", foodbevID),
+        Company("PG", "The Proctor & Gamble", manufacturingID),
+        Company("TM", "Toyota Motor Corporation", manufacturingID),
+        Company("V", "Visa Inc.", financeID),
+        Company("WMT", "Walmart Inc.", retailID)   
     ]
     db.session.add_all(company_list)
 
