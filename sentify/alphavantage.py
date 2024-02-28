@@ -14,7 +14,7 @@ class AlphaVantageWrapper:
         formatted_past_week = past_week.strftime(datetime_format)
 
         # Using default values for the other parameters
-        url = f"{self.BASE_URL}function=NEWS_SENTIMENT&tickers={ticker}&time_from={formatted_past_week}&sort=RELEVANCE&apikey={API_KEY}"
+        url = f"{self.BASE_URL}function=NEWS_SENTIMENT&tickers={ticker}&time_from={formatted_past_week}&sort=LATEST&apikey={API_KEY}"
         try:
             response = requests.get(url)
             response.raise_for_status()

@@ -25,7 +25,7 @@ class NewsSystem:
         result = conn.execute(query)
 
         for row in result:
-            companies.append(row['stock_ticker'])
+            companies.append(row[0])
 
         return companies
     
@@ -54,25 +54,17 @@ class NewsSystem:
         conn.close()
         return articles
     
-    def show_tables(self):
-        conn = engine.connect()
-        query = text("SHOW TABLES")
-        result = conn.execute(query)
-        for row in result:
-            print(row)
-        conn.close()
-    
     def update_companies(self):
         conn = engine.connect()
-        companies = [{'stock_ticker': 'AAPL'}]
+        companies = self.get_companies(conn)
 
-        for company in companies:
-            ticker = company['stock_ticker']
-            articles = self.collection(ticker, conn)
+        for ticker in companies:
+            articles = self.collection(ticker)
 
             # Drop all articles for the current company
             query = delete(Article).where(Article.stock_ticker == ticker)
             conn.execute(query)
+            conn.commit()
 
             # Insert all articles for the current company
             for article in articles:
@@ -89,10 +81,10 @@ class NewsSystem:
                     sentiment_score = article['sentiment_score'],
                 )
                 conn.execute(query)
-
+                conn.commit()
         conn.close()
 
-    def collection(self, ticker, conn):
+    def collection(self, ticker):
         articles = self.alpha_vantage.week_articles(ticker)
         filtered = []
         
