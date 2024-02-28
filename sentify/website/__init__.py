@@ -28,7 +28,7 @@ def create_app():
     app.register_blueprint(views, url_prefix="/")
     
     from .models import User, Notification, Follow, Company, Article, dbinit
-    resetdb = False
+    resetdb = True
     if resetdb:
         with app.app_context():
             db.drop_all()
