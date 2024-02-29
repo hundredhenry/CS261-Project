@@ -97,6 +97,8 @@ def confirm_email(token):
 
 @views.route('/login/', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("views.landing"))
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
@@ -140,6 +142,7 @@ def logout():
     return redirect(url_for("views.landing"))
 
 @views.route('/companies/')
+@login_required
 def companies():
     return render_template('company_search.html')
 
