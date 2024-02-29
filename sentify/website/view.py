@@ -150,11 +150,11 @@ def company(ticker):
     return render_template('activate.html')
 
 # need to cover companies base-route too
-@views.route('/companies/search')
+@views.route('/companies/search/')
 def search_companies():
     return render_template('company_search.html')
 
-@views.route('/companies/all')
+@views.route('/companies/all/')
 def all_companies():
     all_companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
     return render_template('all_companies.html', companies=all_companies)
