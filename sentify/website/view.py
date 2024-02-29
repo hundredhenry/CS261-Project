@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
 
 from . import db
@@ -18,6 +18,8 @@ def landing():
 
 @views.route('/register/', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("views.landing"))
     if request.method == "POST":                
         name = request.form.get('name')
         email = request.form.get('email')
@@ -45,7 +47,10 @@ def register():
             flash('Password must be at least 8 characters!', category='pw_error')
             error_occurred = True
         if not error_occurred:
-            user_exists  = User.query.filter_by(email=email).first()
+            try:
+                user_exists  = User.query.filter_by(email=email).first()
+            except SQLAlchemyError as e:
+                abort(500, "Unable to continue with registration. Please return to homepage and try again.")
             if user_exists:
                 flash("This email is already registered!", category="email_error")
                 return redirect(url_for("views.register"))
@@ -107,6 +112,26 @@ def login():
             else:
                 flash("Email or password is incorrect!", category="login_error")
     return render_template('login.html')
+
+@views.route('/resend/', methods=['GET', 'POST'])
+def resend_email():
+    if current_user.is_authenticated:
+        return redirect(url_for("views.landing"))
+    if request.method == "POST":
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = generate_confirmation_token(email)
+            confirm_url = url_for('views.confirm_email', token=token, _external=True)
+            html = render_template('activate.html', confirm_url=confirm_url)
+            subject = "Please confirm your email - Sentify"
+            
+            send_email(subject, email, html)
+            return redirect(url_for("views.unconfirmed"))
+        else:
+            flash('This email is not registered!', category='email_error')
+
+    return render_template('resend.html')
     
 @views.route("/logout/")
 @login_required
