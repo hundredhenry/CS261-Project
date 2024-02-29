@@ -10,9 +10,9 @@ class User(UserMixin, db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     verified = db.Column(db.Boolean(), default = False) 
-    firstname = db.Column(db.String(15), nullable = False)
-    email = db.Column(db.String(30), unique = True, nullable = False)
-    password_hash = db.Column(db.String(255), nullable = False)
+    firstname = db.Column(db.String(16), nullable = False)
+    email = db.Column(db.String(48), unique = True, nullable = False)
+    password_hash = db.Column(db.String(256), nullable = False)
 
     # Relations
     notifications = db.relationship('Notification', backref = 'user_notif')

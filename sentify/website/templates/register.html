@@ -8,7 +8,7 @@
     <h2 class="site-title">Register</h2>
     <form action="" method="POST">
         <div class="input-group"> 
-            <input type="text" name="name" placeholder="First Name" autocomplete="given-name" required>
+            <input type="text" name="name" placeholder="First Name" autocomplete="given-name" maxlength="16" required>
             {% with messages = get_flashed_messages(category_filter=["name_error"]) %}
                 {% if messages %}
                     <div class="alert alert-danger">
@@ -18,7 +18,7 @@
             {% endwith %}
         </div>
         <div class="input-group"> 
-            <input type="email" name="email" placeholder="Email" autocomplete="email" required> 
+            <input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="48" required> 
             {% with messages = get_flashed_messages(category_filter=["email_error"]) %}
                 {% if messages %}
                     <div class="alert alert-danger">
