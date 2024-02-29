@@ -30,7 +30,9 @@
         <div class="search-list-top-suq0Hj"></div>
         <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
         <div id="results"></div>
-    </div><div class="card" data-url="templates/apple_data.html" >
+    </div>
+    
+    <div id="clickable_div" onclick="redirectToAnotherPage()">
     <div class="group-7-rptxkZ" data-id="212:767">
         <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768"></div>
         <img class="svg-OFcwRL"
@@ -39,13 +41,8 @@
             anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/svg.svg"
             alt="svg">
     </div>
-</div>
-<div class="modal" id="myModal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="modal-body"></div>
-    </div>
-</div>
+  </div>
+
 <div class="group-12-rptxkZ" data-id="212:772">
     <div class="rectangle-10-g7RNeJ rectangle-10" data-id="212:773"></div>
     <img
@@ -101,6 +98,8 @@
         anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-23-2.svg"
         alt="Line 23">
 </div>
+
+
 <div class="card-rptxkZ" data-id="212:792">
     <div class="frame-40250-X2Nv6b" data-id="I212:792;44:234">
         <div class="frame-40247-QPxo31" data-id="I212:792;44:235">
@@ -219,45 +218,12 @@
       element.classList.toggle('darker');
     
     }
-    document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll('.card');
-    const modal = document.getElementById('myModal');
-    const modalContent = document.querySelector('.modal-body');
-    const closeModal = document.querySelector('.close');
-    
-    cards.forEach(card => {
-      card.addEventListener('click', function() {
-        const url = this.getAttribute('data-url');
-        fetch(url)
-          .then(response => response.text())
-          .then(data => {
-            modalContent.innerHTML = data;
-            modal.style.display = 'block';
-            setTimeout(() => {
-              modal.style.opacity = '1';
-            }, 50); // Adding a slight delay to ensure smooth transition
-          });
-      });
-    });
-    
-    closeModal.addEventListener('click', function() {
-      modal.style.opacity = '0';
-      setTimeout(() => {
-        modal.style.display = 'none';
-        modalContent.innerHTML = '';
-      }, 300); // Adjust to match the transition duration
-    });
-    
-    window.addEventListener('click', function(event) {
-      if (event.target === modal) {
-        modal.style.opacity = '0';
-        setTimeout(() => {
-          modal.style.display = 'none';
-          modalContent.innerHTML = '';
-        }, 300); // Adjust to match the transition duration
-      }
-    });
-    });
+
+    function redirectToAnotherPage() {
+            window.location.href = "{{ url_for('views.base_company_data') }}";
+    }
+
+   
 </script>
 
 {% endblock %}

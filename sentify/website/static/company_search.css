@@ -25,34 +25,23 @@
 #results {
     width: 100%; /* adjust as needed */
     border: 1px solid #ccc;
+    padding: 10px;
     margin-top: 10px;
     position: absolute;
     top: 50px; /* adjust as needed */
-    background-color: white;
+    background-color: var(--white);
     border-radius: 20px;
     box-shadow: 0px 4px 4px #00000040;
     display: none;
     font-family: 'Inter', 'Roboto', sans-serif;
     right: 0px;
-    overflow: hidden;
 }
 
 .result-item {
-    padding: 15px;
-    padding-left: 25px;
+    padding: 10px;
+    margin-top: 5px;
     cursor: pointer;
     color: black;
-    box-sizing: border-box; /* add this line */
-}
-
-#results:first-child {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-#results:last-child {
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
 }
 
 .result-item .ticker {
@@ -1242,67 +1231,12 @@
   filter: brightness(0.8); /* Adjust brightness to make it darker */
 }
 
-
-
-
-
-
-
-/*  cards  */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.card {
+#clickable_div {
   cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease-in;
-  animation: modalFadeIn 0.3s ease-in;
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  height: 800px;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center;
 }

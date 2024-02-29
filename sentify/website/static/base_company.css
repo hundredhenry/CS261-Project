@@ -1,0 +1,149 @@
+
+			:root {
+				--gap-size: 32px;
+				box-sizing: border-box;
+				font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto,
+					Ubuntu, sans-serif;
+				color: #000;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				background: #fff;
+                margin-top: 100px;
+			}
+
+			header,
+			footer {
+				display: flex;
+				width: 100%;
+				align-items: center;
+				background: rgba(0, 0, 0, 0.05);
+				gap: 12px;
+			}
+
+			header {
+				justify-content: space-between;
+				padding: 0 var(--gap-size);
+				gap: calc(var(--gap-size) * 2);
+				box-shadow: rgba(0, 0, 0, 0.05) 0 2px 6px 0;
+				flex-direction: row;
+				z-index: 1;
+			}
+
+			header #site-logo {
+				font-weight: 590;
+				font-size: 32px;
+				padding: 16px;
+				background: var(
+					--18-promo-gradient-02,
+					linear-gradient(90deg, #00bce5 0%, #2962ff 100%)
+				);
+				-webkit-text-fill-color: transparent;
+				-webkit-background-clip: text;
+				background-clip: text;
+			}
+
+			header input[type='search'] {
+				padding: 10px;
+				width: 100%;
+				height: 32px;
+				max-width: 400px;
+				border: 1px solid #ccc;
+				border-radius: 20px;
+			}
+
+			footer {
+				flex-direction: column;
+				padding: calc(var(--gap-size) * 0.5) var(--gap-size);
+				margin-top: var(--gap-size);
+				border-top: solid 2px rgba(0, 0, 0, 0.1);
+				justify-content: center;
+			}
+
+			footer p,
+			#powered-by-tv p {
+				margin: 0;
+				font-size: 12px;
+				color: rgba(0, 0, 0, 0.6);
+			}
+
+			main {
+				display: grid;
+				width: 100%;
+				padding: 0 calc(var(--gap-size) * 0.5);
+				max-width: 960px;
+				grid-template-columns: 1fr 1fr;
+				grid-gap: var(--gap-size);
+			}
+
+			.span-full-grid,
+			#symbol-info,
+			#advanced-chart,
+			#company-profile,
+			#fundamental-data {
+				grid-column: span 2;
+			}
+
+			.span-one-column,
+			#technical-analysis,
+			#top-stories,
+			#powered-by-tv {
+				grid-column: span 1;
+			}
+
+			#ticker-tape {
+				width: 100%;
+				margin-bottom: var(--gap-size);
+			}
+
+			#advanced-chart {
+				height: 500px;
+			}
+
+			#company-profile {
+				height:390px;
+			}
+
+			#fundamental-data {
+				height: 490px;
+			}
+
+			#technical-analysis,
+			#top-stories {
+				height: 425px;
+			}
+
+			#powered-by-tv {
+				display: flex;
+				background: #f8f9fd;
+				border: solid 1px #e0e3eb;
+				text-align: justify;
+				flex-direction: column;
+				gap: 8px;
+				font-size: 14px;
+				padding: 16px;
+				border-radius: 6px;
+			}
+
+			#powered-by-tv a, #powered-by-tv a:visited {
+				color: #2962ff;
+			}
+
+			@media (max-width: 800px) {
+				main > section,
+				.span-full-grid,
+				#technical-analysis,
+				#top-stories,
+				#powered-by-tv {
+					grid-column: span 2;
+				}
+			}

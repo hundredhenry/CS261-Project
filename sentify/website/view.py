@@ -142,8 +142,7 @@ def logout():
     return redirect(url_for("views.landing"))
 
 @views.route('/companies/')
-@login_required
-def companies():
+def companies():    
     return render_template('company_search.html')
 
 @views.route('/base_company_data')
