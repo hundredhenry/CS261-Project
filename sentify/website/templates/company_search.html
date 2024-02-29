@@ -210,8 +210,7 @@
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
     alt="Food">
 <script src="/static/scripts/search.js"></script>
-{% endblock %}
-{% block javascript %}
+
 <script>
     function handleClick(button) {
     
@@ -220,8 +219,6 @@
       element.classList.toggle('darker');
     
     }
-    
-    
     document.addEventListener("DOMContentLoaded", function() {
     const cards = document.querySelectorAll('.card');
     const modal = document.getElementById('myModal');
@@ -262,4 +259,5 @@
     });
     });
 </script>
+
 {% endblock %}

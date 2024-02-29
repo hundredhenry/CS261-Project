@@ -143,6 +143,10 @@ def logout():
 def companies():
     return render_template('company_search.html')
 
+@views.route('/base_company_data')
+def base_company_data():
+    return render_template('base_company_data.html')
+
 @views.route('/retrieve_companies/', methods=['GET'])
 def retrieve_companies():
     max_attempts = 3
