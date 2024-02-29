@@ -1,0 +1,77 @@
+/* company_search.css */
+.companies-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 10% 20%;
+    overflow-y: auto;
+    max-height: 85vh;
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: rgba(155, 155, 155, 0.7) transparent; /* For Firefox */
+    position: relative;
+}
+
+.companies-container::-webkit-scrollbar { /* For Chrome, Safari and Opera */
+    width: 10px;
+}
+
+.companies-container::-webkit-scrollbar-thumb { /* For Chrome, Safari and Opera */
+    background: rgba(155, 155, 155, 0.7);
+}
+
+.company-card {
+    flex: 0 0 calc(33.33% - 20px); /* Makes the card take up approximately one third of the container width */
+    height: 200px; /* Makes the card a square - adjust based on your needs */
+    border: 1px solid #ccc;
+    margin: 10px; /* Add some space around each card */
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px; /* Gives the card rounded corners */
+    transition: transform 0.3s ease-in-out; /* Adds a transition effect when the card is hovered over */
+    position: relative; /* Allows absolute positioning of child elements */
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/1200px-Apple_logo_grey.svg.png');
+    background-position: center 25px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.company-card:hover {
+    transform: scale(1.05); /* Scales up the card when it's hovered over */
+}
+
+.follow-button {
+    position: absolute;
+    top: 5%; /* Adjust as needed */
+    right: 5%; /* Adjust as needed */
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Adds a transition effect when the card is hovered over */
+}
+
+.follow-button:hover {
+    color: rgba(0, 0, 0, 0.46);
+    transform: scale(1.25); /* Scales up the card when it's hovered over */
+}
+
+
+.company-card h2 {
+    padding: 5px;
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+.company-card p {
+    position: absolute;
+    bottom: 10px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+

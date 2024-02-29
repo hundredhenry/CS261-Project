@@ -141,9 +141,23 @@ def logout():
     logout_user()
     return redirect(url_for("views.landing"))
 
-@views.route('/companies/')
-def companies():    
+# this is a temporary route
+@views.route('/company/<ticker>')
+def company(ticker):
+    company = Company.query.filter_by(stock_ticker=ticker).first()
+    if not company:
+        abort(404, "Company not found")
+    return render_template('activate.html')
+
+# need to cover companies base-route too
+@views.route('/companies/search')
+def search_companies():
     return render_template('company_search.html')
+
+@views.route('/companies/all')
+def all_companies():
+    all_companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
+    return render_template('all_companies.html', companies=all_companies)
 
 @views.route('/base_company_data')
 def base_company_data():

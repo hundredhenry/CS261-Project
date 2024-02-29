@@ -2,10 +2,18 @@
 
 {% block title %} My Companies {% endblock %}
 {% block stylesheet %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='all_companies.css') }}">
 {% endblock %}
 
 {% block content %}
-
-
+<div class="companies-container">
+    {% for company in companies %}
+    <div class="company-card" style="background-image: url('/path/to/{{ company.stock_ticker }}.png');">
+        <h2>{{ company.company_name }}</h2>
+        <p>{{ company.stock_ticker }}</p>
+        <button class="follow-button", onclick="followCompany(event, this)">+</button>
+    </div>
+    </a>
+    {% endfor %}
+</div>
 {% endblock %}
