@@ -24,23 +24,27 @@ def register():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
+        error_occurred = False
         # check if the user is already registered 
         if len(name) < 1:
             flash("Name is too short!", category="name_error")
-            return render_template('register.html')
+            error_occurred = True
         if len(email) < 1:
             flash("Email is too short!", category="email_error")
-            return render_template('register.html')
-                
+            error_occurred = True
         if not re.match("^[a-zA-Z]*$", name):
-            flash('Name must contain only letters', category='name_error')
-        elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$)", email):
-            flash('Invalid email address', category='email_error')
-        elif password != confirm_password:
-            flash('Passwords do not match', category='pw_error')
-        elif len(password) < 8:
-            flash('Password must be at least 8 characters', category='pw_error')
-        else:
+            flash('Name must contain only letters!', category='name_error')
+            error_occurred = True
+        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$)", email):
+            flash('Invalid email address!', category='email_error')
+            error_occurred = True
+        if password != confirm_password:
+            flash('Passwords do not match!', category='pw_match_error')
+            error_occurred = True
+        if len(password) < 8:
+            flash('Password must be at least 8 characters!', category='pw_error')
+            error_occurred = True
+        if not error_occurred:
             user_exists  = User.query.filter_by(email=email).first()
             if user_exists:
                 flash("This email is already registered!", category="email_error")

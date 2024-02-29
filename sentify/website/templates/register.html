@@ -8,16 +8,44 @@
     <h2 class="site-title">Register</h2>
     <form action="" method="POST">
         <div class="input-group"> 
-            <input type="text" name="name" placeholder="First Name" autocomplete="given-name" required> 
+            <input type="text" name="name" placeholder="First Name" autocomplete="given-name" required>
+            {% with messages = get_flashed_messages(category_filter=["name_error"]) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="input-group"> 
             <input type="email" name="email" placeholder="Email" autocomplete="email" required> 
+            {% with messages = get_flashed_messages(category_filter=["email_error"]) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="input-group"> 
-            <input type="password" name="password" placeholder="Password" required> 
+            <input type="password" name="password" placeholder="Password" required>
+            {% with messages = get_flashed_messages(category_filter=["pw_error"]) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="input-group">
             <input type="password" name="confirm_password" placeholder="Confirm Password" required> 
+            {% with messages = get_flashed_messages(category_filter=["pw_match_error"]) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="input-group">
             <label for="showPasswordCheckbox">Show Password</label>

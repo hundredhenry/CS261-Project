@@ -3,7 +3,7 @@
 * { box-sizing: border-box }
 
 .site-title {
-font-family: 'Inter';
+font-family: 'Inter', 'Roboto', sans-serif;
 font-size: 24px;
 color: #000;
 text-decoration: none;
@@ -22,7 +22,7 @@ flex-direction: column;
 padding: 60px 150px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 width: auto;
-max-width: 500px;
+max-width: 35%;
 margin: 10% auto;
 }
 .input-group {
@@ -33,13 +33,15 @@ margin-top: 20px;
 .input-group input {
 font-size: 16px;
 padding: 15px;
-margin: 5px 0;
+margin: 5px 0px;
 border-radius: 30px;
 border: 1px solid #ccc;
 width: 100%;
 display: block;
 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 outline: none;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 
 .reg-button {
@@ -54,6 +56,7 @@ cursor: pointer;
 border: none;
 transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
 .reg-button:hover {
 background-color: #444;
 transform: scale(1.05);
@@ -62,8 +65,9 @@ transform: scale(1.05);
 color: #6e6e6e;
 text-align: center;
 margin-top: 20px;
-font: 200 12px 'Roboto', sans-serif;
+font: 200 12px 'Roboto', 'Inter', sans-serif;
 }
+
 .link {
 color: rgba(110, 110, 110, 1);
 cursor: pointer;
@@ -83,6 +87,17 @@ text-decoration: underline;
   font-size: 16px;
   line-height: 1.5;
   display: inline; /* Make the label inline */
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Roboto', sans-serif;
   margin-left: 10%;
+}
+
+.alert {
+  color: #ff0019;
+  padding: 5px 0;
+  margin-top: 10px;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  white-space: nowrap;
+  text-align: center;
 }
