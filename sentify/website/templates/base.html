@@ -251,29 +251,6 @@
         </div>
       </div>
     </div>
-    <script>
-      function toggleSidebar() {
-          var sidebar = document.getElementById("sidebar");
-          var content = document.querySelector(".content");
-          var arrowIcon = document.getElementById("arrow-icon");
-          var arrow = document.querySelector(".arrow");
-          var button = document.querySelector(".button");
-          
-          if (sidebar.style.left === "0px") {
-              sidebar.style.left = "-500px";
-              content.style.marginLeft = "0px"; 
-              button.style.backgroundColor = "white"; 
-              arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png"
-      
-          } else {
-              sidebar.style.left = "0px";
-              content.style.marginLeft = "480px"; 
-              button.style.backgroundColor = "black"; 
-              arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65dce3fc5df743f8480a7019/img/chevron-left@2x.png"
-          }
-      }
-    </script>
-    {% block javascript %}
-    {% endblock %}
+    <script src="/static/scripts/sidebar.js"></script>
   </body>
 </html>

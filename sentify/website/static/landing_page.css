@@ -1470,7 +1470,7 @@ input:focus {
   
   .toggle-btn {
     cursor: pointer;
-    margin-left: 18px;
+    margin-left: 20%;
   }
   
   .button {
@@ -1486,36 +1486,40 @@ input:focus {
   .arrow {
     height: 25px;
   }
-  
   .sidebar {
     position: fixed;
     top: 0;
     left: -500px; 
-    width: 500px;
+    width: 20%;
     height: 800px;
     background-color: transparent;
     transition: left 0.3s ease;
-  }
-  
-  .sidebar ul {
+    z-index: 100;
+}
+
+.sidebar.open {
+    left: 0;
+
+}
+
+.sidebar ul {
     list-style-type: none;
     padding: 0;
-  }
-  
-  .sidebar ul li {
+}
+
+.sidebar ul li {
     padding: 10px;
-  }
-  
-  .sidebar ul li a {
+}
+
+.sidebar ul li a {
     color: #fff;
     text-decoration: none;
-  }
-  
-  .content {
-    margin-left: 0px; /* Adjust this value based on your sidebar width */
-    padding: 0px;
-    transition: margin-left 0.4s ease;
-  }
+}
+.content {
+  margin-left: 0px; /* Adjust this value based on your sidebar width */
+  padding: 0px;
+  transition: margin-left 0.4s ease;
+}
   
 /* navigation bar */
 
