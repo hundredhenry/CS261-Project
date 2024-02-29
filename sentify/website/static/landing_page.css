@@ -1129,7 +1129,7 @@ input:focus {
     height: 604px;
     left: -118px;
     position: absolute;
-    top: 1161px;
+    top: 900px;
     width: 1591px;
 }
 
@@ -1203,10 +1203,10 @@ input:focus {
 
 .macbook-air-1 .browse-over-1000-companies-Qxhrpr {
     background-color: transparent;
-    color: var(--black);
+    color: black;
     font-family: var(--font-family-inter);
-    font-size: var(--font-size-xxl);
-    font-style: normal;
+    font-size: 1.5em;
+
     font-weight: 300;
     height: auto;
     left: 0px;
