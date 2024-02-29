@@ -362,7 +362,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 90%;
+  width: 95%;
   height: 100%;
   background: transparent;
   border: none;
@@ -370,6 +370,11 @@
   box-sizing: border-box;
   margin-left: 20px;
   padding-top: 8px;
+  padding-right: 30px; /* space for the icon */
+  background-image: url('https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/search-list-top.svg'); /* your icon's URL */
+  background-repeat: no-repeat;
+  background-size: 100%; /* adjust as needed */
+  background-position: 525px;
 }
 
 .search-input, .search-input::placeholder, #results {

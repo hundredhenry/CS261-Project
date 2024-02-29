@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
+from sqlalchemy.exc import SQLAlchemyError
 
 from . import db
 from .models import User, Company
@@ -117,6 +118,15 @@ def companies():
 
 @views.route('/retrieve_companies/', methods=['GET'])
 def retrieve_companies():
-    companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
-    results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name} for company in companies]
-    return jsonify(results)
+    max_attempts = 3
+    attempts = 0
+
+    while attempts < max_attempts:
+        try:
+            companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
+            results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name} for company in companies]
+            return jsonify(results)
+        except SQLAlchemyError as e:
+            attempts += 1
+            if attempts == max_attempts:
+                return jsonify({'error': f'Maximum number of attempts reached. Error: {str(e)}'}), 500
