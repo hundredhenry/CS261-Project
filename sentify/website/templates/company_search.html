@@ -28,7 +28,7 @@
     alt="Subtract">
     <div class="search-bar-rptxkZ" data-id="212:754">
         <div class="search-list-top-suq0Hj"></div>
-        <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchFunction(this.value)"/>
+        <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
         <div id="results"></div>
     </div><div class="card" data-url="templates/apple_data.html" >
     <div class="group-7-rptxkZ" data-id="212:767">
@@ -209,6 +209,7 @@
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
     alt="Food">
+<script src="/static/scripts/search.js"></script>
 {% endblock %}
 {% block javascript %}
 <script>
@@ -261,5 +262,4 @@
     });
     });
 </script>
-<script src="/static/scripts/search.js"></script>
 {% endblock %}
