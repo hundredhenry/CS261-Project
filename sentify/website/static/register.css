@@ -71,7 +71,6 @@ font: 200 12px 'Roboto', 'Inter', sans-serif;
 .link {
 color: rgba(110, 110, 110, 1);
 cursor: pointer;
-text-decoration: underline;
 }
 
 .input-group input[type="checkbox"] {

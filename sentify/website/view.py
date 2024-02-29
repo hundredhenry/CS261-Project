@@ -48,8 +48,7 @@ def register():
             user_exists  = User.query.filter_by(email=email).first()
             if user_exists:
                 flash("This email is already registered!", category="email_error")
-                return redirect(url_for("views.landing"))
-
+                return redirect(url_for("views.register"))
             new_user = User(firstname=name, email=email, password_hash=generate_password_hash(password))# create a new user with generate_password_hash(password) default values are sufficient
             # add this user to the DB
             db.session.add(new_user)
@@ -63,9 +62,13 @@ def register():
             
             send_email(subject, email, html)
             
-            return render_template('unconfirmed.html')
+            return redirect(url_for("views.unconfirmed"))
 
     return render_template('register.html')
+
+@views.route('/unconfirmed/')
+def unconfirmed():
+    return render_template('unconfirmed.html')
 
 @views.route('/confirm/<token>')
 def confirm_email(token):
@@ -95,19 +98,14 @@ def login():
         
         user = User.query.filter_by(email=email).first()
         if user and not user.verified:
-            flash("Please verify your email first", category="error")
-            return redirect(url_for("views.landing"))
-        
-        print(password)
-        print(len(user.password_hash))
-        print(check_password_hash(user.password_hash, password))
-        if user and check_password_hash(user.password_hash, password):
-            flash("Logged in successfully", category="success")
-            login_user(user, remember=True)
-            return redirect(url_for("views.landing"))
+            flash("Please verify your email first!", category="verify_error")
         else:
-            print("Email or password is incorrect")
-            flash("Email or password is incorrect", category="error")
+            if user and check_password_hash(user.password_hash, password):
+                flash("Logged in successfully", category="success")
+                login_user(user, remember=True)
+                return redirect(url_for("views.landing"))
+            else:
+                flash("Email or password is incorrect!", category="login_error")
     return render_template('login.html')
     
 @views.route("/logout/")

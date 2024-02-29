@@ -11,10 +11,24 @@
     <h2 class="site-title">Login</h2>
     <form action="/login" method="POST"> <!-- Make sure to update the action attribute to the correct endpoint -->
         <div class="input-group">
-            <input type="email" name="email" placeholder="Email" autocomplete="email" required>
+            <input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="48" required>
+            {% with messages = get_flashed_messages(category_filter=["verify_error"]) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+        {% endwith %}
         </div>
         <div class="input-group">
             <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+            {% with messages = get_flashed_messages(category_filter=["login_error"]) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="input-group">
             <label for="showPasswordCheckbox">Show Password</label>
@@ -23,7 +37,7 @@
         <div class="visual-text">
             Don't have an account? <a class="link" href="/register">Register here</a>
         </div>
-        <button type="submit" class="reg-button">Login</button>
+        <button type="submit" class="reg-button">Submit</button>
     </form>
 </div>
 <script>
