@@ -26,16 +26,11 @@
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract-1.svg"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract-1.svg"
     alt="Subtract">
-<div class="search-bar-rptxkZ" data-id="212:754">
-    <img class="search-list-top-suq0Hj"
-        data-id="I212:754;2:276"
-        src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/search-list-top.svg"
-        anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/search-list-top.svg"
-        alt="search list top">
-    <input class="search-input" type="text" placeholder="Search..." oninput="searchFunction(this.value)"/>
-    <div id="results"></div>
-</div>
-<div class="card" data-url="templates/apple_data.html" >
+    <div class="search-bar-rptxkZ" data-id="212:754">
+        <div class="search-list-top-suq0Hj"></div>
+        <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchFunction(this.value)"/>
+        <div id="results"></div>
+    </div><div class="card" data-url="templates/apple_data.html" >
     <div class="group-7-rptxkZ" data-id="212:767">
         <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768"></div>
         <img class="svg-OFcwRL"
@@ -265,34 +260,6 @@
       }
     });
     });
-
-    let items = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry']; // Your list of items
-    function searchFunction(query) {
-        let results = query ? items.filter(item => item.toLowerCase().includes(query.toLowerCase())) : [];
-        results = results.slice(0, 5); // limit the results to a maximum of 5
-
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = ''; // clear previous results
-        if (results.length === 0) {  
-            if (query) {
-                resultsDiv.textContent = 'No matches';
-            } else {
-                resultsDiv.style.display = 'none';
-            }
-        } else {
-            resultsDiv.style.display = 'block';
-            results.forEach(item => {
-                const div = document.createElement('div');
-                div.textContent = item;
-                div.className = 'result-item'; // apply the CSS class
-    
-                const a = document.createElement('a');
-                a.href = '/company/' + item;
-                a.appendChild(div);
-                resultsDiv.appendChild(a);
-                });
-        }
-    }
-    
 </script>
+<script src="/static/scripts/search.js"></script>
 {% endblock %}

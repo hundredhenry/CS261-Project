@@ -70,7 +70,7 @@ class Company(UserMixin, db.Model):
 
     # Attributes
     stock_ticker = db.Column(db.String(10), primary_key = True)
-    company_name = db.Column(db.String(20), nullable = False)
+    company_name = db.Column(db.String(32), nullable = False)
     sectorID = db.Column(db.Integer, db.ForeignKey('sectors.id'), nullable = False)
     description = db.Column(db.Text)
 

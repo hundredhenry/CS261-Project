@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
 
 from . import db
-from .models import User
+from .models import User, Company
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
@@ -114,3 +114,9 @@ def logout():
 @views.route('/companies/')
 def companies():
     return render_template('company_search.html')
+
+@views.route('/retrieve_companies/', methods=['GET'])
+def retrieve_companies():
+    companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
+    results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name} for company in companies]
+    return jsonify(results)
