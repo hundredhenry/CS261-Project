@@ -8,7 +8,8 @@
 {% block content %}
 <div class="companies-container">
     {% for company in companies %}
-    <div class="company-card" style="background-image: url('/path/to/{{ company.stock_ticker }}.png');">
+    <div class="company-card">
+        <img class="company-logo" src="/static/images/{{ company.stock_ticker }}.png" alt="{{ company.company_name }} logo">
         <h2>{{ company.company_name }}</h2>
         <p>{{ company.stock_ticker }}</p>
         <button class="follow-button", onclick="followCompany(event, this)">+</button>
