@@ -1,39 +1,40 @@
-<!-- all of this code is preliminary-->
+{% extends "base.html" %}
 
-{%block title%} Login {%endblock%}
+{% block title %} Sentify - Login {% endblock %}
 
-{%block content%} 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/register.css"> <!-- Assuming you want to use the same CSS file -->
+{% endblock %}
 
-        <h1> Login </h1> 
-        <br><br>
-
-        <form action="#" method="post">
-              
-            <label for="email"> Email: </label>
-            <input type="email" id="email" name="email" placeholder="jd@test.com" required/><br><br>
-            
-            <label for "password"> Password: </label>
-            <input type="password" id="password" name="password" required/><br><br>
-
-            <p><input type="checkbox" id="togglePassword"> Show password</p>
-
-            <p>Don't have an Account? <a href="/register"> Register Here <a> </p>
-
-            <input type="submit" value="Submit" />
-        </form>
-
-<!-- basic check box toggle script-->
+{% block content %}
+<div class="container">
+    <h2 class="site-title">Login</h2>
+    <form action="/login" method="POST"> <!-- Make sure to update the action attribute to the correct endpoint -->
+        <div class="input-group">
+            <input type="email" name="email" placeholder="Email" autocomplete="email" required>
+        </div>
+        <div class="input-group">
+            <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+        </div>
+        <div class="input-group">
+            <label for="showPasswordCheckbox">Show Password</label>
+            <input type="checkbox" id="showPasswordCheckbox" onclick="togglePasswordVisibility()">
+        </div>
+        <div class="visual-text">
+            Don't have an account? <a class="link" href="/register">Register here</a>
+        </div>
+        <button type="submit" class="reg-button">Login</button>
+    </form>
+</div>
 <script>
-    var password = document.getElementById("password")
-    var togglePassword = document.getElementById("togglePassword");
-
-    togglePassword.addEventListener('change', function() {
-        if (password.type === 'password') {
-            password.type = 'text';
+    function togglePasswordVisibility() {
+        var password = document.getElementById("loginPassword");
+        var checkbox = document.getElementById("showPasswordCheckbox");
+        if (checkbox.checked) {
+            password.type = "text";
         } else {
-            password.type = 'password';
+            password.type = "password";
         }
-    });
+    }
 </script>
-
-{%endblock%}
+{% endblock %}
