@@ -15,28 +15,27 @@ class AlphaVantageWrapper:
 
         # Using default values for the other parameters
         url = f"{self.BASE_URL}function=NEWS_SENTIMENT&tickers={ticker}&time_from={formatted_past_week}&sort=LATEST&apikey={API_KEY}"
+        print(url)
         try:
             response = requests.get(url)
             response.raise_for_status()
-            data = response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Error occurred: {e}")
-            data = None
+            articles = response.json()['feed']
 
-        return data['feed']
+            return articles
+        except Exception as e:
+            print(f"Error occurred: {e}")
+
+            return None
     
     def company_overview(self, ticker):
         url = f"{self.BASE_URL}function=OVERVIEW&symbol={ticker}&apikey={API_KEY}"
         try:
             response = requests.get(url)
             response.raise_for_status()
-            data = response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Error occurred: {e}")
-            data = None
+            data = response.json()["Description"]
 
-        return data
-    
-    def write_json(self, content):
-        with open('data.json', 'w') as outfile:
-            json.dump(content, outfile, indent=2)
+            return data
+        except Exception as e:
+            print(f"Error occurred: {e}")
+
+            return None

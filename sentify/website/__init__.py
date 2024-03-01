@@ -30,7 +30,7 @@ def create_app():
     app.register_blueprint(views, url_prefix="/")
     
     from .models import User, Notification, Follow, Company, Article, dbinit
-    resetdb = True
+    resetdb = False
     if resetdb:
         with app.app_context():
             for _ in range(3):
