@@ -139,26 +139,26 @@ def dbinit():
 
     # Add companies alphabetically by stock ticker
     company_list = [
-        Company("AAPL", "Apple Inc.", techID),
-        Company("AMZN", "Amazon.com, Inc.", techID),
-        Company("COST", "Costco Wholesale Corporation", retailID),
-        Company("GOOGL", "Alphabet Inc.", techID),
-        Company("HD", "The Home Depot, Inc", retailID),
+        Company("AAPL", "Apple", techID),
+        Company("AMZN", "Amazon.com", techID),
+        Company("COST", "Costco Wholesale", retailID),
+        Company("GOOGL", "Alphabet", techID),
+        Company("HD", "The Home Depot", retailID),
         Company("JNJ", "Johnson & Johnson", healthcareID),
-        Company("JPM", "JPMorgan Chase & Co.", financeID),
-        Company("KO", "The Coca-Cola Company", foodbevID),
+        Company("JPM", "JPMorgan Chase", financeID),
+        Company("KO", "Coca-Cola", foodbevID),
         Company("LLY", "Eli Lilly and Company", healthcareID),
-        Company("MA", "Mastercard Incorporated", financeID),
-        Company("MCD", "McDonald's Corporation", foodbevID),
-        Company("MSFT", "Microsoft Corporation", techID),
-        Company("NFLX", "Netflix, Inc.", entertainmentID),
-        Company("NVDA", "NVIDIA Corporation", techID),
+        Company("MA", "Mastercard", financeID),
+        Company("MCD", "McDonald's", foodbevID),
+        Company("MSFT", "Microsoft", techID),
+        Company("NFLX", "Netflix", entertainmentID),
+        Company("NVDA", "NVIDIA", techID),
         Company("NVO", "Novo Nordisk A/S", healthcareID),
-        Company("PEP", "PepsiCo, Inc.", foodbevID),
-        Company("PG", "The Proctor & Gamble", manufacturingID),
-        Company("TM", "Toyota Motor Corporation", manufacturingID),
-        Company("V", "Visa Inc.", financeID),
-        Company("WMT", "Walmart Inc.", retailID)   
+        Company("PEP", "PepsiCo", foodbevID),
+        Company("PG", "Proctor & Gamble", manufacturingID),
+        Company("TM", "Toyota Motors", manufacturingID),
+        Company("V", "Visa", financeID),
+        Company("WMT", "Walmart", retailID)   
     ]
     db.session.add_all(company_list)
 
