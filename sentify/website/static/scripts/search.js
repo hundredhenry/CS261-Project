@@ -8,7 +8,7 @@ window.onload = function() {
 
 function searchCompany(query) {
     let results = query ? companies.filter(company => company.company_name.toLowerCase().includes(query.toLowerCase()) || company.stock_ticker.toLowerCase().includes(query.toLowerCase())) : [];
-    results = results.slice(0, 5); // limit the results to a maximum of 5
+    results = results.slice(0, 4); // limit the results to a maximum of 4
 
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ''; // clear previous results
