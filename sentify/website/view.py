@@ -23,6 +23,7 @@ def register():
     if request.method == "POST":                
         name = request.form.get('name')
         email = request.form.get('email')
+        print(email)
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
@@ -37,7 +38,7 @@ def register():
         if not re.match("^[a-zA-Z]*$", name):
             flash('Name must contain only letters!', category='name_error')
             error_occurred = True
-        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$)", email):
+        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$)", email):
             flash('Invalid email address!', category='email_error')
             error_occurred = True
         if password != confirm_password:
