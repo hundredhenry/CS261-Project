@@ -105,14 +105,14 @@ def login():
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
-        
+        is_remember = 'remember' in request.form
         user = User.query.filter_by(email=email).first()
         if user and not user.verified:
             flash("Please verify your email first!", category="verify_error")
         else:
             if user and check_password_hash(user.password_hash, password):
                 flash("Logged in successfully", category="success")
-                login_user(user, remember=True)
+                login_user(user, remember=is_remember)
                 return redirect(url_for("views.landing"))
             else:
                 flash("Email or password is incorrect!", category="login_error")
@@ -147,19 +147,18 @@ def logout():
     return redirect(url_for("views.landing"))
 
 # this is a temporary route
-@views.route('/company/<ticker>')
+@views.route('/companies/<ticker>')
 def company(ticker):
     company = Company.query.filter_by(stock_ticker=ticker).first()
     if not company:
         abort(404, "Company not found")
     return render_template('activate.html')
 
-# need to cover companies base-route too
 @views.route('/companies/search/')
 def search_companies():
     return render_template('company_search.html')
 
-@views.route('/companies/all/')
+@views.route('/companies/')
 def all_companies():
     all_companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
     return render_template('all_companies.html', companies=all_companies)

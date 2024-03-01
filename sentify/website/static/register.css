@@ -26,8 +26,10 @@ max-width: 35%;
 margin: 10% auto;
 }
 .input-group {
-width: 100%;
-margin-top: 20px;
+margin-top: 15px;
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
 
 .input-group input {
@@ -75,10 +77,9 @@ cursor: pointer;
 
 .input-group input[type="checkbox"] {
   width: auto; /* Reset the width */
-  margin-top: 10px; /* Add some margin */
-  margin-left: 10%;
   display: inline; /* Override display: block; */
   box-shadow: none;
+  margin-right: 10%;
   transform: scale(1.5);
 }
 
