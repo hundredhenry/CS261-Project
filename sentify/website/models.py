@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
         self.firstname = firstname
         self.email = email
         self.password_hash = password_hash
+        self.confirmation_token = None
 
 # Model of a notification
 class Notification(UserMixin, db.Model):
