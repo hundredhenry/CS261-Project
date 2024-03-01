@@ -1,14 +1,14 @@
 
-			main {
+			.main {
 				display: grid;
-				width: 100%;
+				width: 700px;
 				padding: 0 calc(var(--gap-size) * 0.5);
 				max-width: 960px;
 				grid-template-columns: 1fr 1fr;
 				grid-gap: var(--gap-size);
 				margin-top: 130px;
 			}
-			
+
 			.span-full-grid,
 			#symbol-info,
 			#advanced-chart,
@@ -71,3 +71,14 @@
 					grid-column: span 2;
 				}
 			}
+
+
+			.container {
+				margin: 10% 20%;
+				max-height: 85vh;
+				scrollbar-width: thin; /* For Firefox */
+				scrollbar-color: rgba(155, 155, 155, 0.7) transparent; /* For Firefox */
+				position: absolute;
+			}
+
+			
