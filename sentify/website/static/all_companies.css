@@ -35,13 +35,13 @@
     font-size: 32px;
     cursor: pointer;
     transition: all 0.3s ease; /* Adds a transition effect when the card is hovered over */
+    z-index: 1;
 }
 
 .follow-button:hover {
     color: rgba(0, 0, 0, 0.46);
     transform: scale(1.25); /* Scales up the card when it's hovered over */
 }
-
 
 .company-card h2 {
     padding: 5px;

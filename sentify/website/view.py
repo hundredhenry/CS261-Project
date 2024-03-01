@@ -4,7 +4,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
 
 from . import db
-from .models import User, Company
+from .models import User, Company, Follow
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
@@ -87,7 +87,7 @@ def confirm_email(token):
     if user:
         if user.verified:
             flash('Account already confirmed. Please login.', category='success')
-            return redirect('/login')
+            return redirect(url_for("views.login"))
         elif user.confirmation_token != token:
             abort(400, "The confirmation link is outdated")
         else:
@@ -106,10 +106,10 @@ def login():
         password = request.form.get('password')
         is_remember = 'remember' in request.form
         user = User.query.filter_by(email=email).first()
-        if user and not user.verified:
-            flash("Please verify your email first!", category="verify_error")
-        else:
-            if user and check_password_hash(user.password_hash, password):
+        if user:
+            if not user.verified:
+                flash("Please verify your email first!", category="verify_error")
+            elif check_password_hash(user.password_hash, password):
                 flash("Logged in successfully", category="success")
                 login_user(user, remember=is_remember)
                 return redirect(url_for("views.landing"))
@@ -158,26 +158,53 @@ def company(ticker):
 def search_companies():
     return render_template('company_search.html')
 
-@views.route('/companies/')
-def all_companies():
-    all_companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
-    return render_template('all_companies.html', companies=all_companies)
-
 @views.route('/base_company_data')
 def base_company_data():
     return render_template('base_company_data.html')
 
-@views.route('/retrieve_companies/', methods=['GET'])
-def retrieve_companies():
+def get_companies():
     max_attempts = 3
     attempts = 0
 
     while attempts < max_attempts:
         try:
-            companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).all()
+            companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).order_by(Company.company_name).all()
             results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name} for company in companies]
-            return jsonify(results)
+            return results
         except SQLAlchemyError as e:
             attempts += 1
             if attempts == max_attempts:
-                return jsonify({'error': f'Maximum number of attempts reached. Error: {str(e)}'}), 500
+                raise
+
+@views.route('/retrieve_companies/', methods=['GET'])
+def retrieve_companies():
+    try:
+        results = get_companies()
+        return jsonify(results)
+    except:
+        return jsonify({'error': 'Maximum number of attempts reached.'}), 500
+
+@views.route('/companies/')
+def all_companies():
+    all_companies = get_companies()
+    return render_template('all_companies.html', companies=all_companies)
+      
+@views.route('/follow/', methods=['POST'])
+@login_required
+def follow():
+    data = request.get_json()
+    ticker = data.get('ticker')
+    is_following = Follow.query.filter_by(userID=current_user.id, stock_ticker=ticker).first()
+    if is_following:
+        # want to unfollow
+        db.session.delete(is_following)
+        db.session.commit()
+        print(f'Unfollowing {ticker}')
+        return jsonify({'status': 'unfollowing'})
+    else:
+        # want to follow
+        new_follow = Follow(userID=current_user.id, stock_ticker=ticker)
+        db.session.add(new_follow)
+        db.session.commit()    
+        print(f'Following {ticker}')
+        return jsonify({'status': 'following'})
