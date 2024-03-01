@@ -10,14 +10,6 @@
     position: relative;
 }
 
-.companies-container::-webkit-scrollbar { /* For Chrome, Safari and Opera */
-    width: 10px;
-}
-
-.companies-container::-webkit-scrollbar-thumb { /* For Chrome, Safari and Opera */
-    background: rgba(155, 155, 155, 0.7);
-}
-
 .company-card {
     flex: 0 0 calc(33.33% - 20px); /* Makes the card take up approximately one third of the container width */
     height: 200px; /* Makes the card a square - adjust based on your needs */
@@ -35,7 +27,6 @@
 }
 
 .follow-button {
-    position: absolute;
     top: 5%; /* Adjust as needed */
     right: 5%; /* Adjust as needed */
     outline: none;
@@ -56,7 +47,7 @@
     padding: 5px;
     margin-top: 0;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 700;
     font-family: 'Inter', 'Roboto', sans-serif;
     overflow: hidden;
 }
@@ -78,5 +69,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.25; /* Adjust as needed */
+    opacity: 0.2; /* Adjust as needed */
+}
+
+.company-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -10px;
 }
