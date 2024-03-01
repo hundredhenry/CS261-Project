@@ -433,9 +433,8 @@
 
 .rectangle-10-g7RNeJ {
     border-color: var(--black);
-    border-radius: 30px;
     height: 205px;
-    width: 372px;
+    width: 389px;
 }
 
 .line-22-g7RNeJ {
@@ -520,13 +519,6 @@
     width: 244px;
 }
 
-.rectangle-10-E2KKcm {
-    border-color: var(--black);
-    border-radius: 30px;
-    height: 298px;
-    width: 244px;
-}
-
 .line-22-E2KKcm {
     height: 274px;
     left: 11px;
@@ -552,7 +544,6 @@
 
 .rectangle-10-Q7HrsM {
     border-color: var(--black);
-    border-radius: 30px;
     height: 298px;
     width: 244px;
 }
@@ -1249,4 +1240,20 @@
   border-radius: 5px;
   width: 200px;
   text-align: center;
+}
+
+.tradingview-widget-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+/*  cards for the watch list */
+
+.rectangle-10-E2KKcm {
+    border-color: var(--black);
+    height: 298px;
+    width: 244px;
 }
