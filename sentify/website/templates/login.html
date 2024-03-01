@@ -1,35 +1,34 @@
 {% extends "base.html" %}
-
 {% block title %} Sentify - Login {% endblock %}
-
 {% block stylesheet %}
-<link rel="stylesheet" href="/static/register.css"> <!-- Assuming you want to use the same CSS file -->
+<link rel="stylesheet" href="/static/register.css">
+<!-- Assuming you want to use the same CSS file -->
 {% endblock %}
-
 {% block content %}
 <div class="form-container">
     <h2 class="site-title">Login</h2>
-    <form action="/login" method="POST"> <!-- Make sure to update the action attribute to the correct endpoint -->
+    <form action="/login" method="POST">
+        <!-- Make sure to update the action attribute to the correct endpoint -->
         <div class="input-group">
             <input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="48" required>
-            {% with messages = get_flashed_messages(category_filter=["verify_error"]) %}
-                {% if messages %}
-                    <div class="alert alert-danger">
-                        {{ messages[0] }}
-                    </div>
-                {% endif %}
-        {% endwith %}
         </div>
+        {% with messages = get_flashed_messages(category_filter=["verify_error"]) %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+        {% endwith %}
         <div class="input-group">
             <input type="password" id="loginPassword" name="password" placeholder="Password" required>
-            {% with messages = get_flashed_messages(category_filter=["login_error"]) %}
-                {% if messages %}
-                    <div class="alert alert-danger">
-                        {{ messages[0] }}
-                    </div>
-                {% endif %}
-            {% endwith %}
         </div>
+        {% with messages = get_flashed_messages(category_filter=["login_error"]) %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+        {% endwith %}
         <div class="input-group">
             <label for="showPasswordCheckbox">Show Password</label>
             <input type="checkbox" onclick="togglePasswordVisibility()">

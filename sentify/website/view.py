@@ -23,7 +23,6 @@ def register():
     if request.method == "POST":                
         name = request.form.get('name')
         email = request.form.get('email')
-        print(email)
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
@@ -121,6 +120,7 @@ def login():
 @views.route('/resend/', methods=['GET', 'POST'])
 def resend_email():
     if current_user.is_authenticated:
+        logout_user()
         return redirect(url_for("views.landing"))
     if request.method == "POST":
         email = request.form.get('email')

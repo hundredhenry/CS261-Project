@@ -93,8 +93,7 @@ cursor: pointer;
 
 .alert {
   color: #ff0019;
-  padding: 5px 0;
-  margin-top: 10px;
+  margin-top: 5px;
   font-family: 'Inter', 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 12px;
