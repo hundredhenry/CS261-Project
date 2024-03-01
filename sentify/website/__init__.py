@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_login import LoginManager
+from time import sleep
+from sqlalchemy.exc import OperationalError
 
 
 db = SQLAlchemy()
@@ -31,9 +33,19 @@ def create_app():
     resetdb = True
     if resetdb:
         with app.app_context():
-            db.drop_all()
-            db.create_all()
-            dbinit()
+            for _ in range(3):
+                try:
+                    db.drop_all()
+                    db.create_all()
+                    dbinit()
+                    break
+                except OperationalError:
+                    print("Database initialisation failed, retrying...")
+                    sleep(2)
+            else:
+                print("Unable to initialise database!")
+                raise RuntimeError("Unable to initialise database!")
+                
 
     login_manager = LoginManager()
     login_manager.login_view = 'views.login'
