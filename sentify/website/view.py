@@ -57,15 +57,16 @@ def register():
                 return redirect(url_for("views.register"))
             new_user = User(firstname=name, email=email, password_hash=generate_password_hash(password))# create a new user with generate_password_hash(password) default values are sufficient
             # add this user to the DB
-            db.session.add(new_user)
-            db.session.commit()
             # begin user verification via email check
             # do email sending process here
             token = generate_confirmation_token(email)
             confirm_url = url_for('views.confirm_email', token=token, _external=True)
             html = render_template('activate.html', confirm_url=confirm_url)
             subject = "Please confirm your email - Sentify"
-            
+            new_user.confirmation_token = token
+            db.session.add(new_user)
+            db.session.commit()
+
             send_email(subject, email, html)
             
             return redirect(url_for("views.unconfirmed"))
@@ -81,19 +82,20 @@ def confirm_email(token):
     try:
         email = confirm_token(token)
     except:
-        flash('The confirmation link is invalid or has expired.', category='error')
+        abort(400, 'The confirmation link is invalid or has expired.')
     user = User.query.filter_by(email=email).first()
     
     if user:
         if user.verified:
             flash('Account already confirmed. Please login.', category='success')
             return redirect('/login')
+        elif user.confirmation_token != token:
+            abort(400, "The confirmation link is outdated")
         else:
             user.verified = True
-            db.session.add(user)
             db.session.commit()
             flash('You have confirmed your account. Please login.', category='success')
-        return redirect('/login')
+        return redirect(url_for("views.login"))
         
 
 @views.route('/login/', methods=['GET', 'POST'])
@@ -125,6 +127,8 @@ def resend_email():
         user = User.query.filter_by(email=email).first()
         if user:
             token = generate_confirmation_token(email)
+            user.confirmation_token = token
+            db.session.commit()
             confirm_url = url_for('views.confirm_email', token=token, _external=True)
             html = render_template('activate.html', confirm_url=confirm_url)
             subject = "Please confirm your email - Sentify"

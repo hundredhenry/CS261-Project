@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     firstname = db.Column(db.String(16), nullable = False)
     email = db.Column(db.String(48), unique = True, nullable = False)
     password_hash = db.Column(db.String(256), nullable = False)
+    confirmation_token = db.Column(db.Text, nullable = True)
 
     # Relations
     notifications = db.relationship('Notification', backref = 'user_notif')
