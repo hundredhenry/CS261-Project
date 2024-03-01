@@ -1,14 +1,14 @@
 
 			main {
-				right: 0;
 				display: grid;
 				width: 100%;
+				padding: 0 calc(var(--gap-size) * 0.5);
 				max-width: 960px;
 				grid-template-columns: 1fr 1fr;
 				grid-gap: var(--gap-size);
 				margin-top: 130px;
 			}
-
+			
 			.span-full-grid,
 			#symbol-info,
 			#advanced-chart,
