@@ -1,6 +1,6 @@
 from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
-from sqlalchemy import create_engine, select, insert, delete, update
+from sqlalchemy import create_engine, select, insert, delete, update, bindparam
 from website.models import User, Notification, Follow, Company, Article
 from transformers import pipeline
 
@@ -41,7 +41,7 @@ class NewsSystem:
             # Update the description for the current company
             query = update(Company).where(Company.stock_ticker == ticker).values(description = desc)
             conn.execute(query)
-            conn.commit()   
+            conn.commit()
 
         # Close the connection
         conn.close()
@@ -55,7 +55,11 @@ class NewsSystem:
             positive = 0
             total = 0
 
-            # Drop all articles for the current company
+            # Check if there are no articles for the current company
+            if not articles:
+                continue
+
+            # Drop all articles for the current company in the database
             try:
                 query = delete(Article).where(Article.stock_ticker == ticker)
                 conn.execute(query)
@@ -64,36 +68,55 @@ class NewsSystem:
                 print(f"Error occurred: {e}")
 
             # Insert all articles for the current company
+            articles_data = []
             for article in articles:
-                try:
-                    query = insert(Article).values(
-                        title = article['title'],
-                        stock_ticker = ticker,
-                        source_name = article['source'],
-                        source_domain = article['source_domain'],
-                        url = article['url'],
-                        published = article['time_published'],
-                        description = article['description'],
-                        banner_image = article['banner_image'],
-                        sentiment_label = article['sentiment_label'],
-                        sentiment_score = article['sentiment_score']
-                    )
-                    conn.execute(query)
-                    conn.commit()
+                articles_data.append({
+                    'title': article['title'],
+                    'stock_ticker': ticker,
+                    'source_name': article['source'],
+                    'source_domain': article['source_domain'],
+                    'url': article['url'],
+                    'published': article['time_published'],
+                    'description': article['description'],
+                    'banner_image': article['banner_image'],
+                    'sentiment_label': article['sentiment_label'],
+                    'sentiment_score': article['sentiment_score']
+                })
 
-                    # Update the total and positive ratings for the current company
-                    total += 1
-                    if article['sentiment_label'] == 'POSITIVE':
-                        positive += 1
-                except Exception as e:
-                    print(f"Error occurred: {e}")
+            # Prepare the SQL statement
+            stmt = insert(Article).values(
+                title=bindparam('title'),
+                stock_ticker=bindparam('stock_ticker'),
+                source_name=bindparam('source_name'),
+                source_domain=bindparam('source_domain'),
+                url=bindparam('url'),
+                published=bindparam('published'),
+                description=bindparam('description'),
+                banner_image=bindparam('banner_image'),
+                sentiment_label=bindparam('sentiment_label'),
+                sentiment_score=bindparam('sentiment_score')
+            )
+
+            # Execute the statement for all data
+            try:
+                conn.execute(stmt, articles_data)
+                conn.commit()
+            except Exception as e:
+                print(f"Error occurred: {e}")
+                
+            # Update the total and positive ratings for the current company
+            total = len(articles_data)
+            positive = sum(1 for article in articles_data if article['sentiment_label'] == 'POSITIVE')
             
             # Update the positive rating for the current company
             if total != 0:
                 positive_rating = (positive / total) * 100
                 query = update(Company).where(Company.stock_ticker == ticker).values(positive_rating = positive_rating)
-                conn.execute(query)
-                conn.commit()
+                try:
+                    conn.execute(query)
+                    conn.commit()
+                except Exception as e:
+                    print(f"Error occurred: {e}")
 
             # Send notifications to all users following the current company
             self.send_notifications(ticker, conn)
@@ -106,35 +129,33 @@ class NewsSystem:
         articles = self.alpha_vantage.week_articles(ticker)
         filtered = []
 
-        if articles == None:
-            return None
-        
-        for article in articles:
-            # Check if the current article is the most relevant in the article
-            if not self.most_relevant(ticker, article):
-                continue
+        if articles:
+            for article in articles:
+                # Check if the current article is the most relevant in the article
+                if not self.most_relevant(ticker, article):
+                    continue
 
-            # Get the meta description for the current article
-            meta_desc = self.scraper.get_meta_desc(article['url'])
+                # Get the meta description for the current article
+                meta_desc = self.scraper.get_meta_desc(article['url'])
 
-            # Get the sentiment for the current article
-            if meta_desc:
-                sentiment = self.get_sentiment(meta_desc)
-            else:
-                sentiment = self.get_sentiment(article['title'])
-            
-            # Append specified article details to the filtered list
-            filtered.append({
-                'title': article['title'],
-                'url': article['url'],
-                'time_published': article['time_published'],
-                'description': meta_desc,
-                'banner_image': article['banner_image'],
-                'source': article['source'],
-                'source_domain': article['source_domain'],
-                'sentiment_label': sentiment[0]['label'],
-                'sentiment_score': sentiment[0]['score'],
-            })
+                # Get the sentiment for the current article
+                if meta_desc:
+                    sentiment = self.get_sentiment(meta_desc)
+                else:
+                    sentiment = self.get_sentiment(article['title'])
+                
+                # Append specified article details to the filtered list
+                filtered.append({
+                    'title': article['title'],
+                    'url': article['url'],
+                    'time_published': article['time_published'],
+                    'description': meta_desc,
+                    'banner_image': article['banner_image'],
+                    'source': article['source'],
+                    'source_domain': article['source_domain'],
+                    'sentiment_label': sentiment[0]['label'],
+                    'sentiment_score': sentiment[0]['score'],
+                })
 
         return filtered
     
