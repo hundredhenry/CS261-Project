@@ -3,7 +3,6 @@
 {% block title %} Company {% endblock %}
 
 {% block content %}
-	
 	<div class="custom-div">
 		
 		<div class="top-part">
@@ -11,17 +10,11 @@
 			<section id="symbol-info">
 				<!-- TradingView Widget BEGIN -->
 				<div class="tradingview-widget-container">
-					<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js" async></script>
-					<script type="text/javascript">
-						new TradingView.MediumWidget(
+					<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js" async>
 						{
-							"symbols": [
-								[
-									"AKTS"
-								]
-							],
+							"symbol" : "{{ ticker }}",
 							"chartOnly": false,
-							"width": "100%",
+							"width": "300%",
 							"height": "100%",
 							"locale": "en",
 							"colorTheme": "light",
@@ -30,10 +23,8 @@
 							"fontColor": "#787B86",
 							"underLineColor": "#E3F2FD",
 							"isTransparent": true,
-							"autosize": true,
 							"container_id": "tradingview_2f394"
 						}
-						);
 					</script>
 				</div>
 				<!-- TradingView Widget END -->

@@ -155,7 +155,7 @@ def company(ticker):
     company = Company.query.filter_by(stock_ticker=ticker).first()
     if not company:
         abort(404, "Company not found")
-    return render_template('activate.html')
+    return render_template('base_company_data.html', ticker=ticker)
 
 def random_color():
     return '#' + ''.join(random.choices('0123456789abcdef', k=6))
@@ -226,3 +226,8 @@ def modify_follow():
         db.session.add(new_follow)
         db.session.commit()    
         return jsonify({'status': 'following', 'ticker': ticker})
+    
+    
+@views.route('/test/')
+def test():
+    return render_template('test.html')
