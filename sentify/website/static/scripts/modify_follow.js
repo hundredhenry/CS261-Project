@@ -1,4 +1,4 @@
-function my(event, button) {
+function modifyFollowCompany(event, button) {
     event.preventDefault();
     var ticker = button.getAttribute('data-ticker');
     fetch('/modify-follow/', {

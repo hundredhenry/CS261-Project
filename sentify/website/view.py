@@ -115,6 +115,8 @@ def login():
                 return redirect(url_for("views.landing"))
             else:
                 flash("Email or password is incorrect!", category="login_error")
+        else:
+            flash("Email or password is incorrect!", category="login_error")
     return render_template('login.html')
 
 @views.route('/resend/', methods=['GET', 'POST'])
@@ -124,7 +126,7 @@ def resend_email():
         return redirect(url_for("views.landing"))
     if request.method == "POST":
         email = request.form.get('email')
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email, verified=False).first()
         if user:
             token = generate_confirmation_token(email)
             user.confirmation_token = token
@@ -136,7 +138,7 @@ def resend_email():
             send_email(subject, email, html)
             return redirect(url_for("views.unconfirmed"))
         else:
-            flash('This email is not registered!', category='email_error')
+            flash('This email is not registered or is already verified!', category='email_error')
 
     return render_template('resend.html')
     
