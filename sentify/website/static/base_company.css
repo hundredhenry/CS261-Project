@@ -1,49 +1,10 @@
 
-			.main {
-				display: grid;
-				width: 700px;
-				padding: 0 calc(var(--gap-size) * 0.5);
-				max-width: 960px;
-				grid-template-columns: 1fr 1fr;
-				grid-gap: var(--gap-size);
-				margin-top: 130px;
-			}
 
-			.span-full-grid,
-			#symbol-info,
-			#advanced-chart,
-			#company-profile,
-			#fundamental-data {
-				grid-column: span 2;
-			}
+			
 
-			.span-one-column,
-			#technical-analysis,
-			#top-stories,
-			#powered-by-tv {
-				grid-column: span 1;
-			}
-
-			#ticker-tape {
-				width: 100%;
-				margin-bottom: var(--gap-size);
-			}
-
-			#advanced-chart {
-				height: 500px;
-			}
-
-			#company-profile {
-				height:390px;
-			}
 
 			#fundamental-data {
 				height: 490px;
-			}
-
-			#technical-analysis,
-			#top-stories {
-				height: 425px;
 			}
 
 			#powered-by-tv {
@@ -72,13 +33,56 @@
 				}
 			}
 
-
-			.container {
-				margin: 10% 20%;
-				max-height: 85vh;
-				scrollbar-width: thin; /* For Firefox */
-				scrollbar-color: rgba(155, 155, 155, 0.7) transparent; /* For Firefox */
-				position: absolute;
+			.custom-div {
+				position: relative;
+				top: 50px;
+				left: 220px;
+				width: auto; /* Adjust width as needed */
+				height: 1000px; /* Adjust height as needed */
 			}
+
+			.top-part {
+				position: relative;
+				display: flex;
+				gap: 5px; /* Adjust the gap as needed */
+			}
+
+			.subdiv {
+				position: absolute;
+				left: 1000px;
+				width: 300px; /* Adjust width as needed */
+				height: 550px; /* Adjust height as needed */
+				border: 1px dotted black;
+			}
+
+			.middle-part {
+				position: relative;
+				display: flex;
+				gap: 5px; /* Adjust the gap as needed */
+			}
+
+			#company-profile {
+				position: relative;
+				width: 1000px;
+				height: 400px;
+			}
+
+			#advanced-chart {
+				height: 600px;
+				width: 1350px;
+			}
+
+			.chart-big {
+				position: relative;
+				display: flex;
+				gap: 5px; /* Adjust the gap as needed */
+			}
+
+			.articles-section {
+				top: -20px;
+			}
+
+
+
 
 			
