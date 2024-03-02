@@ -187,6 +187,10 @@ def retrieve_companies():
 @views.route('/companies/')
 def all_companies():
     all_companies = get_companies()
+    if current_user.is_authenticated:
+        following = Follow.query.filter_by(userID=current_user.id).all()
+        following = [follow.stock_ticker for follow in following]
+        return render_template('all_companies.html', companies=all_companies, following=following)
     return render_template('all_companies.html', companies=all_companies)
       
 @views.route('/follow/', methods=['POST'])
@@ -194,6 +198,8 @@ def all_companies():
 def follow():
     data = request.get_json()
     ticker = data.get('ticker')
+    if not ticker:
+        return jsonify({'error': 'No ticker provided'}), 400
     is_following = Follow.query.filter_by(userID=current_user.id, stock_ticker=ticker).first()
     if is_following:
         # want to unfollow
