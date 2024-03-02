@@ -35,20 +35,20 @@
 
     <div class="companies-container-2">
 
+        {% for company in companies %}
         <div class="card-followed">
             <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-
                     <div class="tradingview-widget-container">
                         <div class="tradingview-widget-container__widget"></div>
                         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
                         {
-                        "symbol": "NASDAQ:AAPL",
+                        "symbol": "{{ company.stock_ticker }}",
                         "width": "400",
                         "height": "350",
                         "locale": "en",
                         "dateRange": "12M",
                         "colorTheme": "light",
-                        "trendLineColor": "rgba(106, 168, 79, 1)",
+                        "trendLineColor": "{{ randomColor() }}",
                         "isTransparent": true,
                         "autosize": false,
                         "largeChartUrl": "#"
@@ -61,6 +61,7 @@
                     
             </div> 
         </div>
+        {% endfor %}
         
     </div>
 
