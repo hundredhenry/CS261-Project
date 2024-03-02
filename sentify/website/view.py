@@ -193,24 +193,24 @@ def all_companies():
         return render_template('all_companies.html', companies=all_companies, following=following)
     return render_template('all_companies.html', companies=all_companies)
       
-@views.route('/follow/', methods=['POST'])
+@views.route('/modify-follow/', methods=['POST'])
 @login_required
-def follow():
+def modify_follow():
     data = request.get_json()
     ticker = data.get('ticker')
     if not ticker:
         return jsonify({'error': 'No ticker provided'}), 400
+    company = Company.query.filter_by(stock_ticker=ticker).first()
+    if not company:
+        return jsonify({'error': 'Ticker does not exist'}), 404
+
     is_following = Follow.query.filter_by(userID=current_user.id, stock_ticker=ticker).first()
     if is_following:
-        # want to unfollow
         db.session.delete(is_following)
         db.session.commit()
-        print(f'Unfollowing {ticker}')
-        return jsonify({'status': 'unfollowing'})
+        return jsonify({'status': 'unfollowing', 'ticker': ticker})
     else:
-        # want to follow
         new_follow = Follow(userID=current_user.id, stock_ticker=ticker)
         db.session.add(new_follow)
         db.session.commit()    
-        print(f'Following {ticker}')
-        return jsonify({'status': 'following'})
+        return jsonify({'status': 'following', 'ticker': ticker})

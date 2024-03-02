@@ -1,7 +1,7 @@
-function followCompany(event, button) {
+function my(event, button) {
     event.preventDefault();
     var ticker = button.getAttribute('data-ticker');
-    fetch('/follow/', {
+    fetch('/modify-follow/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
