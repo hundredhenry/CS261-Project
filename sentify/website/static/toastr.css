@@ -2,6 +2,7 @@
     margin-top: 70px; 
     min-width: 100px;
     word-wrap: break-word;
+    font-family: 'Roboto', 'Inter', Helvetica, sans-serif;
   }
 
 .toast-success {
