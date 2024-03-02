@@ -779,7 +779,7 @@
     top: 1166px;
     width: 97px;
 }
-
+.rectangle-10
 .ellipse-986-rptxkZ {
     background-color: #d8191e;
     border-radius: 12.5px;
@@ -1182,7 +1182,8 @@
 
 .rectangle-10 {
     background-color: var(--alabaster);
-    border: 1px solid;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 20px;
     left: 0px;
     position: relative;
     top: 0px;
@@ -1230,7 +1231,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-gap: 30px;
-    border: 1px dotted black;
     height: 700px;
     width: 1300px;
     position: relative;
@@ -1241,7 +1241,6 @@
 .card-followed {
     height: 402px;
     width: 400px;
-    background-color: pink;
 }
 
 .full-analytics {

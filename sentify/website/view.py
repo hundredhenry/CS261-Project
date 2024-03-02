@@ -9,6 +9,7 @@ from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
 import re 
+import random
 
 views = Blueprint("views", __name__)
 
@@ -156,13 +157,18 @@ def company(ticker):
         abort(404, "Company not found")
     return render_template('activate.html')
 
+def random_color():
+    return '#' + ''.join(random.choices('0123456789abcdef', k=6))
+
 @views.route('/companies/search/')
 def search_companies():
-    return render_template('company_search.html')
+    all_companies = get_companies()
+    return render_template('company_search.html', companies=all_companies, randomColor=random_color)
 
 @views.route('/base_company_data')
 def base_company_data():
     return render_template('base_company_data.html')
+
 
 @views.route('/all_followed')
 def all_followed():
