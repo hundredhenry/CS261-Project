@@ -162,6 +162,10 @@ def search_companies():
 def base_company_data():
     return render_template('base_company_data.html')
 
+@views.route('/all_followed')
+def all_followed():
+    return render_template('all_followed.html')
+
 def get_companies():
     max_attempts = 3
     attempts = 0

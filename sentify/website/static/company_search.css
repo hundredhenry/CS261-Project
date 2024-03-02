@@ -1243,3 +1243,31 @@
     height: 298px;
     width: 244px;
 }
+
+#font-changes {
+    font-size: 15px;
+}
+
+.companies-container-2 {
+    top: 1070px;
+    left: 120px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-gap: 30px;
+    border: 1px dotted black;
+    height: 700px;
+    width: 1300px;
+    position: relative;
+    overflow: auto;
+
+}
+
+.card-followed {
+    height: 402px;
+    width: 400px;
+    background-color: pink;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;
+}
+

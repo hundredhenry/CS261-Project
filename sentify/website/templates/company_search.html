@@ -31,43 +31,59 @@
         <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
         <div id="results"></div>
     </div>
-    
 
-        <div class="group-7-rptxkZ" data-id="212:767">
+
+    <div class="companies-container-2">
+
+        <div class="card-followed">
             <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-                <!-- TradingView Widget BEGIN -->
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                    {
-                    "symbol": "NASDAQ:AAPL",
-                    "width": "400",
-                    "height": "350",
-                    "locale": "en",
-                    "dateRange": "12M",
-                    "colorTheme": "light",
-                    "trendLineColor": "rgba(106, 168, 79, 1)",
-                    "isTransparent": true,
-                    "autosize": false,
-                    "largeChartUrl": "#"
-                }
-                    </script>
-                </div>
-                <!-- TradingView Widget END -->
-            </div>
+
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                        {
+                        "symbol": "NASDAQ:AAPL",
+                        "width": "400",
+                        "height": "350",
+                        "locale": "en",
+                        "dateRange": "12M",
+                        "colorTheme": "light",
+                        "trendLineColor": "rgba(106, 168, 79, 1)",
+                        "isTransparent": true,
+                        "autosize": false,
+                        "largeChartUrl": "#"
+                    }
+                        </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                    <div class="rectangle-13-rptxkZ" data-id="212:794"></div>
+                    <div class="rectangle-14-rptxkZ" data-id="212:795"></div>
+                    <div class="followed-rptxkZ" id="font-changes">followed</div>
+                    <div onclick="redirectToAnotherPage()" class="view-full-analytics-rptxkZ roboto-light-black-15px" data-id="212:797" id="font-changes">View Full Analytics</div>
+                    
+        </div>
+            
+        </div>
+        <div class="card-followed">
+   
+        </div>
+        <div class="card-followed">
+   
+        </div>
+        <div class="card-followed">
+   
         </div>
 
+    </div>
+
+    
 
 <div class="suggested-companies-to-follow-rptxkZ" data-id="212:793">Suggested Companies to Follow</div>
-<div class="rectangle-13-rptxkZ" data-id="212:794"></div>
-<div class="rectangle-14-rptxkZ" data-id="212:795"></div>
 
-<div class="followed-rptxkZ" data-id="212:796">followed</div>
-<div onclick="redirectToAnotherPage()" class="view-full-analytics-rptxkZ roboto-light-black-15px" data-id="212:797">View Full Analytics</div>
-
-
-<div class="rectangle-15-rptxkZ" data-id="212:806"></div>
+<div class="rectangle-15-rptxkZ" onlick="redirectToAnotherPage()"></div>
 <div class="see-all-rptxkZ valign-text-middle" data-id="212:807">See All</div>
+
 <img class="group-16-rptxkZ"
     data-id="212:808"
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/group-16@2x.png"
@@ -137,6 +153,11 @@
     function redirectToAnotherPage() {
             window.location.href = "{{ url_for('views.base_company_data') }}";
     }
+
+    function redirectToFollowed() {
+            window.location.href = "{{ url_for('views.all_followed') }}";
+    }
+
 </script>
 
 {% endblock %}
