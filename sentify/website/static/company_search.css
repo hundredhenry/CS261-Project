@@ -407,12 +407,6 @@
     width: 389px;
 }
 
-.rectangle-10-OFcwRL {
-    border-color: #e6e6e6;
-    height: 407px;
-    width: 389px;
-}
-
 .svg-OFcwRL {
     background-color: transparent;
     height: 72px;
@@ -429,12 +423,6 @@
     position: absolute;
     top: 1584px;
     width: 372px;
-}
-
-.rectangle-10-g7RNeJ {
-    border-color: var(--black);
-    height: 205px;
-    width: 389px;
 }
 
 .line-22-g7RNeJ {
@@ -460,12 +448,6 @@
     width: 244px;
 }
 
-.rectangle-10-6Sku9c {
-    border-color: var(--black);
-    height: 298px;
-    width: 244px;
-}
-
 .line-22-6Sku9c {
     height: 274px;
     left: 11px;
@@ -486,13 +468,6 @@
     left: 686px;
     position: absolute;
     top: 1139px;
-    width: 244px;
-}
-
-.rectangle-10-XpRALB {
-    border-color: var(--black);
-    border-radius: 30px;
-    height: 298px;
     width: 244px;
 }
 
@@ -539,12 +514,6 @@
     left: 993px;
     position: absolute;
     top: 1496px;
-    width: 244px;
-}
-
-.rectangle-10-Q7HrsM {
-    border-color: var(--black);
-    height: 298px;
     width: 244px;
 }
 
@@ -813,6 +782,7 @@
 }
 
 .view-full-analytics-rptxkZ {
+    cursor: pointer;
     background-color: transparent;
     height: auto;
     left: 311px;
@@ -1214,14 +1184,6 @@
     position: absolute;
 }
 
-.rectangle-10 {
-    background-color: var(--alabaster);
-    border: 1px solid;
-    left: 0px;
-    position: absolute;
-    top: 0px;
-}
-
 .subtract {
     background-color: transparent;
     height: 650px;
@@ -1230,16 +1192,6 @@
 
 .darker {
   filter: brightness(0.8); /* Adjust brightness to make it darker */
-}
-
-#clickable_div {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 200px;
-  text-align: center;
 }
 
 .tradingview-widget-container {
@@ -1252,7 +1204,41 @@
 
 /*  cards for the watch list */
 
+.rectangle-10 {
+    background-color: var(--alabaster);
+    border: 1px solid;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    height: 400px;
+    
+}
+
+.rectangle-10-g7RNeJ {
+    border-color: var(--black);
+    height: 220px;
+    width: 403px;
+}
+
 .rectangle-10-E2KKcm {
+    border-color: var(--black);
+    height: 298px;
+    width: 244px;
+}
+
+.rectangle-10-6Sku9c {
+    border-color: var(--black);
+    height: 298px;
+    width: 244px;
+}
+
+.rectangle-10-Q7HrsM {
+    border-color: var(--black);
+    height: 298px;
+    width: 244px;
+}
+
+.rectangle-10-XpRALB {
     border-color: var(--black);
     height: 298px;
     width: 244px;

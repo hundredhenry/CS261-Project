@@ -7,9 +7,10 @@
     <meta name="og:type" content="website">
     <meta name="twitter:card" content="photo">
     <title>{% block title %} {% endblock %}</title>
-    {% block stylesheet %} {% endblock %}
+    
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='landing_page.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='navbar.css') }}">
+    {% block stylesheet %} {% endblock %}
   </head>
   <body style="margin: 0px; background: rgb(251, 251, 251); overflow-x: hidden;" dark-scroll="">
     <!-- Sidebar -->
