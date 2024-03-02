@@ -397,22 +397,7 @@ input:focus {
     width: 132px;
 }
 
-.macbook-air-1 .sentify-cbxlvq {
-  background-color: transparent;
-  color: var(--black);
-  font-family: var(--font-family-inter);
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 300;
-  height: auto;
-  left: 45px;
-  letter-spacing: 0.84px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 22px;
-  width: 132px;
-}
+
 
 .macbook-air-1 .sentify-cbxlvq {
   /* ...existing styles... */

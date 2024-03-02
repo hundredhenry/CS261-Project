@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:300,400,200|Roboto:700,200,400");
+
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fbfbfb;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    color: black;
+    text-decoration: none;  
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin: -10px 0 0 -5px;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: darkgrey;  /* Change as needed */
+    cursor: pointer;
+}
+
+.navbar-sections a {
+    margin-right: 20px;
+    color: black;
+    text-decoration: none;
+}
+
+.navbar-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    text-decoration: none;  
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-weight: 400;
+    z-index: 1000;
+}
+
+.navbar-button:hover {
+    background-color: #444;
+}
