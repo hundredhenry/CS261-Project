@@ -76,6 +76,7 @@ class Company(UserMixin, db.Model):
     sectorID = db.Column(db.Integer, db.ForeignKey('sectors.id'), nullable = False)
     description = db.Column(db.Text)
     positive_rating = db.Column(db.Integer, default = 0) # 0 to 100% positive articles
+    last_updated = db.Column(db.Date, default = date(1970, 1, 1))
 
     # Relations
     articles = db.relationship('Article', backref = 'company_article')
