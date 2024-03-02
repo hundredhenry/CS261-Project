@@ -2,7 +2,6 @@
 {% block title %} Sentify - Login {% endblock %}
 {% block stylesheet %}
 <link rel="stylesheet" href="/static/register.css">
-<!-- Assuming you want to use the same CSS file -->
 {% endblock %}
 {% block content %}
 <div class="form-container">
@@ -31,7 +30,7 @@
         {% endwith %}
         <div class="input-group">
             <label for="showPasswordCheckbox">Show Password</label>
-            <input type="checkbox" onclick="togglePasswordVisibility()">
+            <input type="checkbox" id="showPasswordCheckbox" onclick="togglePasswordVisibility()">
         </div>
         <div class="input-group">
             <label for="rememberMeCheckbox">Remember Me</label>
