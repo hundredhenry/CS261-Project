@@ -86,14 +86,14 @@ def confirm_email(token):
     
     if user:
         if user.verified:
-            flash('Account already confirmed. Please login.', category='success')
+            flash('Account already confirmed. Please login.', category='info')
             return redirect(url_for("views.login"))
         elif user.confirmation_token != token:
             abort(400, "The confirmation link is outdated")
         else:
             user.verified = True
             db.session.commit()
-            flash('You have confirmed your account. Please login.', category='success')
+            flash('Account confirmed - Please login.', category='success')
         return redirect(url_for("views.login"))
         
 
@@ -110,7 +110,7 @@ def login():
             if not user.verified:
                 flash("Please verify your email first!", category="verify_error")
             elif check_password_hash(user.password_hash, password):
-                flash("Logged in successfully", category="success")
+                flash("Logged in successfully", category="login_success")
                 login_user(user, remember=is_remember)
                 return redirect(url_for("views.landing"))
             else:

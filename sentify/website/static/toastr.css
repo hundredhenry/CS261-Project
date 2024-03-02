@@ -1,0 +1,9 @@
+#toast-container .toast {
+    margin-top: 70px; 
+    min-width: 100px;
+    word-wrap: break-word;
+  }
+
+.toast-success {
+    background-color: #39a75e;
+  }

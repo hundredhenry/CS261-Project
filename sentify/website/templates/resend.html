@@ -6,14 +6,14 @@
     <form action="" method="POST">
         <div class="input-group"> 
             <input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="48" required> 
-            {% with messages = get_flashed_messages(category_filter=["email_error"]) %}
-                {% if messages %}
-                    <div class="alert alert-danger">
-                        {{ messages[0] }}
-                    </div>
-                {% endif %}
-            {% endwith %}
         </div>
+        {% with messages = get_flashed_messages(category_filter=["email_error"]) %}
+        {% if messages %}
+            <div class="alert alert-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
         <button type="submit" class="reg-button">Send Email</button> 
     </form>
 </div>
