@@ -232,3 +232,9 @@ def modify_follow():
     db.session.add(new_follow)
     db.session.commit()
     return jsonify({'status': 'following', 'ticker': ticker})
+
+
+
+@views.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
