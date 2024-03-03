@@ -1,3 +1,6 @@
+import re
+import random
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
@@ -7,9 +10,6 @@ from . import db
 from .models import User, Company, Follow
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
-
-import re 
-import random
 
 views = Blueprint("views", __name__)
 
@@ -26,7 +26,7 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
-        
+
         error_occurred = False
         # check if the user is already registered 
         if len(name) < 1:
@@ -50,12 +50,14 @@ def register():
         if not error_occurred:
             try:
                 user_exists  = User.query.filter_by(email=email).first()
-            except SQLAlchemyError as e:
-                abort(500, "Unable to continue with registration. Please return to homepage and try again.")
+            except SQLAlchemyError:
+                abort(500,
+                "Unable to continue with registration.Please return to homepage and try again.")
             if user_exists:
                 flash("This email is already registered!", category="email_error")
                 return redirect(url_for("views.register"))
-            new_user = User(firstname=name, email=email, password_hash=generate_password_hash(password))# create a new user with generate_password_hash(password) default values are sufficient
+            new_user = User(firstname=name, email=email,
+                            password_hash=generate_password_hash(password))
             # add this user to the DB
             # begin user verification via email check
             # do email sending process here
@@ -68,7 +70,7 @@ def register():
             db.session.commit()
 
             send_email(subject, email, html)
-            
+
             return redirect(url_for("views.unconfirmed"))
 
     return render_template('register.html')
@@ -79,24 +81,22 @@ def unconfirmed():
 
 @views.route('/confirm/<token>')
 def confirm_email(token):
-    try:
-        email = confirm_token(token)
-    except:
+    email = confirm_token(token)
+    if email is None:
         abort(400, 'The confirmation link is invalid or has expired.')
     user = User.query.filter_by(email=email).first()
-    
+
     if user:
         if user.verified:
             flash('Account already confirmed. Please login.', category='info')
             return redirect(url_for("views.login"))
-        elif user.confirmation_token != token:
+        if user.confirmation_token != token:
             abort(400, "The confirmation link is outdated")
         else:
             user.verified = True
             db.session.commit()
             flash('Account confirmed - Please login.', category='success')
-        return redirect(url_for("views.login"))
-        
+        return redirect(url_for("views.login")) 
 
 @views.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -135,14 +135,13 @@ def resend_email():
             confirm_url = url_for('views.confirm_email', token=token, _external=True)
             html = render_template('activate.html', confirm_url=confirm_url)
             subject = "Please confirm your email - Sentify"
-            
+
             send_email(subject, email, html)
             return redirect(url_for("views.unconfirmed"))
-        else:
-            flash('This email is not registered or is already verified!', category='email_error')
+        flash('This email is not registered or is already verified!', category='email_error')
 
     return render_template('resend.html')
-    
+
 @views.route("/logout/")
 @login_required
 def logout():
@@ -152,8 +151,8 @@ def logout():
 # this is a temporary route
 @views.route('/companies/<ticker>')
 def company(ticker):
-    company = Company.query.filter_by(stock_ticker=ticker).first()
-    if not company:
+    company_exists = Company.query.filter_by(stock_ticker=ticker).first()
+    if not company_exists:
         abort(404, "Company not found")
     return render_template('base_company_data.html', ticker=ticker)
 
@@ -162,13 +161,12 @@ def random_color():
 
 @views.route('/companies/search/')
 def search_companies():
-    all_companies = get_companies()
-    return render_template('company_search.html', companies=all_companies, randomColor=random_color)
+    companies = get_companies()
+    return render_template('company_search.html', companies=companies, randomColor=random_color)
 
 @views.route('/base_company_data')
 def base_company_data():
     return render_template('base_company_data.html')
-
 
 @views.route('/all_followed')
 def all_followed():
@@ -180,10 +178,13 @@ def get_companies():
 
     while attempts < max_attempts:
         try:
-            companies = Company.query.with_entities(Company.stock_ticker, Company.company_name).order_by(Company.company_name).all()
-            results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name} for company in companies]
+            companies = Company.query.with_entities(
+                Company.stock_ticker, Company.company_name).order_by(
+                Company.company_name).all()
+            results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name}
+                       for company in companies]
             return results
-        except SQLAlchemyError as e:
+        except SQLAlchemyError:
             attempts += 1
             if attempts == max_attempts:
                 raise
@@ -193,17 +194,17 @@ def retrieve_companies():
     try:
         results = get_companies()
         return jsonify(results)
-    except:
+    except SQLAlchemyError:
         return jsonify({'error': 'Maximum number of attempts reached.'}), 500
 
 @views.route('/companies/')
 def all_companies():
-    all_companies = get_companies()
+    companies = get_companies()
     if current_user.is_authenticated:
         following = Follow.query.filter_by(userID=current_user.id).all()
         following = [follow.stock_ticker for follow in following]
-        return render_template('all_companies.html', companies=all_companies, following=following)
-    return render_template('all_companies.html', companies=all_companies)
+        return render_template('all_companies.html', companies=companies, following=following)
+    return render_template('all_companies.html', companies=companies)
       
 @views.route('/modify-follow/', methods=['POST'])
 @login_required
@@ -212,8 +213,8 @@ def modify_follow():
     ticker = data.get('ticker')
     if not ticker:
         return jsonify({'error': 'No ticker provided'}), 400
-    company = Company.query.filter_by(stock_ticker=ticker).first()
-    if not company:
+    company_exists = Company.query.filter_by(stock_ticker=ticker).first()
+    if not company_exists:
         return jsonify({'error': 'Ticker does not exist'}), 404
 
     is_following = Follow.query.filter_by(userID=current_user.id, stock_ticker=ticker).first()
@@ -221,13 +222,8 @@ def modify_follow():
         db.session.delete(is_following)
         db.session.commit()
         return jsonify({'status': 'unfollowing', 'ticker': ticker})
-    else:
-        new_follow = Follow(userID=current_user.id, stock_ticker=ticker)
-        db.session.add(new_follow)
-        db.session.commit()    
-        return jsonify({'status': 'following', 'ticker': ticker})
-    
-    
-@views.route('/test/')
-def test():
-    return render_template('test.html')
+
+    new_follow = Follow(user_id=current_user.id, stock_ticker=ticker)
+    db.session.add(new_follow)
+    db.session.commit()
+    return jsonify({'status': 'following', 'ticker': ticker})

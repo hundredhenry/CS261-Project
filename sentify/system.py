@@ -26,14 +26,14 @@ class NewsSystem:
         companies = [company[0] for company in companies]
 
         return companies
-    
+
     def get_last_updated(self, ticker):
         # Get the last updated date for the specified company
         query = select(Company.last_updated).where(Company.stock_ticker == ticker)
         result = db.session.execute(query)
-        date = result.fetchone()[0]
+        update_date = result.fetchone()[0]
 
-        return date
+        return update_date
 
     def update_companies_desc(self):
         for ticker in self.companies:
@@ -51,7 +51,7 @@ class NewsSystem:
             query = update(Company).where(Company.stock_ticker == ticker).values(description = desc)
             db.session.execute(query)
             db.session.commit()
-    
+
     def update_companies(self):
         for ticker in self.companies:
             try:
@@ -90,19 +90,24 @@ class NewsSystem:
 
                 # Execute the statement for all data
                 db.session.execute(stmt, articles)
-                    
+
                 # Update the total and positive ratings for the current company
                 total = len(articles)
-                positive = sum(1 for article in articles if article['sentiment_label'] == 'POSITIVE')
-                
+                positive = sum(1 for article in articles
+                               if article['sentiment_label'] == 'POSITIVE')
+
                 # Update the positive rating for the current company
                 if total != 0:
                     positive_rating = (positive / total) * 100
-                    query = update(Company).where(Company.stock_ticker == ticker).values(positive_rating = positive_rating)
+                    query = update(Company).where(
+                        Company.stock_ticker == ticker).values(
+                            positive_rating = positive_rating)
                     db.session.execute(query)
 
                 # Update the last updated date for the current company
-                query = update(Company).where(Company.stock_ticker == ticker).values(last_updated = date.today())
+                query = update(Company).where(
+                    Company.stock_ticker == ticker).values(
+                        last_updated = date.today())
                 db.session.execute(query)
 
                 # Send notifications to all users following the current company
@@ -110,7 +115,7 @@ class NewsSystem:
 
                 # Commit the changes to the database
                 db.session.commit()
-            except Exception as e:
+            except Exception as e: # need to be more specific
                 print(e)
                 db.session.rollback()
 
@@ -133,7 +138,7 @@ class NewsSystem:
                     sentiment = self.get_sentiment(meta_desc)
                 else:
                     sentiment = self.get_sentiment(article['title'])
-                
+
                 # Append specified article details to the filtered list
                 filtered.append({
                     'title': article['title'],
@@ -149,7 +154,7 @@ class NewsSystem:
                 })
 
         return filtered
-    
+
     def most_relevant(self, ticker, article):
         tickers = article['ticker_sentiment']
         max_ticker = None
@@ -160,20 +165,21 @@ class NewsSystem:
             if float(t['relevance_score']) > float(max_relevance):
                 max_ticker = t['ticker']
                 max_relevance = t['relevance_score']
-        
+
         # Check if the most relevant ticker is the specified company
-        if max_ticker == ticker:
-            return True
-        
-        return False
-        
+        return max_ticker == ticker
+
     def send_notifications(self, ticker):
         # Get all users following the specified company
-        query = select(User.id).join(Follow, User.id == Follow.userID).where(Follow.stock_ticker == ticker)
+        query = select(User.user_id).join(
+            Follow, User.user_id == Follow.user_id).where(
+                Follow.stock_ticker == ticker)
         result = db.session.execute(query)
 
         if result:
             for row in result:
                 # Send a notification to the current user
-                query = insert(Notification).values(userID = row[0], message = f"New articles available for {ticker}!")
-                db.session.execute(query)
+                query = insert(Notification).values(
+                    user_id = row[0],
+                    message = f"New articles available for {ticker}!")
+                db.session.execute(query) # commit after?!
