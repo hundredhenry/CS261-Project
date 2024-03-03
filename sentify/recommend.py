@@ -1,6 +1,5 @@
 from sqlalchemy import text
-from .website import db
-
+from website import db
 # Returns a result set of companies in sectors followed by the user ordered by most to least followed
 def recommend_specific(user_id):
 
