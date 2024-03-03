@@ -171,8 +171,8 @@ class NewsSystem:
 
     def send_notifications(self, ticker):
         # Get all users following the specified company
-        query = select(User.user_id).join(
-            Follow, User.user_id == Follow.user_id).where(
+        query = select(User.id).join(
+            Follow, User.id == Follow.user_id).where(
                 Follow.stock_ticker == ticker)
         result = db.session.execute(query)
 

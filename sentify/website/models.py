@@ -7,7 +7,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     # Attributes
-    user_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     verified = db.Column(db.Boolean(), default = False)
     firstname = db.Column(db.String(16), nullable = False)
     email = db.Column(db.String(48), unique = True, nullable = False)
@@ -30,7 +30,7 @@ class Notification(db.Model):
 
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     read = db.Column(db.Integer, default = False)
     message = db.Column(db.Text, nullable = False)
 
@@ -44,7 +44,7 @@ class Follow(UserMixin, db.Model):
 
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     stock_ticker = db.Column(db.String(10),
                              db.ForeignKey('companies.stock_ticker'),
                              nullable = False)
