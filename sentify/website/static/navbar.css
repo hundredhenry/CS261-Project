@@ -26,7 +26,7 @@
 }
 
 .navbar-brand:hover {
-    color: darkgrey;  /* Change as needed */
+    color: darkgrey;  
     cursor: pointer;
 }
 
@@ -51,4 +51,31 @@
 .navbar-button:hover {
     background-color: #333;
     cursor: pointer;
+}
+
+.inbox-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px; 
+    font-family: 'Inter', sans-serif;
+    color: black; 
+    text-decoration: none;
+    padding: 8px 12px; 
+    border-radius: 25px; 
+    transition: background-color 0.3s ease;
+}
+
+.inbox-link:hover {
+    background-color: #f2f2f2; 
+}
+
+.inbox-icon {
+    margin-left: 8px; 
+    height: 24px; 
+    width: auto;
+}
+
+.inbox-link:hover .inbox-icon,
+.inbox-link:hover {
+    color: #333; 
 }
