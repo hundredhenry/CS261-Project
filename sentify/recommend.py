@@ -1,5 +1,5 @@
 from sqlalchemy import text
-from .website import db
+from website import db
 
 # Returns a result set of companies in sectors followed by the user ordered by most to least followed
 def recommend_specific(user_id):
@@ -28,9 +28,7 @@ def recommend_specific(user_id):
 
         # Execute the query
         companies = db.session.execute(text(final_query))
-
         return companies
-
     recommend_general()
 
 # Returns a result set of all companies ordered by most to least followed

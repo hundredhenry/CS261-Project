@@ -727,23 +727,6 @@
     width: fit-content;
 }
 
-.suggested-companies-to-follow-rptxkZ {
-    background-color: transparent;
-    color: var(--black);
-    font-family: var(--font-family-inter);
-    font-size: var(--font-size-xxxxxl);
-    font-style: normal;
-    font-weight: 300;
-    height: auto;
-    left: 528px;
-    letter-spacing: 0.00px;
-    line-height: normal;
-    position: absolute;
-    text-align: left;
-    top: 2112px;
-    width: 703px;
-}
-
 .followed-rptxkZ {
     background-color: transparent;
     color: var(--white);
@@ -1230,19 +1213,33 @@
 }
 
 .companies-container-2 {
-    top: 1070px;
-    left: 120px;
+    top: 22%;
+    left: 8%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    grid-gap: 30px;
-    height: 700px;
-    width: 1300px;
+    grid-gap:  30px;
+    max-height: 25%;
+    width: 85%;
     position: relative;
-    overflow: auto;
+    overflow-y: scroll;
+}
+
+.my-watch-list-title {
+    color: var(--black);
+    font-family: var(--font-family-inter);
+    font-size: var(--font-size-xxxxxl);
+    font-style: normal;
+    font-weight: 300;
+    height: auto;
+    text-align: left;
+    margin-top: 5%;
+    position: relative;
+    top: 20%;
+    left: 8%;
 }
 
 .card-followed {
-    height: 402px;
+    height: 400px;
     width: 400px;
 }
 
@@ -1254,13 +1251,21 @@
     height: 46px;
     width: 210px;
     left: 30px;
-    bottom: 10px;
+    bottom: 13px; 
+    cursor: pointer;
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: "Roboto";
     font-size: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+.full-analytics:hover {
+    background-color: black;
+    border-color: white;
+    color: white;
 }
 
 .followed-button {
@@ -1283,11 +1288,25 @@
 }
 
 .container-suggested {
-    top: 1300px;
-    left: 120px;
+    top: 22.5%;
+    left: 7.5%;
     height: 700px;
-    width: 1350px;
+    width: 85%;
     position: relative;
+}
+
+.suggested-companies-title {
+    background-color: transparent;
+    color: var(--black);
+    font-family: var(--font-family-inter);
+    font-size: var(--font-size-xxxxxl);
+    font-style: normal;
+    font-weight: 300;
+    height: auto;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    margin-top: 4%;
 }
 
 .carousel{

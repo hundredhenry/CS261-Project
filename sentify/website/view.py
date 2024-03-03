@@ -10,6 +10,7 @@ from . import db
 from .models import User, Company, Follow
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
+from recommend import recommend_specific
 
 views = Blueprint("views", __name__)
 
@@ -159,18 +160,21 @@ def company(ticker):
 def random_color():
     return '#' + ''.join(random.choices('0123456789abcdef', k=6))
 
+def get_following():
+    if current_user.is_authenticated:
+        following = Follow.query.filter_by(user_id=current_user.id).all()
+        return [follow.stock_ticker for follow in following]
+    return []
+
 @views.route('/companies/search/')
 def search_companies():
-    companies = get_companies()
-    return render_template('company_search.html', companies=companies, randomColor=random_color)
+    followed_companies = get_following()
+    suggested_companies = recommend_specific(current_user.id)
+    return render_template('company_search.html', companies=followed_companies, suggested_companies=suggested_companies, randomColor=random_color)
 
 @views.route('/base_company_data')
 def base_company_data():
     return render_template('base_company_data.html')
-
-@views.route('/all_followed')
-def all_followed():
-    return render_template('all_followed.html')
 
 def get_companies():
     max_attempts = 3
@@ -200,12 +204,9 @@ def retrieve_companies():
 @views.route('/companies/')
 def all_companies():
     companies = get_companies()
-    if current_user.is_authenticated:
-        following = Follow.query.filter_by(userID=current_user.id).all()
-        following = [follow.stock_ticker for follow in following]
-        return render_template('all_companies.html', companies=companies, following=following)
-    return render_template('all_companies.html', companies=companies)
-      
+    following = get_following()
+    return render_template('all_companies.html', companies=companies, following=following)
+
 @views.route('/modify-follow/', methods=['POST'])
 @login_required
 def modify_follow():
@@ -217,7 +218,7 @@ def modify_follow():
     if not company_exists:
         return jsonify({'error': 'Ticker does not exist'}), 404
 
-    is_following = Follow.query.filter_by(userID=current_user.id, stock_ticker=ticker).first()
+    is_following = Follow.query.filter_by(user_id=current_user.id, stock_ticker=ticker).first()
     if is_following:
         db.session.delete(is_following)
         db.session.commit()
