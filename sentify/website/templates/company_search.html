@@ -62,40 +62,50 @@
             </div> 
         </div>
         {% endfor %}
-        
     </div>
+
 
 
 <div class="suggested-companies-to-follow-rptxkZ" data-id="212:793">Suggested Companies to Follow</div>
 
+<div class="container-suggested">
+    <div class="carousel">
+        {% for company in companies %}
+        <div class="carousel-item">  
+            <div class="card-followed">
+                <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
+                        <div class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                            {
+                            "symbol": "{{ company.stock_ticker }}",
+                            "width": "400",
+                            "height": "350",
+                            "locale": "en",
+                            "dateRange": "12M",
+                            "colorTheme": "light",
+                            "trendLineColor": "{{ randomColor() }}",
+                            "isTransparent": true,
+                            "autosize": false,
+                            "largeChartUrl": ""
+                            }
+                            </script>   
+                        </div>
+                      
+                        <div onlick="redirectToAnotherPage()" class="full-analytics" style="left: 80px; bottom: 15px;"> View Full Analytics </div>
+                        
+                        
+                </div> 
+            </div>
+        </div>
+        {% endfor %}
+    </div>  
+</div>
+ 
+
 <div class="rectangle-15-rptxkZ" onlick="redirectToAnotherPage()"></div>
 <div class="see-all-rptxkZ valign-text-middle" data-id="212:807">See All</div>
 
-<img class="group-16-rptxkZ"
-    data-id="212:808"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/group-16@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/group-16@2x.png"
-    alt="Group 16">
-<div class="meta-rptxkZ valign-text-middle" data-id="212:818">META</div>
-<div class="div-rptxkZ" data-id="212:819">
-    <div class="x2748453-usd-Li36vu valign-text-middle" data-id="212:820">27,484.53 USD</div>
-    <div class="pseudo-Li36vu" data-id="212:821"></div>
-</div>
-<div class="x48h-change-rptxkZ valign-text-middle roboto-light-black-15px" data-id="212:822">48h Change
-</div>
-<img class="ellipse-993-rptxkZ" data-id="212:823"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/ellipse-993@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/ellipse-993@2x.png"
-    alt="Ellipse 993"><img class="line-4-rptxkZ" data-id="212:824"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-4.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-4.svg"
-    alt="Line 4"><img class="line-5-rptxkZ" data-id="212:825"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-5.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-5.svg"
-    alt="Line 5"><img class="sum-rptxkZ" data-id="212:827"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/sum.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/sum.svg"
-    alt="Sum">
 <div class="tech-rptxkZ inter-light-black-14px" data-id="214:866">Tech</div>
 <div class="finance-rptxkZ inter-light-black-14px" data-id="214:867">Finance</div>
 <div class="retail-rptxkZ inter-light-black-14px" data-id="214:868">Retail</div>
@@ -126,7 +136,7 @@
     alt="Cinema"><img class="food-rptxkZ" data-id="214:888"
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
-    alt="Food">
+    alt="Food">    
 <script src="/static/scripts/search.js"></script>
 <script>
     function handleClick(button) {
@@ -146,5 +156,14 @@
     }
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.carousel').carousel({
+                padding: 200
+            });
+        });
+    </script>
 
 {% endblock %}

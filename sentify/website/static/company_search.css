@@ -1235,7 +1235,6 @@
     width: 1300px;
     position: relative;
     overflow: auto;
-
 }
 
 .card-followed {
@@ -1277,4 +1276,34 @@
     left: 240px;
     bottom: 10px;
 
+}
+
+.container-suggested {
+    top: 1300px;
+    left: 120px;
+    height: 700px;
+    width: 1350px;
+    position: relative;
+}
+
+.carousel{
+    height: 700px; 
+    perspective: 1300px;
+	margin-top: 5%;
+}
+
+.carousel .carousel-item {
+	width: 400px;
+	height: 402px;
+	animation: animate 2s infinite alternate;
+	border-radius: 15px;
+}
+
+.useful {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 60px;
+    border: 1px solid black;
 }
