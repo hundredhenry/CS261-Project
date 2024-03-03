@@ -22,7 +22,7 @@ function searchCompany(query) {
     } else {
         resultsDiv.style.display = 'block';
         resultsDiv.innerHTML = results.map(company => `
-            <a href="/company/${company.stock_ticker}">
+            <a href="/companies/${company.stock_ticker}">
                 <div class="result-item">
                     <span>${company.company_name}</span>
                     <span class="ticker">${company.stock_ticker}</span>
