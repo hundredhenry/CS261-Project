@@ -18,7 +18,7 @@ def recommend_specific(user_id):
         length = len(sector_ids)
 
         # Create the query based on the number of ids
-        query_start = "SELECT companies.stock_ticker, COUNT(follows.stock_ticker) AS count FROM companies LEFT JOIN follows ON companies.stock_ticker = follows.stock_ticker WHERE companies.sector_id IN ("
+        query_start = "SELECT DISTINCT companies.stock_ticker, COUNT(follows.stock_ticker) AS count FROM companies LEFT JOIN follows ON companies.stock_ticker = follows.stock_ticker WHERE companies.sector_id IN ("
         query_middle = ""
         for s_id in sector_ids:
             query_middle = query_middle + str(s_id) + ","
