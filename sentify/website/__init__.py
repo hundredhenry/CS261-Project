@@ -6,9 +6,6 @@ from flask_mail import Mail
 from flask_login import LoginManager
 from sqlalchemy.exc import OperationalError
 
-from . import models
-
-
 db = SQLAlchemy()
 mail = Mail()
 
@@ -30,8 +27,8 @@ def create_app():
 
     #registering blueprints 
     from .view import views 
+    from . import models
     app.register_blueprint(views, url_prefix="/")
-    
     resetdb = False
     if resetdb:
         with app.app_context():
