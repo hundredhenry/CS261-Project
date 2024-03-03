@@ -27,9 +27,34 @@
     {% endif %}
       <div class="navbar-buttons">
           {% if current_user.is_authenticated %}
-            <a href="/inbox" class="navbar-button navbar-inbox-link" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
+            <a href="#" class="navbar-button navbar-inbox-link" onclick="toggleDropdown()" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
               <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="height: 25px;">
             </a>
+
+            <div id="dropdownContent" class="dropdown-content" style="display: none;">
+              
+              <p style="
+                color: black;
+                font-family: Roboto;
+                font-weight: 500;
+                padding: 20px;
+                font-size: 25px;
+                
+
+              "> Inbox <p>
+              
+              <!-- Notification content goes here -->
+              <div class="dropdown-row">Row 1</div>
+              <div class="dropdown-row">Row 2</div>
+              <div class="dropdown-row">Row 3</div>
+              <div class="dropdown-row">Row 4</div>
+              <div class="dropdown-row">Row 5</div>
+              <div class="dropdown-row">Row 6</div>
+              <div class="dropdown-row">Row 7</div>
+              <div class="dropdown-row">Row 8</div>
+              <div class="dropdown-row">Row 9</div>
+            </div>
+
             <a href="/logout" class="navbar-button">Log Out</a>
           {% else %}
             <a href="/login" class="navbar-button">Log In</a>
@@ -37,6 +62,7 @@
           {% endif %}
       </div>
     </nav>
+
       
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
