@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='all_companies.css') }}">
 {% endblock %}
 {% block content %}
+<h1 class="all-companies-title">All Companies</h1>
 <div class="companies-container">
     {% for company in companies %}
     <a href="{{ url_for('views.company', ticker=company.stock_ticker) }}">
