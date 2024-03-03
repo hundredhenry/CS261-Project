@@ -24,11 +24,6 @@
 <p class="research-how-differe-rptxkZ" data-id="212:748">Research how different companies are doing,
     including relevant information, or filter by Category, and find new companies to follow
 </p>
-<img
-    class="subtract-lo1k0f subtract" data-id="212:749"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract-1.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract-1.svg"
-    alt="Subtract">
     <div class="search-bar-rptxkZ" data-id="212:754">
         <div class="search-list-top-suq0Hj"></div>
         <input id="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
@@ -74,7 +69,7 @@
 
     <div class="arrow left" onclick="prevSlide()"> &lt; </div>
     <div class="container-suggested">
-    
+        <div  style='left: 0;'class="my-watch-list-title" data-id="212:758">You Might Like...</div>
         <div class="carousel">
             {% for company in companies %}
             <div class="carousel-item">  
@@ -84,7 +79,7 @@
                                 <div class="tradingview-widget-container__widget"></div>
                                 <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
                                 {
-                                "symbol": "{{ company.stock_ticker }}",
+                                "symbol": "{{ company }}",
                                 "width": "400",
                                 "height": "350",
                                 "locale": "en",

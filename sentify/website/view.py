@@ -169,7 +169,7 @@ def get_following():
 @views.route('/companies/search/')
 def search_companies():
     followed_companies = get_following()
-    suggested_companies = recommend_specific(current_user.id)
+    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
     return render_template('company_search.html',
                            companies=followed_companies,
                            suggested_companies=suggested_companies,
