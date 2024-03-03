@@ -289,36 +289,6 @@ input:focus {
     align-items: center;
 }
 
-.hamburger-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 2rem;
-    height: 2rem;
-    cursor: pointer;
-}
-
-.hamburger-menu div {
-    width: 2rem;
-    height: 2px;
-    background: #333; /* Adjust color as needed */
-    transition: all 0.3s linear;
-}
-
-.hamburger-menu.open div:nth-child(1) {
-    transform: translateY(10.5px) rotate(45deg);
-}
-
-.hamburger-menu.open div:nth-child(3) {
-    transform: translateY(-10.5px) rotate(-45deg);
-}
-
-.hamburger-menu.open div:nth-child(2) {
-    opacity: 0;
-}
-
-
-
 .macbook-air-1 .rectangle-2-a1gY0A {
     background-color: #010202;
     border-radius: 25px;
@@ -1513,10 +1483,10 @@ input:focus {
   .sidebar {
     position: fixed;
     top: 0;
-    left: -280px; 
-    width: 200px;
-    height: 200px;
-    background-color: rgba(255, 255, 255, 0.9); /* Adjust the last value as needed */
+    left: -500px; 
+    width: 20%;
+    height: 800px;
+    background-color: transparent;
     transition: left 0.3s ease;
     z-index: 100;
 }
@@ -1572,14 +1542,14 @@ input:focus {
   
   .sidebar-WjYNi3 {
     align-items: flex-start;
-    background-color: #f5f5f5f1;
-    border-radius: 12px;
+    background-color: #f5f5f554;
+    border-radius: 12.33px;
     box-shadow: 0px 0px 40px #00000012;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 29.98923683166504px;
     left: 0px;
-    padding: 20px 0px;
+    padding: 19.992826461791992px 0px;
     position: relative;
     top: 78px;
     width: 304px;
@@ -1596,8 +1566,8 @@ input:focus {
     display: inline-flex;
     flex: 0 0 auto;
     flex-direction: column;
-    gap: 30px;
-    padding: 0px 20px 30px;
+    gap: 29.98923683166504px;
+    padding: 0px 19.992826461791992px 29.98923683166504px;
   }
   
   .frame-1000001840-GW8UXT {
@@ -1606,7 +1576,7 @@ input:focus {
     display: inline-flex;
     flex: 0 0 auto;
     flex-direction: column;
-    gap: 30px;
+    gap: 29.98923683166504px;
     position: relative;
   }
   
@@ -1701,7 +1671,7 @@ input:focus {
     height: 33.987796783447266px;
     overflow: hidden;
     position: relative;
-    width: 225px;
+    width: 259.90667724609375px;
   }
   
   .home-yjJvjE {
@@ -1737,7 +1707,7 @@ input:focus {
     flex: 0 0 auto;
     justify-content: space-between;
     position: relative;
-    width: 225px;
+    width: 230.9171142578125px;
   }
   
   .frame-1000001715-Waq7SZ {
@@ -1836,7 +1806,7 @@ input:focus {
     display: flex;
     gap: 4.998206615447998px;
     position: relative;
-    width: 60px;
+    width: 79px;
   }
   
   .add-Y90JDp {
@@ -2024,8 +1994,8 @@ input:focus {
     display: inline-flex;
     flex: 0 0 auto;
     flex-direction: column;
-    gap: 30px;
-    padding: 0px 20px 30px;
+    gap: 29.98923683166504px;
+    padding: 0px 19.992826461791992px 29.98923683166504px;
   }
   
   .frame-1000001754-SOLF21 {
@@ -2034,9 +2004,9 @@ input:focus {
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
-    gap: 20px;
+    gap: 19.992826461791992px;
     position: relative;
-    width: 225px;
+    width: 224px;
   }
   
   .support-wXRIjv {

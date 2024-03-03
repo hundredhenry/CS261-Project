@@ -1,21 +1,9 @@
-.all-companies {
-    padding: 20px;
-    margin: 10% 20%;
-}
-
-.all-companies-title {
-    color: var(--black);
-    font-weight: 300;
-    font-size: 32px;
-    font-family: 'Inter', 'Roboto', sans-serif;
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-}
-
+/* company_search.css */
 .companies-container {
     display: flex;
     flex-wrap: wrap;
+    padding: 20px;
+    margin: 10% 20%;
     max-height: 85vh;
     scrollbar-width: thin; /* For Firefox */
     scrollbar-color: rgba(155, 155, 155, 0.7) transparent; /* For Firefox */
@@ -72,7 +60,6 @@
     font-weight: 500;
     font-family: 'Inter', 'Roboto', sans-serif;
 }
-
 .company-logo {
     position: absolute;
     top: 0;

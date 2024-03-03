@@ -5,25 +5,22 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='all_companies.css') }}">
 {% endblock %}
 {% block content %}
-<div class="all-companies">
-    <h1 class="all-companies-title">All Companies</h1>
-    <div class="companies-container">
-        {% for company in companies %}
-        <a href="{{ url_for('views.company', ticker=company.stock_ticker) }}">
-        <div class="company-card">
-            <img class="company-logo" src="/static/images/{{ company.stock_ticker }}.png" alt="{{ company.company_name }} logo">
-            <div class="company-info">
-                <h2>{{ company.company_name }}</h2>
-                {% if current_user.is_authenticated %}
-                    {% set is_following = company.stock_ticker in following %}
-                    <button class="follow-button" data-ticker="{{ company.stock_ticker }}" onclick="modifyFollowCompany(event, this)">{{ 'x' if is_following else '+' }}</button>
-                {% endif %}
-            </div>
-            <p>{{ company.stock_ticker }}</p>
+<div class="companies-container">
+    {% for company in companies %}
+    <a href="{{ url_for('views.company', ticker=company.stock_ticker) }}">
+    <div class="company-card">
+        <img class="company-logo" src="/static/images/{{ company.stock_ticker }}.png" alt="{{ company.company_name }} logo">
+        <div class="company-info">
+            <h2>{{ company.company_name }}</h2>
+            {% if current_user.is_authenticated %}
+                {% set is_following = company.stock_ticker in following %}
+                <button class="follow-button" data-ticker="{{ company.stock_ticker }}" onclick="modifyFollowCompany(event, this)">{{ 'x' if is_following else '+' }}</button>
+            {% endif %}
         </div>
-        </a>
-        {% endfor %}
+        <p>{{ company.stock_ticker }}</p>
     </div>
+    </a>
+    {% endfor %}
 </div>
 <script src="/static/scripts/modify_follow.js"></script>
 {% endblock %}
