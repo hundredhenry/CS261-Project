@@ -173,7 +173,8 @@ def search_companies():
     return render_template('company_search.html',
                            companies=followed_companies,
                            suggested_companies=suggested_companies,
-                           randomColor=random_color)
+                           randomColor=random_color,
+                           showNavSearchBar=False)
 
 @views.route('/base_company_data')
 def base_company_data():
