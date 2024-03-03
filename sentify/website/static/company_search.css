@@ -1175,8 +1175,31 @@
     position: relative;
     top: 0px;
     height: 400px;
-    
+    display: grid; /* Add this line */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Add this line to create a responsive grid with a minimum column width of 200px */
+    grid-gap: 20px; /* Add this line to create a 20px gap between grid items */
+    place-items: center; /* This will center the content of each grid item */
+
 }
+
+.rectangle-10:hover {
+    border: 1px solid var(--black);
+}
+
+.add-button {
+    font-size: 220px; /* Adjust size as needed */
+    text-decoration: none; /* Remove underline from link */
+    position:fixed;
+    line-height: 50px; /* Make this the same as font-size */
+    color: black;
+    transition: all 0.3s ease-in-out; /* Add a transition for a smooth hover effect */
+}
+.add-button:hover {
+    color: #888; /* Adjust hover color as needed */
+    font-size: 240px; /* Adjust scale as needed */
+
+}
+
 
 .rectangle-10-g7RNeJ {
     border-color: var(--black);
@@ -1218,7 +1241,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-gap:  30px;
-    max-height: 25%;
+    max-height: 30%;
     width: 85%;
     position: relative;
     overflow-y: scroll;
@@ -1268,9 +1291,9 @@
     color: white;
 }
 
-.followed-button {
+#followed-button {
     background-color: black;
-    border: 2px solid;
+    border: 1px solid;
     border-color: black;
     border-radius: 30px;
     height: 46px;
@@ -1282,9 +1305,15 @@
     font-family: "Roboto";
     font-size: 15px;
     color: white;
-    left: 240px;
-    bottom: 10px;
+    bottom: 30px;
+    margin-left: 201px;
+}
 
+#followed-button:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+    cursor: pointer;
 }
 
 .container-suggested {
