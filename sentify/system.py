@@ -11,6 +11,7 @@ class NewsSystem:
         self.alpha_vantage = AlphaVantageWrapper()
         self.scraper = ArticleScraper()
         self.sentiment_pipeline = pipeline(model="distilbert-base-uncased-finetuned-sst-2-english")
+        self.companies = self.get_companies()
 
     def get_sentiment(self, content):
         sentiment = self.sentiment_pipeline(content)
@@ -18,15 +19,11 @@ class NewsSystem:
         return sentiment
 
     def get_companies(self):
-        companies = []
-
         # Get all companies from the database
         query = select(Company.stock_ticker)
         result = db.session.execute(query)
-
-        if result:
-            for row in result:
-                companies.append(row[0])
+        companies = result.fetchall()
+        companies = [company[0] for company in companies]
 
         return companies
     
@@ -39,13 +36,11 @@ class NewsSystem:
         return date
 
     def update_companies_desc(self):
-        companies = self.get_companies()
-
-        for ticker in companies:
+        for ticker in self.companies:
             # Get the last updated date for the current company
             last_updated = self.get_last_updated(ticker)
 
-            # Check if the current company has been updated today
+            # Check if the current company has been updated
             if last_updated > date(1970, 1, 1):
                 continue
 
@@ -58,89 +53,66 @@ class NewsSystem:
             db.session.commit()
     
     def update_companies(self):
-        companies = self.get_companies()
-
-        for ticker in companies:
-            # Get the last updated date for the current company
-            last_updated = self.get_last_updated(ticker)
-
-            # Check if the current company has been updated today
-            if last_updated == date.today():
-                continue
-
-            articles = self.collection(ticker)
-            positive = 0
-            total = 0
-
-            # Check if there are no articles for the current company
-            if not articles:
-                continue
-
-            # Drop all articles for the current company in the database
+        for ticker in self.companies:
             try:
+                # Get the last updated date for the current company
+                last_updated = self.get_last_updated(ticker)
+
+                # Check if the current company has been updated today
+                if last_updated == date.today():
+                    continue
+
+                articles = self.collection(ticker)
+                positive = 0
+                total = 0
+
+                # Check if there are no articles for the current company
+                if not articles:
+                    continue
+
+                # Drop all articles for the current company in the database
                 query = delete(Article).where(Article.stock_ticker == ticker)
                 db.session.execute(query)
-            except Exception as e:
-                print(f"Error occurred: {e}")
 
-            # Insert all articles for the current company
-            articles_data = []
-            for article in articles:
-                articles_data.append({
-                    'title': article['title'],
-                    'stock_ticker': ticker,
-                    'source_name': article['source'],
-                    'source_domain': article['source_domain'],
-                    'url': article['url'],
-                    'published': article['time_published'],
-                    'description': article['description'],
-                    'banner_image': article['banner_image'],
-                    'sentiment_label': article['sentiment_label'],
-                    'sentiment_score': article['sentiment_score']
-                })
+                # Prepare the SQL statement
+                stmt = insert(Article).values(
+                    title=bindparam('title'),
+                    stock_ticker=bindparam('stock_ticker'),
+                    source_name=bindparam('source_name'),
+                    source_domain=bindparam('source_domain'),
+                    url=bindparam('url'),
+                    published=bindparam('published'),
+                    description=bindparam('description'),
+                    banner_image=bindparam('banner_image'),
+                    sentiment_label=bindparam('sentiment_label'),
+                    sentiment_score=bindparam('sentiment_score')
+                )
 
-            # Prepare the SQL statement
-            stmt = insert(Article).values(
-                title=bindparam('title'),
-                stock_ticker=bindparam('stock_ticker'),
-                source_name=bindparam('source_name'),
-                source_domain=bindparam('source_domain'),
-                url=bindparam('url'),
-                published=bindparam('published'),
-                description=bindparam('description'),
-                banner_image=bindparam('banner_image'),
-                sentiment_label=bindparam('sentiment_label'),
-                sentiment_score=bindparam('sentiment_score')
-            )
+                # Execute the statement for all data
+                db.session.execute(stmt, articles)
+                    
+                # Update the total and positive ratings for the current company
+                total = len(articles)
+                positive = sum(1 for article in articles if article['sentiment_label'] == 'POSITIVE')
+                
+                # Update the positive rating for the current company
+                if total != 0:
+                    positive_rating = (positive / total) * 100
+                    query = update(Company).where(Company.stock_ticker == ticker).values(positive_rating = positive_rating)
+                    db.session.execute(query)
 
-            # Execute the statement for all data
-            try:
-                db.session.execute(stmt, articles_data)
+                # Update the last updated date for the current company
+                query = update(Company).where(Company.stock_ticker == ticker).values(last_updated = date.today())
+                db.session.execute(query)
+
+                # Send notifications to all users following the current company
+                self.send_notifications(ticker)
+
+                # Commit the changes to the database
                 db.session.commit()
             except Exception as e:
-                print(f"Error occurred: {e}")
-                
-            # Update the total and positive ratings for the current company
-            total = len(articles_data)
-            positive = sum(1 for article in articles_data if article['sentiment_label'] == 'POSITIVE')
-            
-            # Update the positive rating for the current company
-            if total != 0:
-                positive_rating = (positive / total) * 100
-                query = update(Company).where(Company.stock_ticker == ticker).values(positive_rating = positive_rating)
-                try:
-                    db.session.execute(query)
-                    db.session.commit()
-                except Exception as e:
-                    print(f"Error occurred: {e}")
-
-            # Update the last updated date for the current company
-            query = update(Company).where(Company.stock_ticker == ticker).values(last_updated = date.today())
-            db.session.execute(query)
-            db.session.commit()
-
-            # Send notifications to all users following the current company
-            self.send_notifications(ticker)
+                print(e)
+                db.session.rollback()
 
     def collection(self, ticker):
         # Get articles for the specified company
@@ -165,12 +137,13 @@ class NewsSystem:
                 # Append specified article details to the filtered list
                 filtered.append({
                     'title': article['title'],
+                    'stock_ticker': ticker,
+                    'source_name': article['source'],
+                    'source_domain': article['source_domain'],
                     'url': article['url'],
-                    'time_published': article['time_published'],
+                    'published': article['time_published'],
                     'description': meta_desc,
                     'banner_image': article['banner_image'],
-                    'source': article['source'],
-                    'source_domain': article['source_domain'],
                     'sentiment_label': sentiment[0]['label'],
                     'sentiment_score': sentiment[0]['score'],
                 })
@@ -204,4 +177,3 @@ class NewsSystem:
                 # Send a notification to the current user
                 query = insert(Notification).values(userID = row[0], message = f"New articles available for {ticker}!")
                 db.session.execute(query)
-                db.session.commit()
