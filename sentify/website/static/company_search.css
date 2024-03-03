@@ -368,7 +368,7 @@
     width: 600px;
 }
 
-.search-input {
+#search-input {
   position: absolute;
   top: 0;
   left: 0;
@@ -387,8 +387,12 @@
   background-position: 525px;
 }
 
-.search-input, .search-input::placeholder, #results {
+#search-input, #search-input::placeholder, #results {
     font-size: 16px; /* adjust as needed */
+}
+#search-input:focus {
+    border-bottom: none ;
+    box-shadow: none;
 }
 
 .search-list-top-suq0Hj {

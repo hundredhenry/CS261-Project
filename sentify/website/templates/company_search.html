@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %} Companies {% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+{% endblock %}
 {% block content %}
 <img class="subtract-rptxkZ subtract"
     data-id="212:728"
@@ -28,7 +32,7 @@
     alt="Subtract">
     <div class="search-bar-rptxkZ" data-id="212:754">
         <div class="search-list-top-suq0Hj"></div>
-        <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
+        <input id="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
         <div id="results"></div>
     </div>
 
