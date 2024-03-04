@@ -1,142 +1,140 @@
 {% extends "base.html" %}
-{% block title %} Companies {% endblock %}
+{% block title %} Sentify - Search companies {% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+{% endblock %}
 {% block content %}
 <img class="subtract-rptxkZ subtract"
     data-id="212:728"
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract.svg"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract.svg"
     alt="Subtract">
-<div class="projects-rptxkZ" data-id="212:735">
-    <div class="ellipse-7-zLe4Rn" data-id="212:736" onclick="handleClick(this)"></div>
-    <div class="ellipse-9-zLe4Rn" data-id="212:737"></div>
-    <div class="ellipse-5-zLe4Rn" data-id="212:738"></div>
-    <div class="ellipse-6-zLe4Rn" data-id="212:739"></div>
-    <div class="ellipse-10-zLe4Rn" data-id="212:740"></div>
-    <div class="ellipse-12-zLe4Rn" data-id="214:873"></div>
-    <div class="ellipse-11-zLe4Rn" data-id="214:865"></div>
-    <div class="filter-by-category-zLe4Rn" data-id="212:741">Filter by Category</div>
-</div>
 <div class="search-by-company-rptxkZ" data-id="212:746">Search By Company</div>
-<h1 class="title-rptxkZ" data-id="212:747">My Watch List</h1>
 <p class="research-how-differe-rptxkZ" data-id="212:748">Research how different companies are doing,
     including relevant information, or filter by Category, and find new companies to follow
 </p>
-<img
-    class="subtract-lo1k0f subtract" data-id="212:749"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract-1.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract-1.svg"
-    alt="Subtract">
     <div class="search-bar-rptxkZ" data-id="212:754">
         <div class="search-list-top-suq0Hj"></div>
-        <input class="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
+        <input id="search-input" type="text" maxlength="50" placeholder="Search..." onblur="this.placeholder = 'Search...'" onfocus="this.placeholder = ''" oninput="searchCompany(this.value)"/>
         <div id="results"></div>
     </div>
-    
 
-        <div class="group-7-rptxkZ" data-id="212:767">
+    <div style='top:47.5%; margin-top:50px;' class="my-watch-list-title" data-id="212:758">My Watch List</div>
+    <div class="companies-container-2">
+        {% if current_user.is_authenticated  %}
+        {% for company in companies %}
+            <div class="card-followed">
+                <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
+                        <div class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                            {
+                            "symbol": "{{ company }}",
+                            "width": "400",
+                            "height": "350",
+                            "locale": "en",
+                            "dateRange": "12M",
+                            "colorTheme": "light",
+                            "trendLineColor": "{{ randomColor() }}",
+                            "isTransparent": true,
+                            "autosize": false,
+                            "largeChartUrl": "#"
+                            }
+                            </script>   
+                        </div>
+
+                        <div onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
+                        <button onclick="modifyFollowCompany(event, this, 'Followed', 'Unfollowed');var cardElement = event.target.closest('.card-followed');cardElement.parentNode.removeChild(cardElement);" data-ticker='{{ company }}' class="followed-button"> Followed </button>
+                </div> 
+            </div>
+        {% endfor %}
+        <div class="card-followed">
             <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-                <!-- TradingView Widget BEGIN -->
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                    {
-                    "symbol": "NASDAQ:AAPL",
-                    "width": "400",
-                    "height": "350",
-                    "locale": "en",
-                    "dateRange": "12M",
-                    "colorTheme": "light",
-                    "trendLineColor": "rgba(106, 168, 79, 1)",
-                    "isTransparent": true,
-                    "autosize": false,
-                    "largeChartUrl": "#"
-                }
-                    </script>
-                </div>
-                <!-- TradingView Widget END -->
+                <a href="/companies" class="add-button">+</a>
             </div>
         </div>
+    {% endif %}
+    </div>
 
+    <div class="container-suggested">
+        <div  style='margin:0;top:40px' class="my-watch-list-title" data-id="212:758">You Might Like...</div>
+        <div class="carousel">
+            {% for company in companies %}
+            <div class="carousel-item">  
+                <div class="card-followed">
+                    <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
+                        <div style='margin-bottom:46px;'class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                            {
+                            "symbol": "{{ company }}",
+                            "width": "400",
+                            "height": "350",
+                            "locale": "en",
+                            "dateRange": "12M",
+                            "colorTheme": "light",
+                            "trendLineColor": "{{ randomColor() }}",
+                            "isTransparent": true,
+                            "autosize": false,
+                            "largeChartUrl": "#"
+                            }
+                            </script>   
+                        </div>
 
-<div class="suggested-companies-to-follow-rptxkZ" data-id="212:793">Suggested Companies to Follow</div>
-<div class="rectangle-13-rptxkZ" data-id="212:794"></div>
-<div class="rectangle-14-rptxkZ" data-id="212:795"></div>
-
-<div class="followed-rptxkZ" data-id="212:796">followed</div>
-<div onclick="redirectToAnotherPage()" class="view-full-analytics-rptxkZ roboto-light-black-15px" data-id="212:797">View Full Analytics</div>
-
-
-<div class="rectangle-15-rptxkZ" data-id="212:806"></div>
-<div class="see-all-rptxkZ valign-text-middle" data-id="212:807">See All</div>
-<img class="group-16-rptxkZ"
-    data-id="212:808"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/group-16@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/group-16@2x.png"
-    alt="Group 16">
-<div class="meta-rptxkZ valign-text-middle" data-id="212:818">META</div>
-<div class="div-rptxkZ" data-id="212:819">
-    <div class="x2748453-usd-Li36vu valign-text-middle" data-id="212:820">27,484.53 USD</div>
-    <div class="pseudo-Li36vu" data-id="212:821"></div>
-</div>
-<div class="x48h-change-rptxkZ valign-text-middle roboto-light-black-15px" data-id="212:822">48h Change
-</div>
-<img class="ellipse-993-rptxkZ" data-id="212:823"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/ellipse-993@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/ellipse-993@2x.png"
-    alt="Ellipse 993"><img class="line-4-rptxkZ" data-id="212:824"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-4.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-4.svg"
-    alt="Line 4"><img class="line-5-rptxkZ" data-id="212:825"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-5.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/line-5.svg"
-    alt="Line 5"><img class="sum-rptxkZ" data-id="212:827"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/sum.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/sum.svg"
-    alt="Sum">
-<div class="tech-rptxkZ inter-light-black-14px" data-id="214:866">Tech</div>
-<div class="finance-rptxkZ inter-light-black-14px" data-id="214:867">Finance</div>
-<div class="retail-rptxkZ inter-light-black-14px" data-id="214:868">Retail</div>
-<div class="manufacturing-rptxkZ inter-light-black-14px" data-id="214:869">Manufacturing</div>
-<div class="health-care-rptxkZ inter-light-black-14px" data-id="214:871">Health-care</div>
-<div class="entertainment-rptxkZ inter-light-black-14px" data-id="214:872">Entertainment</div>
-<img
-    onclick="handleClick(this)"
-    class="circuit-rptxkZ" data-id="214:874"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/circuit.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/circuit.svg"
-    alt="Circuit">
-<img class="wind-turbines-rptxkZ" data-id="214:882"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/wind-turbines@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/wind-turbines@2x.png"
-    alt="Wind Turbines"><img class="euro-rptxkZ" data-id="214:885"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/euro.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/euro.svg"
-    alt="Euro"><img class="clothes-rptxkZ" data-id="214:883"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/clothes@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/clothes@2x.png"
-    alt="Clothes"><img class="trust-rptxkZ" data-id="214:881"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/trust@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/trust@2x.png"
-    alt="Trust"><img class="cinema-rptxkZ" data-id="214:887"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/cinema@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/cinema@2x.png"
-    alt="Cinema"><img class="food-rptxkZ" data-id="214:888"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
-    alt="Food">
-<script src="/static/scripts/search.js"></script>
+                        <div style='left:95px'onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
+                </div> 
+                </div>
+            </div>
+            {% endfor %}
+        </div> 
+        <div class="arrow-container">
+            <div class="carousel-arrow" onclick="prevSlide()"> &lt; </div>  
+            <div class="carousel-arrow" onclick="nextSlide()"> &gt; </div>
+        </div>
+    </div>
+     
+ 
 <script>
-    function handleClick(button) {
-    
-      document.querySelector('.ellipse-7-zLe4Rn').classList.toggle('darker');
-      document.querySelector('.circuit-rptxkZ').classList.toggle('darker');
-      element.classList.toggle('darker');
-    
-    }
-
-    function redirectToAnotherPage() {
-            window.location.href = "{{ url_for('views.base_company_data') }}";
-    }
 </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $('.carousel').carousel({
+            padding: 200, // Optional padding
+            fullWidth: true, // Makes the carousel full width
+            indicators: true, // Show indicators
+            duration: 500, // Transition duration
+            shift: 0, // Transition shift amount
+            numVisible: 5, // Number of visible items
+            dist: -100, // Perspective zoom
+            padding: 100, // Padding
+            fullWidth: false, // Makes the carousel full width
+            noWrap: false, // Don't wrap items
+            onCycleTo: null // Callback when cycling to next or previous slide
+        });
+    });
 
+    function prevSlide() {
+        var instance = M.Carousel.getInstance(document.querySelector('.carousel'));
+        instance.prev();
+    }
+
+    function nextSlide() {
+        var instance = M.Carousel.getInstance(document.querySelector('.carousel'));
+        instance.next();
+    }
+    $(document).ready(function() {
+        $('.followed-button').hover(
+            function() {
+                $(this).text('Unfollow?');
+            },
+            function() {
+                $(this).text('Followed');
+            }
+        );
+    });
+    </script>
+    <script src="/static/scripts/modify_follow.js"></script>
+    <script src="/static/scripts/search.js"></script>
 {% endblock %}

@@ -3,11 +3,18 @@
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
-    margin: 10% 20%;
-    max-height: 85vh;
+    margin: 5% 20%;
     scrollbar-width: thin; /* For Firefox */
     scrollbar-color: rgba(155, 155, 155, 0.7) transparent; /* For Firefox */
     position: relative;
+}
+
+.all-companies-title {
+    font-size: 32px;
+    font-weight: 300;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    margin-top: 40px;
+    text-align: center; /* Centers the title */
 }
 
 .company-card {

@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 {% block title %} Sentify - Sign up {% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css') }}">
+{% endblock %}
 {% block content %}
 <div class="form-container">
     <h2 class="site-title">Activate Account</h2>
     <form action="" method="POST">
         <div class="input-group"> 
             <input type="email" name="email" placeholder="Email" autocomplete="email" maxlength="48" required> 
-            {% with messages = get_flashed_messages(category_filter=["email_error"]) %}
-                {% if messages %}
-                    <div class="alert alert-danger">
-                        {{ messages[0] }}
-                    </div>
-                {% endif %}
-            {% endwith %}
         </div>
+        {% with messages = get_flashed_messages(category_filter=["email_error"]) %}
+        {% if messages %}
+            <div class="alert alert-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
         <button type="submit" class="reg-button">Send Email</button> 
     </form>
 </div>

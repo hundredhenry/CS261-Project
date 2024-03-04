@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %} Sentify {% endblock %}
-<!-- naviagation bar -->
+{% block stylesheet %}
+{% endblock %}
 {% block content %}
+{% with messages = get_flashed_messages(category_filter=["login_success"]) %}
+  {% if messages %}
+  {% for message in messages %}
+    <script>
+      toastr.success("{{ message }}");
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 <img class="subtract-cbxlvq subtract" data-id="148:619"
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/subtract.svg"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/subtract.svg"
     alt="Subtract">
-<!-- top header -->
-<!-- side arrow for the navigation bar -->
-<div class="side-arrow-cbxlvq" data-id="2:46">
-    <span class="toggle-btn" onclick="toggleSidebar()">
-        <div class="button">
-            <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
-        </div>
-    </span>
-</div>
 <img class="subtract-ycBnOp subtract" data-id="1:43"
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/subtract-1.svg"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/subtract-1.svg"
@@ -27,7 +28,6 @@
 <p style='font-size: 12px;' class="our-tailored-website-cbxlvq" data-id="2:87">Sentify scrapes the internet for you, monitoring
     the public perception of companies and their relative stock.
 </p>
-<!-- footer -->
 <div class="feature-list-right-cbxlvq" data-id="2:399">
     <div class="media-r1C0AL" data-id="2:400"></div>
     <div class="content-r1C0AL content" data-id="2:401">

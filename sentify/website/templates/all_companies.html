@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %} My Companies {% endblock %}
-
+{% block title %} Sentify - All companies {% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='all_companies.css') }}">
+{% endblock %}
 {% block content %}
+<h1 class="all-companies-title">All Companies</h1>
 <div class="companies-container">
     {% for company in companies %}
     <a href="{{ url_for('views.company', ticker=company.stock_ticker) }}">
@@ -12,7 +15,7 @@
             <h2>{{ company.company_name }}</h2>
             {% if current_user.is_authenticated %}
                 {% set is_following = company.stock_ticker in following %}
-                <button class="follow-button" data-ticker="{{ company.stock_ticker }}" onclick="modifyFollowCompany(event, this)">{{ 'x' if is_following else '+' }}</button>
+                <button class="follow-button" data-ticker="{{ company.stock_ticker }}" onclick="modifyFollowCompany(event, this, '+', 'x')">{{ 'x' if is_following else '+' }}</button>
             {% endif %}
         </div>
         <p>{{ company.stock_ticker }}</p>

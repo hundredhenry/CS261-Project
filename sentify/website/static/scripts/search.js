@@ -1,9 +1,17 @@
-let companies = [];
+var companies = [];
 
 window.onload = function() {
     fetch('/retrieve_companies/')
-        .then(response => response.json())
-        .then(data => companies = data);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => companies = data)
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
 }
 
 function searchCompany(query) {
@@ -22,7 +30,7 @@ function searchCompany(query) {
     } else {
         resultsDiv.style.display = 'block';
         resultsDiv.innerHTML = results.map(company => `
-            <a href="/company/${company.stock_ticker}">
+            <a href="/companies/${company.stock_ticker}">
                 <div class="result-item">
                     <span>${company.company_name}</span>
                     <span class="ticker">${company.stock_ticker}</span>

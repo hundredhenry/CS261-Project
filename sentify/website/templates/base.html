@@ -7,25 +7,61 @@
     <meta name="og:type" content="website">
     <meta name="twitter:card" content="photo">
     <title>{% block title %} {% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='all_companies.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='landing_page.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css') }}">
+    {% block stylesheet %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='navbar.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base_company.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="/static/scripts/toastr_config.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='toastr.css') }}">
   </head>
-  <body style="margin: 0px; background: rgb(251, 251, 251); overflow-x: hidden;" dark-scroll="">
+  <body style="margin: 0px; background: rgb(251, 251, 251); dark-scroll="">
     <nav class="navbar">
       <a href="/" class="navbar-brand">Sentify</a>
+      {% if showNavSearchBar|default(True) %}
+      <div class="navbar-search">
+        <input id="search-input" type="text" placeholder="Search..." class="search-input" oninput="searchCompany(this.value)">
+        <div id="results" class="search-results"></div>
+    </div>
+    {% endif %}
       <div class="navbar-buttons">
           {% if current_user.is_authenticated %}
-              <a href="/logout" class="navbar-button">Log Out</a>
+            <a href="#" class="navbar-button navbar-inbox-link" onclick="toggleDropdown()" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
+              <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="height: 25px;">
+            </a>
+
+            <div id="dropdownContent" class="dropdown-content" style="display: none;">
+              
+              <p style="
+                color: black;
+                font-family: Roboto;
+                font-weight: 500;
+                padding: 20px;
+                font-size: 25px;
+              "> Inbox <p>
+              
+              <!-- Notification content goes here -->
+              <div class="dropdown-row">Row 1</div>
+              <div class="dropdown-row">Row 2</div>
+              <div class="dropdown-row">Row 3</div>
+              <div class="dropdown-row">Row 4</div>
+              <div class="dropdown-row">Row 5</div>
+              <div class="dropdown-row">Row 6</div>
+              <div class="dropdown-row">Row 7</div>
+              <div class="dropdown-row">Row 8</div>
+              <div class="dropdown-row">Row 9</div>
+            </div>
+
+            <a href="/logout" class="navbar-button">Log Out</a>
           {% else %}
-              <a href="/login" class="navbar-button">Log In</a>
-              <a href="/register" class="navbar-button">Join Us</a>
+            <a href="/login" class="navbar-button">Log In</a>
+            <a href="/register" class="navbar-button">Join Us</a>
           {% endif %}
       </div>
-    </nav>   
+    </nav>
+
+      
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-WjYNi3" >
@@ -146,59 +182,23 @@
     </div> 
     <!-- Main Content -->
     <div class="content">
-      <div class="container-center-horizontal">
+    <div class="container-center-horizontal">
         <div class="macbook-air-1 screen " data-id="1:2">
           <!-- top header  -->
-          <!-- side arrow for the navigation bar -->
           <div class="side-arrow-cbxlvq" data-id="2:46">
             <span class="toggle-btn" onclick="toggleSidebar()">
-              <div class="button">
-                <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
-              </div>
+                <div class="button">
+                    <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
+                </div>
             </span>
-          </div>
+        </div>
+          <!-- side arrow for the navigation bar -->
           {% block content %}{% endblock %}
           <!-- Footer -->
-          <div class="footer-blog-post-cbxlvq" data-id="2:417">
-            <div class="background-8FKmvk" data-id="2:418"></div>
-            <div class="logo-8FKmvk" data-id="2:419">TRADE</div>
-            <div class="links-right-8FKmvk" data-id="2:423">
-              <div class="link-pJRqBZ link roboto-bold-black-14px" data-id="2:424">Product</div>
-              <div class="link-S9xt33 link roboto-normal-black-14px" data-id="2:425">Product</div>
-              <div class="link-y7udaH link roboto-normal-black-14px" data-id="2:426">Product</div>
-              <div class="link-rbOeSM link roboto-normal-black-14px" data-id="2:427">Product</div>
-              <div class="link-SsIKvv link roboto-normal-black-14px" data-id="2:428">Product</div>
-              <div class="link-eOP2ls link roboto-normal-black-14px" data-id="2:429">Product</div>
-              <div class="link-5PRWVQ link roboto-normal-black-14px" data-id="2:430">Company</div>
-              <div class="link-p4qECs link roboto-normal-black-14px" data-id="2:431">Company</div>
-              <div class="link-1uVbe5 link roboto-normal-black-14px" data-id="2:432">Company</div>
-              <div class="link-rxNdnZ link roboto-normal-black-14px" data-id="2:433">Company</div>
-              <div class="link-WIoINf link roboto-normal-black-14px" data-id="2:434">Company</div>
-              <div class="link-LDZsMe link roboto-bold-black-14px" data-id="2:435">Company</div>
-            </div>
-            <div class="blog-post-8FKmvk" data-id="2:436">
-              <p class="summary-O6WEVA roboto-normal-black-14px" data-id="2:437">Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.
-              </p>
-            </div>
-            <div class="title-8FKmvk title" data-id="2:470">Ready to get started?</div>
-            <img
-              class="chevron-right-8FKmvk chevron-right" data-id="2:471"
-              src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-              anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-              alt="Chevron Right"><img class="chevron-right-4CaX5g chevron-right" data-id="2:472"
-              src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-              anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-              alt="Chevron Right"><img class="chevron-right-s7eQYn chevron-right" data-id="2:473"
-              src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-              anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/chevron-right@2x.png"
-              alt="Chevron Right">
-          </div>
-        </div>
       </div>
     </div>
+    </div>
     <script src="/static/scripts/sidebar.js"></script>
+    <script src="/static/scripts/search.js"></script>
   </body>
 </html>

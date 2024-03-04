@@ -16,3 +16,12 @@ function toggleSidebar() {
         arrowIcon.src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65dce3fc5df743f8480a7019/img/chevron-left@2x.png"
     }
 }
+
+function toggleDropdown() {
+    var dropdownContent = document.getElementById("dropdownContent");
+    if (dropdownContent.style.display === "none") {
+        dropdownContent.style.display = "block";
+    } else {
+        dropdownContent.style.display = "none";
+    }
+}

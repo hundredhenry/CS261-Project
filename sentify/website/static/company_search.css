@@ -236,7 +236,7 @@
     font-size: var(--font-size-l);
     font-style: normal;
     font-weight: 400;
-    height: auto;
+
     left: 100px;
     letter-spacing: 0.42px;
     line-height: normal;
@@ -303,7 +303,7 @@
     left: 183px;
     letter-spacing: 0.00px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: left;
     top: 203px;
     width: 314px;
@@ -337,7 +337,7 @@
     left: 184px;
     letter-spacing: 0.00px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: left;
     top: 281px;
     white-space: nowrap;
@@ -364,11 +364,11 @@
     left: 444px;
     padding: 12px 16px;
     position: relative;
-    top: 447px;
+    top: 350px;
     width: 600px;
 }
 
-.search-input {
+#search-input {
   position: absolute;
   top: 0;
   left: 0;
@@ -387,8 +387,12 @@
   background-position: 525px;
 }
 
-.search-input, .search-input::placeholder, #results {
+#search-input, #search-input::placeholder, #results {
     font-size: 16px; /* adjust as needed */
+}
+#search-input:focus {
+    border-bottom: none ;
+    box-shadow: none;
 }
 
 .search-list-top-suq0Hj {
@@ -723,47 +727,6 @@
     width: fit-content;
 }
 
-.suggested-companies-to-follow-rptxkZ {
-    background-color: transparent;
-    color: var(--black);
-    font-family: var(--font-family-inter);
-    font-size: var(--font-size-xxxxxl);
-    font-style: normal;
-    font-weight: 300;
-    height: auto;
-    left: 528px;
-    letter-spacing: 0.00px;
-    line-height: normal;
-    position: absolute;
-    text-align: left;
-    top: 2112px;
-    width: 703px;
-}
-
-.rectangle-13-rptxkZ {
-    background-color: var(--black);
-    border: 1px solid;
-    border-color: var(--black);
-    border-radius: 30px;
-    height: 46px;
-    left: 492px;
-    position: absolute;
-    top: 1484px;
-    width: 107px;
-}
-
-.rectangle-14-rptxkZ {
-    background-color: transparent;
-    border: 1px solid;
-    border-color: var(--black);
-    border-radius: 30px;
-    height: 46px;
-    left: 291px;
-    position: absolute;
-    top: 1484px;
-    width: 201px;
-}
-
 .followed-rptxkZ {
     background-color: transparent;
     color: var(--white);
@@ -803,7 +766,7 @@
     top: 1166px;
     width: 97px;
 }
-
+.rectangle-10
 .ellipse-986-rptxkZ {
     background-color: #d8191e;
     border-radius: 12.5px;
@@ -822,7 +785,7 @@
     position: absolute;
     top: 1490px;
     width: 25px;
-}
+} 
 
 .ellipse-988-rptxkZ {
     background-color: #26beff;
@@ -856,15 +819,6 @@
     width: 92px;
 }
 
-.eth79e9ae7e53351684svg-rdF1UA {
-    background-color: transparent;
-    height: 104px;
-    left: -20px;
-    overflow: hidden;
-    position: relative;
-    top: -35px;
-    width: 103px;
-}
 
 .ellipse-990-2OlfIR {
     background-color: transparent;
@@ -1206,13 +1160,37 @@
 
 .rectangle-10 {
     background-color: var(--alabaster);
-    border: 1px solid;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 20px;
     left: 0px;
-    position: absolute;
+    position: relative;
     top: 0px;
     height: 400px;
-    
+    display: grid; /* Add this line */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Add this line to create a responsive grid with a minimum column width of 200px */
+    grid-gap: 20px; /* Add this line to create a 20px gap between grid items */
+    place-items: center; /* This will center the content of each grid item */
+
 }
+
+.rectangle-10:hover {
+    border: 1px solid var(--black);
+}
+
+.add-button {
+    font-size: 220px; /* Adjust size as needed */
+    text-decoration: none; /* Remove underline from link */
+    position:fixed;
+    line-height: 50px; /* Make this the same as font-size */
+    color: black;
+    transition: all 0.3s ease-in-out; /* Add a transition for a smooth hover effect */
+}
+.add-button:hover {
+    color: #888; /* Adjust hover color as needed */
+    font-size: 240px; /* Adjust scale as needed */
+
+}
+
 
 .rectangle-10-g7RNeJ {
     border-color: var(--black);
@@ -1242,4 +1220,139 @@
     border-color: var(--black);
     height: 298px;
     width: 244px;
+}
+
+#font-changes {
+    font-size: 15px;
+}
+
+.companies-container-2 {
+    top: 52.5%;
+    margin-left: 8%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-gap:  20px;
+    max-width: 85%;
+    position: relative;
+    max-height: 900px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.my-watch-list-title {
+    color: var(--black);
+    font-family: var(--font-family-inter);
+    font-size: var(--font-size-xxxxxl);
+    font-weight: 300;
+    text-align: left;
+    margin-left: 8%;
+    position: relative;
+}
+
+.card-followed {
+    height: 400px;
+    width: 400px;
+}
+
+.full-analytics {
+    background-color: transparent;
+    border: 1px solid;
+    border-color: black;
+    border-radius: 30px;
+    height: 46px;
+    width: 210px;
+    left: 30px;
+    bottom: 13px; 
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Roboto";
+    font-size: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+.full-analytics:hover {
+    background-color: black;
+    border-color: white;
+    color: white;
+}
+
+.followed-button {
+    background-color: black;
+    border: 1px solid;
+    border-color: black;
+    border-radius: 30px;
+    height: 46px;
+    position: relative;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Roboto";
+    font-size: 15px;
+    color: white;
+    bottom: 30px;
+    margin-left: 200px;
+}
+
+.followed-button:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+    cursor: pointer;
+}
+
+.container-suggested {
+    top: 55%;
+    left: 7.5%;
+    width: 85%;
+    position: relative;
+}
+
+.carousel{
+    margin-top: -5%;
+    height: 700px; 
+    perspective: 1300px;
+}
+
+.carousel .carousel-item {
+	width: 400px;
+	height: 402px;
+	animation: animate 2s infinite alternate;
+	border-radius: 15px;
+}
+
+.carousel-arrow {
+    width: 50px;
+    height: 50px;
+    background: rgb(0, 0, 0);
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50%; /* Add this line */
+    z-index: 1;
+    margin: 0 10px; /* Adjust as needed */
+    line-height: 50px;
+    user-select: none; /* Add this line */
+}
+
+.arrow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -5%;
+    padding-bottom: 5%;
+}
+.carousel .indicators {
+    margin-bottom: 5%;
+}
+
+.carousel .indicators .indicator-item {
+    background-color: lightgray;
+}
+
+.carousel .indicators .indicator-item.active {
+    background-color: gray;
 }

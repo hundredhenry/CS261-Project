@@ -1,10 +1,10 @@
+from time import sleep
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_login import LoginManager
-from time import sleep
 from sqlalchemy.exc import OperationalError
-
 
 db = SQLAlchemy()
 mail = Mail()
@@ -12,10 +12,10 @@ mail = Mail()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "123"
-    app.config['SECURITY_PASSWORD_SALT'] = "f36d7eda6b91ecaff1a9e7045529ec71" # random hash idk maybe we can be more secure
+    app.config['SECURITY_PASSWORD_SALT'] = "f36d7eda6b91ecaff1a9e7045529ec71"
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sql8687211:iwcRTfjlEi@sql8.freemysqlhosting.net:3306/sql8687211"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
+
     app.config['MAIL_USERNAME'] = 'donotreplysentify@gmail.com'
     app.config['MAIL_PASSWORD'] = 'uffc zybc kqga sebj'
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -24,12 +24,11 @@ def create_app():
 
     db.init_app(app)   
     mail.init_app(app)
-        
+
     #registering blueprints 
     from .view import views 
+    from . import models
     app.register_blueprint(views, url_prefix="/")
-    
-    from .models import User, Notification, Follow, Company, Article, dbinit
     resetdb = False
     if resetdb:
         with app.app_context():
@@ -37,7 +36,7 @@ def create_app():
                 try:
                     db.drop_all()
                     db.create_all()
-                    dbinit()
+                    models.dbinit()
                     break
                 except OperationalError:
                     print("Database initialisation failed, retrying...")
@@ -45,14 +44,14 @@ def create_app():
             else:
                 print("Unable to initialise database!")
                 raise RuntimeError("Unable to initialise database!")
-                
 
     login_manager = LoginManager()
     login_manager.login_view = 'views.login'
+    login_manager.session_protection = "strong"
     login_manager.init_app(app)
-    
+
     @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
-       
+    def load_user(user_id):
+        return models.User.query.get(int(user_id))
+
     return app
