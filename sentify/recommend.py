@@ -23,7 +23,7 @@ def recommend_specific(userID):
         query_middle = ""
         for id in sectorids:
             query_middle = query_middle + str(id) + ","
-        query_end = str(sectorids[length-1]) + ") GROUP BY companies.stock_ticker ORDER BY count DESC"
+        query_end = str(sectorids[length-1]) + ") AND follows.stock_ticker IS NULL OR (follows.stock_ticker IS NOT NULL AND follows.userID <> " + str(userID) + ") GROUP BY companies.stock_ticker ORDER BY count DESC"
         final_query = query_start + query_middle + query_end
 
         # Execute the query
