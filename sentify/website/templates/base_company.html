@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %} Sentify {{ ticker }} {% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="main-content">
+        <div class="overview-article">
+            <div class="trading-view-symbol-container">
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js" async>
+                    {
+                    	"symbol" : "{{ ticker }}",
+                    	"chartOnly": false,
+                        "height": "100%",
+                    	"locale": "en",
+                    	"colorTheme": "light",
+                    	"gridLineColor": "#f0f3f6",
+                    	"trendLineColor": "#2196F3",
+                    	"fontColor": "#787B86",
+                    	"underLineColor": "#E3F2FD",
+                    	"isTransparent": false,
+                    	"container_id": "tradingview_2f394"
+                    }
+                </script>
+                <button class="follow-button">Follow</button>
+            </div>
+            <h1 class="articles-heading">Latest Stories</h1>
+            <div class="articles-section">
+                    <div class="article">
+                        <div class="article-left">
+                            <div class="article-header">
+                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
+                                <h2 class="article-source">The Guardian • 4 days ago</h2>
+                                <!-- Replace with actual source -->
+                            </div>
+                            <a href="article-url.html">
+                                <!-- Replace with actual article URL -->
+                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
+                                <!-- Replace with actual title -->
+                            </a>
+                            <p class="article-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
+                            </p>
+                            <!-- Replace with actual content -->
+                            <div class="article-tags">
+                                <!-- Replace with actual tags -->
+                                <span class="tag">Technology</span>
+                                <span class="tag">Energy</span>
+                            </div>
+                        </div>
+                        <div class="article-right">
+                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
+                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
+                        </div>
+                    </div>
+                    <hr style="width:80%;">
+                    <div class="article">
+                        <div class="article-left">
+                            <div class="article-header">
+                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
+                                <h2 class="article-source">The Guardian • 4 days ago</h2>
+                                <!-- Replace with actual source -->
+                            </div>
+                            <a href="article-url.html">
+                                <!-- Replace with actual article URL -->
+                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
+                                <!-- Replace with actual title -->
+                            </a>
+                            <p class="article-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
+                            </p>
+                            <!-- Replace with actual content -->
+                            <div class="article-tags">
+                                <!-- Replace with actual tags -->
+                                <span class="tag">Technology</span>
+                                <span class="tag">Energy</span>
+                            </div>
+                        </div>
+                        <div class="article-right">
+                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
+                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
+                        </div>
+                    </div>
+                    <hr style="width:80%;">
+                    <div class="article">
+                        <div class="article-left">
+                            <div class="article-header">
+                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
+                                <h2 class="article-source">The Guardian • 4 days ago</h2>
+                                <!-- Replace with actual source -->
+                            </div>
+                            <a href="article-url.html">
+                                <!-- Replace with actual article URL -->
+                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
+                                <!-- Replace with actual title -->
+                            </a>
+                            <p class="article-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
+                            </p>
+                            <!-- Replace with actual content -->
+                            <div class="article-tags">
+                                <!-- Replace with actual tags -->
+                                <span class="tag">Technology</span>
+                                <span class="tag">Energy</span>
+                            </div>
+                        </div>
+                        <div class="article-right">
+                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
+                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
+                        </div>
+                    </div>
+                    <hr style="width:80%;">
+            </div>
+        </div>
+        <div class="sentiment-chart-and-overview">
+            <div class="sentiment-box">
+                overall sentiment goes here
+            </div>
+            <div class="company-info-box">
+                <h1>Company Overview</h1>
+                <h2 class="company-sector">Sector: Technology</h2>
+                <!-- Replace 'Technology' with the actual sector -->
+                <p class="company-description">
+                    Apple Inc. is an American multinational technology company that specializes in consumer electronics, computer software, and online services.
+                    Apple is the world's largest technology company by revenue (totalling $274.5 billion in 2020) and, since January 2021, the world's most valuable company.
+                    As of 2021, Apple is the world's fourth-largest PC vendor by unit sales, and fourth-largest smartphone manufacturer. It is one of the Big Five American information technology companies, along with Amazon, Google, Microsoft, and Facebook. <!-- Replace this with the actual description -->
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="advanced-chart-container">
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+            {  
+            "autosize": true,
+            "symbol": "{{ ticker }}",
+            "interval": "D",
+            "timezone": "Etc/UTC",
+            "theme": "light",
+            "style": "1",
+            "locale": "en",
+            "enable_publishing": false,
+            "hide_top_toolbar": true,
+            "calendar": false,
+            "support_host": "https://www.tradingview.com"
+            }
+        </script>
+    </div>
+</div>
+{% endblock %}
