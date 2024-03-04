@@ -10,16 +10,6 @@
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract.svg"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract.svg"
     alt="Subtract">
-<div class="projects-rptxkZ" data-id="212:735">
-    <div class="ellipse-7-zLe4Rn" data-id="212:736" onclick="handleClick(this)"></div>
-    <div class="ellipse-9-zLe4Rn" data-id="212:737"></div>
-    <div class="ellipse-5-zLe4Rn" data-id="212:738"></div>
-    <div class="ellipse-6-zLe4Rn" data-id="212:739"></div>
-    <div class="ellipse-10-zLe4Rn" data-id="212:740"></div>
-    <div class="ellipse-12-zLe4Rn" data-id="214:873"></div>
-    <div class="ellipse-11-zLe4Rn" data-id="214:865"></div>
-    <div class="filter-by-category-zLe4Rn" data-id="212:741">Filter by Category</div>
-</div>
 <div class="search-by-company-rptxkZ" data-id="212:746">Search By Company</div>
 <p class="research-how-differe-rptxkZ" data-id="212:748">Research how different companies are doing,
     including relevant information, or filter by Category, and find new companies to follow
@@ -30,7 +20,7 @@
         <div id="results"></div>
     </div>
 
-    <div class="my-watch-list-title" data-id="212:758">My Watch List</div>
+    <div style='top:67.5%' class="my-watch-list-title" data-id="212:758">My Watch List</div>
     <div class="companies-container-2">
         {% if current_user.is_authenticated  %}
         {% for company in companies %}
@@ -67,83 +57,46 @@
     {% endif %}
     </div>
 
-    <div class="arrow left" onclick="prevSlide()"> &lt; </div>
     <div class="container-suggested">
-        <div  style='left: 0;'class="my-watch-list-title" data-id="212:758">You Might Like...</div>
+        <div  style='left: 0' class="my-watch-list-title" data-id="212:758">You Might Like...</div>
         <div class="carousel">
             {% for company in companies %}
             <div class="carousel-item">  
                 <div class="card-followed">
                     <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-                            <div class="tradingview-widget-container">
-                                <div class="tradingview-widget-container__widget"></div>
-                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                                {
-                                "symbol": "{{ company }}",
-                                "width": "400",
-                                "height": "350",
-                                "locale": "en",
-                                "dateRange": "12M",
-                                "colorTheme": "light",
-                                "trendLineColor": "{{ randomColor() }}",
-                                "isTransparent": true,
-                                "autosize": false,
-                                "largeChartUrl": ""
-                                }
-                                </script>   
-                            </div>
-                          
-                            <div onlick="redirectToAnotherPage()" class="full-analytics" style="left: 80px; bottom: 15px;"> View Full Analytics </div>
-                            
-                            
-                    </div> 
+                        <div class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                            {
+                            "symbol": "{{ company }}",
+                            "width": "400",
+                            "height": "350",
+                            "locale": "en",
+                            "dateRange": "12M",
+                            "colorTheme": "light",
+                            "trendLineColor": "{{ randomColor() }}",
+                            "isTransparent": true,
+                            "autosize": false,
+                            "largeChartUrl": "#"
+                            }
+                            </script>   
+                        </div>
+
+                        <div onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
+                        <button data-ticker='{{ company }}' id="followed-button"> <<< </button>
+                </div> 
                 </div>
             </div>
             {% endfor %}
-        </div>  
-        <div class="arrow right" onclick="nextSlide()"> &gt; </div>
+        </div> 
+        <div class="arrow-container">
+            <div class="carousel-arrow" onclick="prevSlide()"> &lt; </div>  
+            <div class="carousel-arrow" onclick="nextSlide()"> &gt; </div>
+        </div>
     </div>
      
  
-<div class="tech-rptxkZ inter-light-black-14px" data-id="214:866">Tech</div>
-<div class="finance-rptxkZ inter-light-black-14px" data-id="214:867">Finance</div>
-<div class="retail-rptxkZ inter-light-black-14px" data-id="214:868">Retail</div>
-<div class="manufacturing-rptxkZ inter-light-black-14px" data-id="214:869">Manufacturing</div>
-<div class="health-care-rptxkZ inter-light-black-14px" data-id="214:871">Health-care</div>
-<div class="entertainment-rptxkZ inter-light-black-14px" data-id="214:872">Entertainment</div>
-<img
-    onclick="handleClick(this)"
-    class="circuit-rptxkZ" data-id="214:874"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/circuit.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/circuit.svg"
-    alt="Circuit">
-<img class="wind-turbines-rptxkZ" data-id="214:882"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/wind-turbines@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/wind-turbines@2x.png"
-    alt="Wind Turbines"><img class="euro-rptxkZ" data-id="214:885"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/euro.svg"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/euro.svg"
-    alt="Euro"><img class="clothes-rptxkZ" data-id="214:883"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/clothes@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/clothes@2x.png"
-    alt="Clothes"><img class="trust-rptxkZ" data-id="214:881"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/trust@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/trust@2x.png"
-    alt="Trust"><img class="cinema-rptxkZ" data-id="214:887"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/cinema@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/cinema@2x.png"
-    alt="Cinema"><img class="food-rptxkZ" data-id="214:888"
-    src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
-    anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/food@2x.png"
-    alt="Food">    
 <script>
-    function handleClick(button) {
-    
-      document.querySelector('.ellipse-7-zLe4Rn').classList.toggle('darker');
-      document.querySelector('.circuit-rptxkZ').classList.toggle('darker');
-      element.classList.toggle('darker');
-    
-    }
 </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>

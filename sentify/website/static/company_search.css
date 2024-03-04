@@ -236,7 +236,7 @@
     font-size: var(--font-size-l);
     font-style: normal;
     font-weight: 400;
-    height: auto;
+
     left: 100px;
     letter-spacing: 0.42px;
     line-height: normal;
@@ -819,15 +819,6 @@
     width: 92px;
 }
 
-.eth79e9ae7e53351684svg-rdF1UA {
-    background-color: transparent;
-    height: 104px;
-    left: -20px;
-    overflow: hidden;
-    position: relative;
-    top: -35px;
-    width: 103px;
-}
 
 .ellipse-990-2OlfIR {
     background-color: transparent;
@@ -1236,29 +1227,25 @@
 }
 
 .companies-container-2 {
-    top: 22%;
+    top: 70%;
     left: 8%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-gap:  30px;
-    max-height: 30%;
     width: 85%;
     position: relative;
-    overflow-y: scroll;
+    height: 400px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .my-watch-list-title {
     color: var(--black);
     font-family: var(--font-family-inter);
     font-size: var(--font-size-xxxxxl);
-    font-style: normal;
     font-weight: 300;
-    height: auto;
     text-align: left;
-    margin-top: 5%;
-    position: relative;
-    top: 20%;
     left: 8%;
+    position: relative;
 }
 
 .card-followed {
@@ -1317,31 +1304,16 @@
 }
 
 .container-suggested {
-    top: 20.5%;
+    top: 75%;
     left: 7.5%;
-    height: 700px;
     width: 85%;
     position: relative;
 }
 
-.suggested-companies-title {
-    background-color: transparent;
-    color: var(--black);
-    font-family: var(--font-family-inter);
-    font-size: var(--font-size-xxxxxl);
-    font-style: normal;
-    font-weight: 300;
-    height: auto;
-    line-height: normal;
-    position: absolute;
-    text-align: left;
-    margin-top: 4%;
-}
-
 .carousel{
+    margin-top: -5%;
     height: 700px; 
     perspective: 1300px;
-	margin-top: 5%;
 }
 
 .carousel .carousel-item {
@@ -1351,31 +1323,24 @@
 	border-radius: 15px;
 }
 
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+.carousel-arrow {
     width: 50px;
+    height: 50px;
     background: rgb(0, 0, 0);
-    border-radius: 50%;
     color: white;
     font-size: 24px;
     text-align: center;
     cursor: pointer;
+    border-radius: 50%; /* Add this line */
+    z-index: 1;
+    margin: 0 10px; /* Adjust as needed */
+    line-height: 50px;
+    user-select: none; /* Add this line */
+}
+
+.arrow-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 99px;
-}
-
-.arrow.left {
-    left: 140px;
-    top: 2470px;
-    z-index: 99;
-    height: 50px;
-}
-
-.arrow.right {
-    right: 20px;
-    height: 50px;
+    margin-top: -10%;
 }
