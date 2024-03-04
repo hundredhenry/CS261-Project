@@ -247,6 +247,7 @@ input:focus {
     background-color: #fbfbfb;
     overflow: visible;
     width: 1554px;
+    position: relative;
 }
 
 .macbook-air-1 .subtract-cbxlvq {
@@ -441,10 +442,11 @@ input:focus {
 .macbook-air-1 .side-arrow-cbxlvq {
     background-color: transparent;
     height: 63px;
-    left: 120px;
-    position: absolute;
+    position: relative;
+    left: -60px;
     top: 345px;
     width: 64px;
+    z-index: 1000;
 }
 
 .macbook-air-1 .ellipse-2-YO7fPx {
@@ -1468,7 +1470,7 @@ input:focus {
     border-radius: 50px;
     height: 80px;
     width: 80px;
-    display: flex;
+    display: flex;  
     justify-content: center;
     align-items: center;
     transition: background-color 0.5s ease; 
