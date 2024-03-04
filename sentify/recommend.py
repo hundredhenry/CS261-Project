@@ -20,9 +20,9 @@ def recommend_specific(user_id):
 
         query_start = "SELECT DISTINCT companies.stock_ticker, COUNT(follows.stock_ticker) AS count FROM companies LEFT JOIN follows ON companies.stock_ticker = follows.stock_ticker WHERE companies.sectorID IN ("
         query_middle = ""
-        for id in sectorids:
+        for id in sector_ids:
             query_middle = query_middle + str(id) + ","
-        query_end = str(sectorids[length-1]) + ") AND follows.stock_ticker IS NULL OR (follows.stock_ticker IS NOT NULL AND follows.user_id <> " + str(user_id) + ") GROUP BY companies.stock_ticker ORDER BY count DESC"
+        query_end = str(sector_ids[length-1]) + ") AND follows.stock_ticker IS NULL OR (follows.stock_ticker IS NOT NULL AND follows.user_id <> " + str(user_id) + ") GROUP BY companies.stock_ticker ORDER BY count DESC"
 
         final_query = query_start + query_middle + query_end
 
