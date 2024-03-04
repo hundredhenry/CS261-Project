@@ -8,10 +8,9 @@ def recommend_specific(userID):
     qrytext = text("SELECT DISTINCT companies.sectorID FROM companies, follows WHERE companies.stock_ticker = follows.stock_ticker AND follows.userID = (:userID)")
     qry = qrytext.bindparams(userID = userID)
     sectors = db.session.execute(qry)
-    row = sectors.fetchone()
 
     # Check if any sectors are returned
-    if row:
+    if int(sectors.rowcount) > 0:
         # Add the sector ids to an array and find the number of ids
         sectorids = [row.sectorID]
         for row in sectors:
@@ -29,9 +28,12 @@ def recommend_specific(userID):
         # Execute the query
         companies = db.session.execute(text(final_query))
 
-        return companies
-    else:
-        recommend_general()
+        # Check if at least two companies are returned
+        if int(companies.rowcount) > 1:
+            return companies
+
+    # If no sectors or less than two companies are found, default to general recommendations
+    return recommend_general()
 
 
 # Returns a result set of all companies ordered by most to least followed
