@@ -151,7 +151,7 @@ def dbinit():
         Company("GOOG", "Alphabet", tech_id),
         Company("HD", "The Home Depot", retail_id),
         Company("JNJ", "Johnson & Johnson", healthcare_id),
-        Company("BRK-A", "Berkshire Hathaway", finance_id),
+        Company("BRK.A", "Berkshire Hathaway", finance_id),
         Company("KO", "Coca-Cola", foodbev_id),
         Company("LLY", "Eli Lilly and Company", healthcare_id),
         Company("MA", "Mastercard", finance_id),
