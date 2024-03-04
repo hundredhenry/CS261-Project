@@ -20,7 +20,7 @@
         <div id="results"></div>
     </div>
 
-    <div style='top:67.5%' class="my-watch-list-title" data-id="212:758">My Watch List</div>
+    <div style='top:47.5%; margin-top:50px;' class="my-watch-list-title" data-id="212:758">My Watch List</div>
     <div class="companies-container-2">
         {% if current_user.is_authenticated  %}
         {% for company in companies %}
@@ -45,7 +45,7 @@
                         </div>
 
                         <div onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
-                        <button onclick="modifyFollowCompany(event, this, 'Followed', 'Unfollowed');var cardElement = event.target.closest('.card-followed');cardElement.parentNode.removeChild(cardElement);" data-ticker='{{ company }}' id="followed-button"> Followed </button>
+                        <button onclick="modifyFollowCompany(event, this, 'Followed', 'Unfollowed');var cardElement = event.target.closest('.card-followed');cardElement.parentNode.removeChild(cardElement);" data-ticker='{{ company }}' class="followed-button"> Followed </button>
                 </div> 
             </div>
         {% endfor %}
@@ -58,13 +58,13 @@
     </div>
 
     <div class="container-suggested">
-        <div  style='left: 0' class="my-watch-list-title" data-id="212:758">You Might Like...</div>
+        <div  style='margin:0;top:40px' class="my-watch-list-title" data-id="212:758">You Might Like...</div>
         <div class="carousel">
             {% for company in companies %}
             <div class="carousel-item">  
                 <div class="card-followed">
                     <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-                        <div class="tradingview-widget-container">
+                        <div style='margin-bottom:46px;'class="tradingview-widget-container">
                             <div class="tradingview-widget-container__widget"></div>
                             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
                             {
@@ -82,8 +82,7 @@
                             </script>   
                         </div>
 
-                        <div onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
-                        <button data-ticker='{{ company }}' id="followed-button"> <<< </button>
+                        <div style='left:95px'onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
                 </div> 
                 </div>
             </div>
@@ -125,17 +124,16 @@
         var instance = M.Carousel.getInstance(document.querySelector('.carousel'));
         instance.next();
     }
-    window.onload = function() {
-        var followedButtons = document.querySelectorAll('#followed-button');
-        followedButtons.forEach(function(button) {
-            button.addEventListener('mouseover', function() {
-                button.textContent = 'Unfollow?';
-            });
-            button.addEventListener('mouseout', function() {
-                button.textContent = 'Followed';
-            });
-        });
-    };
+    $(document).ready(function() {
+        $('.followed-button').hover(
+            function() {
+                $(this).text('Unfollow?');
+            },
+            function() {
+                $(this).text('Followed');
+            }
+        );
+    });
     </script>
     <script src="/static/scripts/modify_follow.js"></script>
     <script src="/static/scripts/search.js"></script>

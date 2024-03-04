@@ -303,7 +303,7 @@
     left: 183px;
     letter-spacing: 0.00px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: left;
     top: 203px;
     width: 314px;
@@ -337,7 +337,7 @@
     left: 184px;
     letter-spacing: 0.00px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: left;
     top: 281px;
     white-space: nowrap;
@@ -364,7 +364,7 @@
     left: 444px;
     padding: 12px 16px;
     position: relative;
-    top: 447px;
+    top: 350px;
     width: 600px;
 }
 
@@ -1227,14 +1227,14 @@
 }
 
 .companies-container-2 {
-    top: 70%;
-    left: 8%;
+    top: 52.5%;
+    margin-left: 8%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    grid-gap:  30px;
-    width: 85%;
+    grid-gap:  20px;
+    max-width: 85%;
     position: relative;
-    height: 400px; /* Set a fixed height */
+    max-height: 900px; /* Set a fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
@@ -1244,7 +1244,7 @@
     font-size: var(--font-size-xxxxxl);
     font-weight: 300;
     text-align: left;
-    left: 8%;
+    margin-left: 8%;
     position: relative;
 }
 
@@ -1278,7 +1278,7 @@
     color: white;
 }
 
-#followed-button {
+.followed-button {
     background-color: black;
     border: 1px solid;
     border-color: black;
@@ -1293,10 +1293,10 @@
     font-size: 15px;
     color: white;
     bottom: 30px;
-    margin-left: 201px;
+    margin-left: 200px;
 }
 
-#followed-button:hover {
+.followed-button:hover {
     background-color: white;
     color: black;
     border-color: black;
@@ -1304,7 +1304,7 @@
 }
 
 .container-suggested {
-    top: 75%;
+    top: 55%;
     left: 7.5%;
     width: 85%;
     position: relative;
@@ -1342,5 +1342,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -10%;
+    margin-top: -5%;
+    padding-bottom: 5%;
+}
+.carousel .indicators {
+    margin-bottom: 5%;
+}
+
+.carousel .indicators .indicator-item {
+    background-color: lightgray;
+}
+
+.carousel .indicators .indicator-item.active {
+    background-color: gray;
 }
