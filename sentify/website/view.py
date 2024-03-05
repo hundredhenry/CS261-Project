@@ -157,10 +157,10 @@ def logout():
 @views.route('/companies/<ticker>')
 @login_required
 def company(ticker):
-    company_exists = Company.query.filter_by(stock_ticker=ticker).first()
-    if not company_exists:
+    company = Company.query.filter_by(stock_ticker=ticker).first()
+    if not company:
         abort(404, "Company not found")
-    return render_template('base_company.html', ticker=ticker)
+    return render_template('base_company.html', ticker=ticker, desc=company.description, sector=company.sector_company.sector_name)
 
 def random_color():
     return '#' + ''.join(random.choices('0123456789abcdef', k=6))

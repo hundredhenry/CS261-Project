@@ -183,7 +183,7 @@
 
 .sentiment-box, .company-info-box {
     border: 1px dotted black;
-    height: 50%;
+    height: 70%;
     width: calc(100% - 20px);
     padding: 10px;
 }
@@ -202,9 +202,11 @@
     font-size: 18px;
     color: #666; /* Medium gray */
     margin-bottom: 10px;
+    padding-top: 10px; /* Add this line */
 }
 
 .company-info-box .company-description {
+    padding-top: 10px;
     font-size: 16px;
     color: #999; /* Light gray */
 }
