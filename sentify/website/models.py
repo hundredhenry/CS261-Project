@@ -93,16 +93,16 @@ class Article(UserMixin, db.Model):
     __tablename__ = 'articles'
 
     # Attributes
-    url = db.Column(db.String(100), primary_key = True)
-    title = db.Column(db.String(100), nullable = False)
+    url = db.Column(db.Text, primary_key = True)
+    title = db.Column(db.Text, nullable = False)
     stock_ticker = db.Column(db.String(10),
                              db.ForeignKey('companies.stock_ticker'),
                              nullable = False)
     source_name = db.Column(db.String(50), nullable = False)
-    source_domain = db.Column(db.String(50), nullable = False)
+    source_domain = db.Column(db.Text, nullable = False)
     published = db.Column(db.Date, nullable = False)
     description = db.Column(db.Text)
-    banner_image = db.Column(db.String(100))
+    banner_image = db.Column(db.Text)
     sentiment_label = db.Column(db.String(10), nullable = False)
     sentiment_score = db.Column(db.Float, nullable = False)
 

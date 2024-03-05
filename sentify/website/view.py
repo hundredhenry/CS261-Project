@@ -1,11 +1,13 @@
 import re
 import random
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from urllib.parse import urlparse
+
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload
 from recommend import recommend_specific
 
 from . import db
@@ -157,10 +159,42 @@ def logout():
 @views.route('/companies/<ticker>')
 @login_required
 def company(ticker):
-    company = Company.query.filter_by(stock_ticker=ticker).first()
+    company = Company.query.get(ticker)
     if not company:
         abort(404, "Company not found")
     return render_template('base_company.html', ticker=ticker, desc=company.description, sector=company.sector_company.sector_name)
+
+@views.route('/companies/articles')
+@login_required
+def company_articles():
+    tickers = request.args.get('tickers')
+    
+    if not tickers:
+        return jsonify({'error': 'No tickers provided'}), 400
+    tickers = set(tickers.split(','))
+
+    articles_json = {}
+    for ticker in tickers:
+        company = Company.query.options(joinedload(Company.articles)).get(ticker)
+        if not company:
+            articles_json[ticker] = {'error': f'{ticker} does not exist'}
+            continue
+        
+        articles_json[ticker] = [
+            {
+                "url": article.url,
+                "title": article.title,
+                "source": article.source_name,
+                "source_domain": article.source_domain,
+                "published": article.published.strftime('%Y-%m-%d'),
+                "description": article.description,
+                "banner_image": article.banner_image,
+                "sentiment_label": article.sentiment_label,
+                "sentiment_score": article.sentiment_score
+            }
+            for article in company.articles
+        ]
+    return jsonify({'articles': articles_json})
 
 def random_color():
     return '#' + ''.join(random.choices('0123456789abcdef', k=6))
