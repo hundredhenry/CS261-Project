@@ -2,6 +2,7 @@ import re
 import random
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
+from urllib.parse import urlparse
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
@@ -114,7 +115,9 @@ def login():
             elif check_password_hash(user.password_hash, password):
                 flash("Logged in successfully", category="login_success")
                 login_user(user, remember=is_remember)
-                return redirect(url_for("views.landing"))
+                if not next_page or urlparse(next_page).netloc != '':
+                    next_page = url_for("views.landing")
+                return redirect(next_page)
             else:
                 flash("Email or password is incorrect!", category="login_error")
         else:
@@ -151,6 +154,7 @@ def logout():
 
 # this is a temporary route
 @views.route('/companies/<ticker>')
+@login_required
 def company(ticker):
     company_exists = Company.query.filter_by(stock_ticker=ticker).first()
     if not company_exists:
@@ -167,6 +171,7 @@ def get_following():
     return []
 
 @views.route('/companies/search/')
+@login_required
 def search_companies():
     followed_companies = get_following()
     suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
@@ -175,10 +180,6 @@ def search_companies():
                            suggested_companies=suggested_companies,
                            randomColor=random_color,
                            showNavSearchBar=False)
-
-@views.route('/base_company_data')
-def base_company_data():
-    return render_template('base_company_data.html')
 
 def get_companies():
     max_attempts = 3
@@ -206,6 +207,7 @@ def retrieve_companies():
         return jsonify({'error': 'Maximum number of attempts reached.'}), 500
 
 @views.route('/companies/')
+@login_required
 def all_companies():
     companies = get_companies()
     following = get_following()
@@ -232,7 +234,6 @@ def modify_follow():
     db.session.add(new_follow)
     db.session.commit()
     return jsonify({'status': 'following', 'ticker': ticker})
-
 
 
 @views.route('/dashboard')
