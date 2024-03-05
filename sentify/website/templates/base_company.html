@@ -32,7 +32,13 @@
         </div>
         <div class="sentiment-chart-and-overview">
             <div class="sentiment-box">
-                overall sentiment goes here
+                <h2 class="sentiment-heading">Sentiment Analysis</h2>
+                <h2 class="sentiment-subheading">Current Sentiment</h2>
+                <div class="sentiment-chart" 
+                    data-positive="{{ positive }}" 
+                    data-negative="{{ negative }}">
+                    <canvas id="sentimentChart" width="250" height="250"></canvas>
+                </div>
             </div>
             <div class="company-info-box">
                 <h1>Company Overview</h1>
