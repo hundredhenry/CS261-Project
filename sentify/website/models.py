@@ -77,7 +77,6 @@ class Company(UserMixin, db.Model):
     company_name = db.Column(db.String(32), nullable = False)
     sector_id = db.Column(db.Integer, db.ForeignKey('sectors.id'), nullable = False)
     description = db.Column(db.Text)
-    positive_rating = db.Column(db.Integer, default = 0) # 0 to 100% positive articles
     last_updated = db.Column(db.Date, default = date(1970, 1, 1))
 
     # Relations
@@ -120,6 +119,23 @@ class Article(UserMixin, db.Model):
         self.banner_image = banner_image
         self.sentiment_label = sentiment_label
         self.sentiment_score = sentiment_score
+
+class SentimentRating(db.Model):
+    __tablename__ = 'sentiment_ratings'
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    stock_ticker = db.Column(db.String(10),
+                             db.ForeignKey('companies.stock_ticker'),
+                             nullable = False)
+    date = db.Column(db.Date, nullable = False)
+    rating = db.Column(db.Float, nullable = False)
+
+    def __init__(self, stock_ticker, date, rating):
+        self.stock_ticker = stock_ticker
+        self.date = date
+        self.rating = rating
+
 
 # Add data to the database
 def dbinit():

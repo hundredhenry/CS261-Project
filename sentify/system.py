@@ -2,7 +2,7 @@ from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
 from sqlalchemy import select, insert, delete, update, bindparam
 from website import db
-from website.models import User, Notification, Follow, Company, Article
+from website.models import User, Notification, Follow, Company, Article, SentimentRating
 from transformers import pipeline
 from datetime import date
 
@@ -55,11 +55,12 @@ class NewsSystem:
     def update_companies(self):
         for ticker in self.companies:
             try:
-                # Get the last updated date for the current company
-                last_updated = self.get_last_updated(ticker)
+                # Check if there is a Sentiment Rating for the current company
+                query = select(SentimentRating).where(SentimentRating.stock_ticker == ticker and SentimentRating.date == date.today())
+                result = db.session.execute(query)
 
-                # Check if the current company has been updated today
-                if last_updated == date.today():
+                # If there isn't one
+                if result:
                     continue
 
                 articles = self.collection(ticker)
@@ -99,16 +100,8 @@ class NewsSystem:
                 # Update the positive rating for the current company
                 if total != 0:
                     positive_rating = (positive / total) * 100
-                    query = update(Company).where(
-                        Company.stock_ticker == ticker).values(
-                            positive_rating = positive_rating)
+                    query = insert(SentimentRating).values(ticker, date.today(), positive_rating)
                     db.session.execute(query)
-
-                # Update the last updated date for the current company
-                query = update(Company).where(
-                    Company.stock_ticker == ticker).values(
-                        last_updated = date.today())
-                db.session.execute(query)
 
                 # Send notifications to all users following the current company
                 self.send_notifications(ticker)
