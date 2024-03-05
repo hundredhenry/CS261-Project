@@ -1,3 +1,11 @@
+function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+    } else {
+        return text;
+    }
+}
+
 function refreshArticles(tickers) {
     var tickersString = tickers.join(',');
     // Fetch the articles from the server
@@ -16,20 +24,20 @@ function refreshArticles(tickers) {
             data.articles[ticker].forEach(article => {
                 // Generate the HTML for the article
                 var str = article.sentiment_label.toLowerCase();
+                
                 var articleHTML = `
                     <div class="article">
                         <div class="article-left">
                             <div class="article-header">
                                 <h2 class="article-source">
                                 <a href="http://${article.source_domain}" target="_blank">
-                                    ${article.source} • ${article.published}
-                                </a>
-                            </h2>                           
+                                    ${article.source}</a> • ${article.published}
+                                </h2>                           
                         </div>
                             <a href="${article.url}">
-                                <h1 class="article-title">${article.title}</h1>
+                                <h1 class="article-title">${truncateText(article.title, 80)}</h1>
                             </a>
-                            <p class="article-content">${article.description.trim() ? article.description : 'No description available for this article.'}</p>
+                            <p class="article-content">${article.description ? truncateText(article.description, 300) : 'No description available for this article.'}</p>
                             <div class="article-tags">
                                 <span class="tag">Temp</span>
                             </div>

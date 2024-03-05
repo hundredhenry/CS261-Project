@@ -23,7 +23,7 @@
                     	"container_id": "tradingview_2f394"
                     }
                 </script>
-                <button class="follow-button">Follow</button>
+                <button onclick="modifyFollowCompany(event, this, 'Followed', 'Follow');var cardElement = event.target.closest('.card-followed');cardElement.parentNode.removeChild(cardElement);" data-ticker='{{ ticker }}' class="follow-button"> Followed </button>
             </div>
             <h1 class="articles-heading">Latest Stories</h1>
             <hr style="width:90%;">
@@ -62,6 +62,7 @@
     </div>
 </div>
 <script src="/static/scripts/refresh_articles.js"></script>
+<script src="/static/scripts/modify_follow.js"></script>
 <script>
     refreshArticles(["{{ ticker }}"]);
 </script>
