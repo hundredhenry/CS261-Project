@@ -33,6 +33,7 @@ class Notification(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     read = db.Column(db.Integer, default = False)
     message = db.Column(db.Text, nullable = False)
+    time = db.Column(db.DateTime, default = date.today())
 
     def __init__(self, user_id, message):
         self.user_id = user_id
