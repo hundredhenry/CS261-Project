@@ -46,8 +46,9 @@
 }
 
 .follow-button:hover {
-    background-color: grey; /* Light gray */
+    background-color: darkgray; /* Light gray */
     color: white;
+    transform: scale(1.05);
 }
 
 .sentiment-chart-and-overview {

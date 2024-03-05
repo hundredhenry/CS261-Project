@@ -12,8 +12,10 @@ function modifyFollowCompany(event, button, followText, unfollowText) {
     .then(data => {
         if (data.status === 'following') {
             button.textContent = unfollowText;
+            toastr.success('No longer following ' + ticker + '!');
         } else if (data.status === 'unfollowing') {
             button.textContent = followText;
+            toastr.success('Following ' + ticker + '!');
         }
     })
     .catch((error) => {
