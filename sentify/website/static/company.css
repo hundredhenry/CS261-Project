@@ -59,8 +59,8 @@
 .articles-section {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    margin-left: 5%;
+    width: 80%;
+    margin-left: 12.5%;
     margin-top: 20px;
     height: 75%;
     overflow-y: scroll;
@@ -80,14 +80,14 @@
 .article-left {
     display: flex;
     flex-direction: column;
-    flex: 0 0 80%;
+    flex: 0 0 70%;
     justify-content: space-between;
 }
 
 .article-right {
     display: flex;
     flex-direction: column;
-    flex: 0 0 20%; 
+    flex: 0 0 30%; 
     justify-content: space-between;
 }
 
@@ -153,13 +153,14 @@
     font-size: 16px;
     font-weight: 300;
     margin: 0 0 10px 10px;
-    padding-bottom: 5px;
-    max-width: 80%;
+    padding: 1px;
+    max-width: 90%;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Number of lines to display before truncating */
+    -webkit-line-clamp: 7; /* Number of lines to display before truncating */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #3c3c3c;
 }
 
 .article-tags {
