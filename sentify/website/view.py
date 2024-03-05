@@ -105,7 +105,7 @@ def confirm_email(token):
 @views.route('/login/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("views.landing"))
+        return redirect(url_for("views.dashboard"))
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
@@ -119,7 +119,7 @@ def login():
                 login_user(user, remember=is_remember)
                 next_page = request.args.get('next')
                 if not next_page or urlparse(next_page).netloc != '':
-                    next_page = url_for("views.landing")
+                    next_page = url_for("views.dashboard")
                 return redirect(next_page)
             else:
                 flash("Email or password is incorrect!", category="login_error")
