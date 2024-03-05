@@ -1,0 +1,228 @@
+
+
+.dashboard {
+    position: relative;
+    left: 200px;
+    width: 1300px;
+    margin: 20px;
+    height: 2000px;
+    padding: 20px;
+
+    font-family: Roboto;
+    font-weight: lighter;
+}
+
+.welcome-back {
+    position: relative;
+    height: 300px;
+    width: auto;
+    display: flex;
+}
+
+.welcome-message{
+    padding: 20px;
+    flex: 2;
+    line-height: 1.5;
+}
+
+.overall-sentiment {
+    background-color: #ccc;
+    padding: 30px;
+    flex: 1;
+}
+
+.see-all-companies {
+    height: 50px;
+    width: 200px;
+    background-color: black;
+    color: white;
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+ 
+}
+
+.followed-companies-dashboard {
+
+    position: relative;
+    height: 600px;
+    width: auto;
+    padding: 30px;
+    
+}
+
+.followed-dashboard-section {
+    position: relative;
+    height: 1200px;
+    width: auto;
+}
+
+
+.article-containers {
+    margin-top: 20px;
+    display: flex;
+}
+
+.little-box {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-size: 15px;
+    color: #6d6d6d;
+    height: 60px;
+    padding-top: 20px;
+}
+
+.plus-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ccc;
+    color: black;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.tab {
+    overflow: hidden;
+  }
+  
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    color: grey;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    letter-spacing: -0.3px;
+    height: 50px;
+  }
+  
+  .tab button.active {
+    color: black;
+  }
+  
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: 1px solid #f2f2f2;
+  }
+  
+  #Tab1 {
+     height: 700px;
+     overflow: auto;
+     width: 800px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+   
+  }
+  
+  .article-tab {
+    height: 250px;
+    width: auto;
+    margin: 20px;
+    margin-left: 0px;
+    border-bottom: 1px solid #f2f2f2;
+    display: flex;
+    padding: 20px;
+  }
+  
+  .article-image {
+    flex: 1;
+    padding: 20px;
+    padding-top: 15px;
+    padding-right: 0px;
+    margin: 20px;
+    margin-top: 0px;
+    margin-left: 0px;
+
+  }
+  
+  .actual-image {
+    height: 150px;
+    width: 150px;
+  }
+  
+  .article-information {
+    flex: 2;
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    padding: 0px;
+  }
+  
+  .article-header {
+    font-size: 20px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5;
+  }
+  
+  .pfp {
+     height: 40px;
+     width: 40px;
+     border-radius: 20px;
+     position: relative;
+     border: 1px solid transparent;
+     background-color: #ccc;
+     bottom: 20px;
+  }
+  
+  .sector-div {
+    background-color: #f2f2f2;
+    font-size: 14px;
+    height: 20px;
+    border-radius: 20px;
+    width: 70px;
+    margin-top: 20px;
+    margin-left: -15px;
+    display: flex;
+    justify-content: center;
+    color: #292929;
+  }
+  
+  .article-sentiment {
+     background: #54ce67;
+     height: 30px;
+     width: 150px;
+     border-radius: 20px;
+     margin-top: 7px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 0px;
+     font-family: 'Roboto', sans-serif;
+     color: white;
+     font-size: 12px;
+  }
+  
+  .three-dots {
+   font-size: 30px;
+   position: relative;
+   top: -37px;
+   left: 370px;
+}
+  
+   #Tab2 {
+     height: 1000px;
+     width: 800px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     overflow: auto;
+  }
+  
+  .side-box {
+    border: 1px solid black;
+    height: 700px;
+    width: 600px;
+    padding: 20px;
+
+  }
