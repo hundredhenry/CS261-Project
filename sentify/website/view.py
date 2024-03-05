@@ -115,6 +115,7 @@ def login():
             elif check_password_hash(user.password_hash, password):
                 flash("Logged in successfully", category="login_success")
                 login_user(user, remember=is_remember)
+                next_page = request.args.get('next')
                 if not next_page or urlparse(next_page).netloc != '':
                     next_page = url_for("views.landing")
                 return redirect(next_page)
