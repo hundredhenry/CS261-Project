@@ -27,21 +27,15 @@ class NewsSystem:
 
         return companies
 
-    def get_last_updated(self, ticker):
-        # Get the last updated date for the specified company
-        query = select(Company.last_updated).where(Company.stock_ticker == ticker)
-        result = db.session.execute(query)
-        update_date = result.fetchone()[0]
-
-        return update_date
-
     def update_companies_desc(self):
         for ticker in self.companies:
-            # Get the last updated date for the current company
-            last_updated = self.get_last_updated(ticker)
+            # Get the description for the company
+            query = select(Company.description).where(Company.stock_ticker == ticker)
+            result = db.session.execute(query)
+            result = result.fetchone()
 
-            # Check if the current company has been updated
-            if last_updated > date(1970, 1, 1):
+            # If there is a description for the company
+            if result:
                 continue
 
             # Get the description for the current company
@@ -58,8 +52,8 @@ class NewsSystem:
                 # Check if there is a Sentiment Rating for the current company
                 query = select(SentimentRating).where(SentimentRating.stock_ticker == ticker and SentimentRating.date == date.today())
                 result = db.session.execute(query)
+                result = result.fetchone()
 
-                # If there isn't one
                 if result:
                     continue
 
@@ -99,8 +93,8 @@ class NewsSystem:
 
                 # Update the positive rating for the current company
                 if total != 0:
-                    positive_rating = (positive / total) * 100
-                    query = insert(SentimentRating).values(ticker, date.today(), positive_rating)
+                    positive_rating = int((positive / total) * 100)
+                    query = insert(SentimentRating).values(stock_ticker=ticker, date=date.today(), rating=positive_rating)
                     db.session.execute(query)
 
                 # Send notifications to all users following the current company
