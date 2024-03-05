@@ -93,7 +93,8 @@ class Article(UserMixin, db.Model):
     __tablename__ = 'articles'
 
     # Attributes
-    url = db.Column(db.Text, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    url = db.Column(db.Text, nullable = False)
     title = db.Column(db.Text, nullable = False)
     stock_ticker = db.Column(db.String(10),
                              db.ForeignKey('companies.stock_ticker'),
