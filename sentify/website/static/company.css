@@ -153,6 +153,7 @@
     font-size: 16px;
     font-weight: 300;
     margin: 0 0 10px 10px;
+    padding-bottom: 5px;
     max-width: 80%;
     display: -webkit-box;
     -webkit-line-clamp: 3; /* Number of lines to display before truncating */
