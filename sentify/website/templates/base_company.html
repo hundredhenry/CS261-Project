@@ -26,91 +26,8 @@
                 <button class="follow-button">Follow</button>
             </div>
             <h1 class="articles-heading">Latest Stories</h1>
+            <hr style="width:90%;">
             <div class="articles-section">
-                    <div class="article">
-                        <div class="article-left">
-                            <div class="article-header">
-                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
-                                <h2 class="article-source">The Guardian • 4 days ago</h2>
-                                <!-- Replace with actual source -->
-                            </div>
-                            <a href="article-url.html">
-                                <!-- Replace with actual article URL -->
-                                <h1 class="article-title">Microsoft CEO explains recent tweets</h1>
-                                <!-- Replace with actual title -->
-                            </a>
-                            <p class="article-content">
-                                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is..
-                            </p>
-                            <!-- Replace with actual content -->
-                            <div class="article-tags">
-                                <!-- Replace with actual tags -->
-                                <span class="tag">Technology</span>
-                                <span class="tag">Energy</span>
-                            </div>
-                        </div>
-                        <div class="article-right">
-                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
-                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
-                        </div>
-                    </div>
-                    <hr style="width:100%;">
-                    <div class="article">
-                        <div class="article-left">
-                            <div class="article-header">
-                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
-                                <h2 class="article-source">The Guardian • 4 days ago</h2>
-                                <!-- Replace with actual source -->
-                            </div>
-                            <a href="article-url.html">
-                                <!-- Replace with actual article URL -->
-                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
-                                <!-- Replace with actual title -->
-                            </a>
-                            <p class="article-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
-                            </p>
-                            <!-- Replace with actual content -->
-                            <div class="article-tags">
-                                <!-- Replace with actual tags -->
-                                <span class="tag">Technology</span>
-                                <span class="tag">Energy</span>
-                            </div>
-                        </div>
-                        <div class="article-right">
-                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
-                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
-                        </div>
-                    </div>
-                    <hr style="width:100%;">
-                    <div class="article">
-                        <div class="article-left">
-                            <div class="article-header">
-                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
-                                <h2 class="article-source">The Guardian • 4 days ago</h2>
-                                <!-- Replace with actual source -->
-                            </div>
-                            <a href="article-url.html">
-                                <!-- Replace with actual article URL -->
-                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
-                                <!-- Replace with actual title -->
-                            </a>
-                            <p class="article-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
-                            </p>
-                            <!-- Replace with actual content -->
-                            <div class="article-tags">
-                                <!-- Replace with actual tags -->
-                                <span class="tag">Technology</span>
-                                <span class="tag">Energy</span>
-                            </div>
-                        </div>
-                        <div class="article-right">
-                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
-                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
-                        </div>
-                    </div>
-                    <hr style="width:100%;">
             </div>
         </div>
         <div class="sentiment-chart-and-overview">
@@ -144,4 +61,8 @@
         </script>
     </div>
 </div>
+<script src="/static/scripts/refresh_articles.js"></script>
+<script>
+    refreshArticles(["{{ ticker }}"]);
+</script>
 {% endblock %}

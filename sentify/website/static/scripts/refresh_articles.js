@@ -1,0 +1,73 @@
+function refreshArticles(tickers) {
+    var tickersString = tickers.join(',');
+    // Fetch the articles from the server
+    fetch(`/companies/articles?tickers=${tickersString}`)
+    .then(response => response.json())
+    .then(data => {
+        // Clear the existing articles
+        var articlesSection = document.querySelector('.articles-section');
+
+        // Clear the existing articles
+        articlesSection.innerHTML = '';
+
+        // Loop through each ticker
+        for (var ticker in data.articles) {
+            // Loop through each article
+            data.articles[ticker].forEach(article => {
+                // Generate the HTML for the article
+                var str = article.sentiment_label.toLowerCase();
+                var articleHTML = `
+                    <div class="article">
+                        <div class="article-left">
+                            <div class="article-header">
+                                <h2 class="article-source">
+                                <a href="http://${article.source_domain}" target="_blank">
+                                    ${article.source} • ${article.published}
+                                </a>
+                            </h2>                           
+                        </div>
+                            <a href="${article.url}">
+                                <h1 class="article-title">${article.title}</h1>
+                            </a>
+                            <p class="article-content">${article.description.trim() ? article.description : 'No description available for this article.'}</p>
+                            <div class="article-tags">
+                                <span class="tag">Temp</span>
+                            </div>
+                        </div>
+                        <div class="article-right">
+                        <img src="${article.banner_image ? article.banner_image : '/static/images/'+ticker+'.png'}" alt="Banner Image">
+                        <button class="article-rating ${article.sentiment_label.toLowerCase()}" data-confidence="${article.sentiment_score}">${str.charAt(0).toUpperCase() + str.slice(1)}</button>
+                        </div>
+                    </div>
+                    <hr style='width: 100%;'>
+                `;
+
+                // Insert the article HTML into the page
+                articlesSection.innerHTML += articleHTML;
+            });
+        }
+        addEventListenersToButtons();
+
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function addEventListenersToButtons() {
+    // Get all buttons with the class 'article-rating'
+    var buttons = document.querySelectorAll('.article-rating');
+
+    // Add event listeners to each button
+    buttons.forEach(button => {
+        var originalText = button.textContent;
+        button.addEventListener('mouseover', function() {
+            // Change the text of the button to the confidence rating
+            var confidence = this.getAttribute('data-confidence');
+            var percentage = (confidence * 100).toFixed(1) + '%';
+            this.textContent = percentage +' Sure';
+        });
+        button.addEventListener('mouseout', function() {
+            // Change the text of the button back to the original text
+            this.textContent = originalText;
+        });
+    });
+}
