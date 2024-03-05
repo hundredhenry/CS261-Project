@@ -16,7 +16,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='toastr.css') }}">
   </head>
-  <body style="margin: 0px; background: rgb(251, 251, 251); dark-scroll="">
+  <body style="margin: 0px; background: rgb(251, 251, 251);">
+    {% with messages = get_flashed_messages(category_filter=["login_success"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <script>
+          toastr.success("{{ message }}");
+        </script>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
     <nav class="navbar">
       <a href="/" class="navbar-brand">Sentify</a>
       {% if showNavSearchBar|default(True) %}
@@ -184,7 +193,7 @@
     <div class="content">
     <div class="container-center-horizontal">
         <div class="macbook-air-1 screen " data-id="1:2">
-          <!-- top header  -->
+          
           <div class="side-arrow-cbxlvq" data-id="2:46">
             <span class="toggle-btn" onclick="toggleSidebar()">
                 <div class="button">

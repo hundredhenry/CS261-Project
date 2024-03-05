@@ -4,15 +4,6 @@
 {% block stylesheet %}
 {% endblock %}
 {% block content %}
-{% with messages = get_flashed_messages(category_filter=["login_success"]) %}
-  {% if messages %}
-  {% for message in messages %}
-    <script>
-      toastr.success("{{ message }}");
-    </script>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 <img class="subtract-cbxlvq subtract" data-id="148:619"
     src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/subtract.svg"
     anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db43b7126fc2d69683e464/img/subtract.svg"
