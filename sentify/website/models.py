@@ -121,6 +121,27 @@ class Article(UserMixin, db.Model):
         self.sentiment_label = sentiment_label
         self.sentiment_score = sentiment_score
 
+class Topic(db.Model):
+    __tablename__ = 'topics'
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    topic = db.Column(db.String(50), nullable = False)
+
+    def __init__(self, topic):
+        self.topic = topic
+
+class ArticleTopic(db.Model):
+    __tablename__ = 'article_topics'
+
+    # Attributes
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'), primary_key = True)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), primary_key = True)
+
+    def __init__(self, article_id, topic_id):
+        self.article_id = article_id
+        self.topic = topic_id
+
 class SentimentRating(db.Model):
     __tablename__ = 'sentiment_ratings'
 
@@ -185,4 +206,12 @@ def dbinit():
         Company("WMT", "Walmart", retail_id)   
     ]
     db.session.add_all(company_list)
+
+    # Add topics
+    topics = [Topic("Blockchain"), Topic("Earnings"), Topic("IPO"), Topic("Mergers & Acquisitions"), Topic("Financial Markets"), 
+              Topic("Economy - Fiscal"), Topic("Economy - Monetary"), Topic("Economy - Macro"), Topic("Energy & Transportation"),
+              Topic("Finance"), Topic("Life Sciences"), Topic("Manufacturing"), Topic("Real Estate & Construction"), 
+              Topic("Retail & Wholesale"), Topic("Technology")]
+    db.session.add_all(topics)
+
     db.session.commit()

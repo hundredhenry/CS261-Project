@@ -2,7 +2,7 @@ from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
 from sqlalchemy import select, insert, delete, update, bindparam
 from website import db
-from website.models import User, Notification, Follow, Company, Article, SentimentRating
+from website.models import User, Notification, Follow, Company, Article, SentimentRating, Topic, ArticleTopic
 from transformers import pipeline
 from datetime import date
 
@@ -86,6 +86,20 @@ class NewsSystem:
                 # Execute the statement for all data
                 db.session.execute(stmt, articles)
 
+                # Insert article topics for each article
+                for article in articles:
+                    for topic in article['topics']:
+                        query = select(Topic.id).where(Topic.topic == topic['topic'])
+                        result = db.session.execute(query)
+                        topic_id = result.fetchone()[0]
+
+                        query = select(Article.id).where(Article.url == article['url'])
+                        result = db.session.execute(query)
+                        article_id = result.fetchone()[0]
+
+                        query = insert(ArticleTopic).values(article_id=article_id, topic_id=topic_id)
+                        db.session.execute(query)
+
                 # Update the total and positive ratings for the current company
                 total = len(articles)
                 positive = sum(1 for article in articles
@@ -126,6 +140,8 @@ class NewsSystem:
                 else:
                     sentiment = self.get_sentiment(article['title'])
 
+                top_topics = sorted(article['topics'], key=lambda x: x['relevance_score'], reverse=True)[:3]
+
                 # Append specified article details to the filtered list
                 filtered.append({
                     'title': article['title'],
@@ -135,6 +151,7 @@ class NewsSystem:
                     'url': article['url'],
                     'published': article['time_published'],
                     'description': meta_desc,
+                    'topics': top_topics,
                     'banner_image': article['banner_image'],
                     'sentiment_label': sentiment[0]['label'],
                     'sentiment_score': sentiment[0]['score'],
