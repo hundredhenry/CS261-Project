@@ -4,7 +4,7 @@ from sqlalchemy import select, insert, delete, update, bindparam
 from website import db, socketio
 from website.models import User, Notification, Follow, Company, Article, SentimentRating, Topic, ArticleTopic
 from transformers import pipeline
-from datetime import date
+from datetime import date, timedelta
 from flask import current_app
 
 class NewsSystem:
@@ -47,28 +47,25 @@ class NewsSystem:
             db.session.execute(query)
             db.session.commit()
 
-    def update_companies(self):
+    def update_companies(self, date=date.today() - timedelta(days=1)):
         for ticker in self.companies:
             try:
                 # Check if there is a Sentiment Rating for the current company
-                query = select(SentimentRating).where(SentimentRating.stock_ticker == ticker and SentimentRating.date == date.today())
+                query = select(SentimentRating).where(SentimentRating.stock_ticker == ticker).where(SentimentRating.date == date)
                 result = db.session.execute(query)
                 result = result.fetchone()
 
                 if result:
+                    print(f"Sentiment rating already exists for {ticker} on {date}")
                     continue
 
-                articles = self.collection(ticker)
+                articles = self.collection(ticker, date)
                 positive = 0
                 total = 0
 
                 # Check if there are no articles for the current company
                 if not articles:
                     continue
-
-                # Drop all articles for the current company in the database
-                query = delete(Article).where(Article.stock_ticker == ticker)
-                db.session.execute(query)
 
                 # Prepare the SQL statement
                 stmt = insert(Article).values(
@@ -109,7 +106,7 @@ class NewsSystem:
                 # Update the positive rating for the current company
                 if total != 0:
                     positive_rating = int((positive / total) * 100)
-                    query = insert(SentimentRating).values(stock_ticker=ticker, date=date.today(), rating=positive_rating)
+                    query = insert(SentimentRating).values(stock_ticker=ticker, date=date, rating=positive_rating)
                     db.session.execute(query)
 
                 # Send notifications to all users following the current company
@@ -121,9 +118,9 @@ class NewsSystem:
                 print(e)
                 db.session.rollback()
 
-    def collection(self, ticker):
+    def collection(self, ticker, date):
         # Get articles for the specified company
-        articles = self.alpha_vantage.week_articles(ticker)
+        articles = self.alpha_vantage.day_articles(ticker, date)
         filtered = []
 
         if articles:
@@ -189,3 +186,12 @@ class NewsSystem:
                         user_id = row[0],
                         message = f"New articles available for {ticker}!")
                     db.session.execute(query)
+
+    def backlog(self):
+        # Get a list of dates from yesterday to 14 days ago
+        dates = [date.today() - timedelta(days=i) for i in range(1, 8)]
+
+        # Update companies for each date in the list
+        for d in dates:
+            print(d)
+            self.update_companies(date=d)
