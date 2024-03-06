@@ -1,6 +1,4 @@
-from threading import Thread
-
-from website import create_app
+from website import create_app, socketio
 from system import NewsSystem
 
 app = create_app()
@@ -12,6 +10,5 @@ def update_companies():
         news_system.update_companies()
         
 if __name__ == "__main__":
-    thread = Thread(target=update_companies)
-    thread.start()
-    app.run(debug=1)
+    socketio.start_background_task(update_companies)
+    socketio.run(app, debug=1)

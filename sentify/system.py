@@ -1,10 +1,11 @@
 from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
 from sqlalchemy import select, insert, delete, update, bindparam
-from website import db
+from website import db, socketio
 from website.models import User, Notification, Follow, Company, Article, SentimentRating, Topic, ArticleTopic
 from transformers import pipeline
 from datetime import date
+from flask import current_app
 
 class NewsSystem:
     def __init__(self):
@@ -174,16 +175,17 @@ class NewsSystem:
         return max_ticker == ticker
 
     def send_notifications(self, ticker):
-        # Get all users following the specified company
-        query = select(User.id).join(
-            Follow, User.id == Follow.user_id).where(
-                Follow.stock_ticker == ticker)
-        result = db.session.execute(query)
+        with current_app.app_context():
+            # Get all users following the specified company
+            query = select(User.id).join(
+                Follow, User.id == Follow.user_id).where(
+                    Follow.stock_ticker == ticker)
+            result = db.session.execute(query)
 
-        if result:
-            for row in result:
-                # Send a notification to the current user
-                query = insert(Notification).values(
-                    user_id = row[0],
-                    message = f"New articles available for {ticker}!")
-                db.session.execute(query)
+            if result:
+                for row in result:
+                    # Send a notification to the current user
+                    query = insert(Notification).values(
+                        user_id = row[0],
+                        message = f"New articles available for {ticker}!")
+                    db.session.execute(query)

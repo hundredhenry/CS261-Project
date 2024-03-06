@@ -3,19 +3,33 @@ import random
 
 from urllib.parse import urlparse
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
+from flask_socketio import join_room
 from recommend import recommend_specific
 from sqlalchemy import func
 
-from . import db
-from .models import User, Company, Follow, SentimentRating, Article
+from . import db, socketio
+from .models import User, Company, Follow, SentimentRating, Article, Notification
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
 views = Blueprint("views", __name__)
+
+@socketio.on('join')
+def on_join(data):
+    room = str(data['room'])
+    join_room(room)
+    query = db.session.query(Notification).filter(
+        Notification.user_id == data['room'],
+        not Notification.sent
+    ).all()
+    for notif in query:
+        socketio.emit('notif', {'message': notif.message}, room=room)
+        notif.sent = True
+    db.session.commit()
 
 @views.route('/')
 def landing():
@@ -121,6 +135,7 @@ def login():
             elif check_password_hash(user.password_hash, password):
                 flash("Logged in successfully", category="login_success")
                 login_user(user, remember=is_remember)
+                session['user_id'] = user.id
                 next_page = request.args.get('next')
                 if not next_page or urlparse(next_page).netloc != '':
                     next_page = url_for("views.dashboard")
@@ -314,7 +329,7 @@ def retrieve_companies():
     except SQLAlchemyError:
         return jsonify({'error': 'Maximum number of attempts reached.'}), 500
 
-@views.route('/api/get/articles')
+@views.route('/api/get/articles', methods=['GET'])
 @login_required
 def company_articles():
     tickers = request.args.get('tickers')

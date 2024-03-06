@@ -31,13 +31,15 @@ class Notification(db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    read = db.Column(db.Integer, default = False)
+    read = db.Column(db.Boolean, default = False)
+    sent = db.Column(db.Boolean, default = False)
     message = db.Column(db.Text, nullable = False)
     time = db.Column(db.DateTime, default = date.today())
 
-    def __init__(self, user_id, message):
+    def __init__(self, user_id, message, sent):
         self.user_id = user_id
         self.message = message
+        self.sent = sent
 
 # Model of a follow
 class Follow(UserMixin, db.Model):
