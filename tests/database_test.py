@@ -138,14 +138,21 @@ class CompanyTest(AuthBase):
     valid_stock_ticker = 'TEST'
     valid_company_name = 'Test Company'
     valid_sector_id = 1
+    valid_description = 'Test Description'
+    valid_rating = 0
+    valid_updated = date.today()
     strings = AuthBase.test_strings.copy()
-    sector_ids = AuthBase.test_integers.copy()
+    integers = AuthBase.test_integers.copy()
+    dates = AuthBase.test_dates.copy()
 
     company_tests = [
-        ('Valid company', valid_stock_ticker, valid_company_name, valid_sector_id, True),
-        ('Invalid stock_ticker', strings, valid_company_name, valid_sector_id, False),
-        ('Invalid company_name', valid_stock_ticker, strings, valid_sector_id, False),
-        ('Invalid sector_id', valid_stock_ticker, valid_company_name, sector_ids, False)
+        ('Valid company', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_rating, valid_updated, True),
+        ('Invalid stock_ticker', strings, valid_company_name, valid_sector_id, valid_description, valid_rating, valid_updated, False),
+        ('Invalid company_name', valid_stock_ticker, strings, valid_sector_id, valid_description, valid_rating, valid_updated, False),
+        ('Invalid sector_id', valid_stock_ticker, valid_company_name, integers, valid_description, valid_rating, valid_updated, False),
+        ('Invalid description', valid_stock_ticker, valid_company_name, valid_sector_id, strings, valid_rating, valid_updated, False),
+        ('Invalid rating', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, integers, valid_updated, False),
+        ('Invalid updated', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_rating, dates, False),
     ]
 
     # Run company test cases
