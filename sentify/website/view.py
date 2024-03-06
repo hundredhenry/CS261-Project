@@ -6,12 +6,13 @@ from urllib.parse import urlparse
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
+from sqlalchemy.sql import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
 from recommend import recommend_specific
 
 from . import db
-from .models import User, Company, Follow
+from .models import User, Company, Follow, SentimentRating
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
@@ -160,9 +161,14 @@ def logout():
 @login_required
 def company(ticker):
     company = Company.query.get(ticker)
+    
     if not company:
         abort(404, "Company not found")
-    return render_template('base_company.html', ticker=ticker, desc=company.description, sector=company.sector_company.sector_name)
+
+    positive = SentimentRating.query.filter_by(stock_ticker=ticker).order_by(SentimentRating.date.desc()).first().rating
+    negative = 100 - positive
+
+    return render_template('base_company.html', ticker=ticker, desc=company.description, sector=company.sector_company.sector_name, positive = positive, negative = negative)
 
 @views.route('/companies/articles')
 @login_required

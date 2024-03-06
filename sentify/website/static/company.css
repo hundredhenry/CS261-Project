@@ -46,8 +46,9 @@
 }
 
 .follow-button:hover {
-    background-color: grey; /* Light gray */
+    background-color: darkgray; /* Light gray */
     color: white;
+    transform: scale(1.05);
 }
 
 .sentiment-chart-and-overview {
@@ -81,7 +82,6 @@
     display: flex;
     flex-direction: column;
     flex: 0 0 70%;
-    justify-content: space-between;
 }
 
 .article-right {
@@ -142,42 +142,29 @@
 .article-source {
     font-size: 14px;
     color: #666; /* Medium gray */
-
 }
 
 .article-title {
-    margin-top: 10px;
+    padding-top: 15px;
     font-size: 24px;
     color: #333; /* Dark gray */
     margin-left: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.3; /* Adjust as needed */
-
+    line-height: 1.2;
 }
 
 .article-content {
     font-size: 16px;
     font-weight: 300;
-    margin: 10px 0 10px 10px;
-    line-height: 1.3; /* Adjust as needed */
+    margin: 15px 0 10px 10px;
+    line-height: 1.2; /* Adjust as needed */
     max-width: 90%;
-    display: -webkit-box;
-    -webkit-line-clamp: 7; /* Number of lines to display before truncating */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
     color: #3c3c3c;
 }
 
 .article-tags {
     display: flex;
     gap: 10px;
-    margin: 10px 0 10px 10px;
-    bottom: 0;
+    margin: auto 0 0 10px;
 }
 
 .tag {
@@ -230,3 +217,45 @@
     margin-top: 20px;   
     padding-bottom: 20px;
 }   
+
+.sentiment-box {
+    text-align: center; /* Centers text elements */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9; /* Light background to distinguish the sentiment area */
+    padding: 20px;
+    border-radius: 8px; /* Optional: adds rounded corners */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */
+}
+
+/* If you haven't already styled these, here are some basic suggestions */
+.company-info-box {
+    margin-top: 20px; /* Adds space between the sentiment box and company info */
+}
+
+.sentiment-chart {
+    margin: 0 auto; /* Centers the canvas element inside the div if it has a specified width */
+    display: block; /* Ensures the canvas is treated as a block-level element for centering */
+}
+
+.articles-section, .company-info-box {
+    background-color: #fff; /* Ensures consistency in background styling */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sentiment-heading {
+    font-size: 2em; /* Adjust as needed */
+    color: #333; /* Dark gray */
+    margin-bottom: 20px; /* Creates space below the heading */
+    text-align: center;
+}
+
+.sentiment-subheading {
+    font-size: 1.5em; /* Adjust as needed */
+    color: #333; /* Dark gray */
+    margin-bottom: 20px; /* Creates space below the heading */
+    text-align: center;
+}

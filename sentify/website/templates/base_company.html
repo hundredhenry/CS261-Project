@@ -23,7 +23,7 @@
                     	"container_id": "tradingview_2f394"
                     }
                 </script>
-                <button class="follow-button">Follow</button>
+                <button onclick="modifyFollowCompany(event, this, 'Followed', 'Follow');var cardElement = event.target.closest('.card-followed');cardElement.parentNode.removeChild(cardElement);" data-ticker='{{ ticker }}' class="follow-button"> Followed </button>
             </div>
             <h1 class="articles-heading">Latest Stories</h1>
             <hr style="width:90%;">
@@ -32,7 +32,13 @@
         </div>
         <div class="sentiment-chart-and-overview">
             <div class="sentiment-box">
-                overall sentiment goes here
+                <h2 class="sentiment-heading">Sentiment Analysis</h2>
+                <h2 class="sentiment-subheading">Current Sentiment</h2>
+                <div class="sentiment-chart" 
+                    data-positive="{{ positive }}" 
+                    data-negative="{{ negative }}">
+                    <canvas id="sentimentChart" width="250" height="250"></canvas>
+                </div>
             </div>
             <div class="company-info-box">
                 <h1>Company Overview</h1>
@@ -62,6 +68,7 @@
     </div>
 </div>
 <script src="/static/scripts/refresh_articles.js"></script>
+<script src="/static/scripts/modify_follow.js"></script>
 <script>
     refreshArticles(["{{ ticker }}"]);
 </script>
