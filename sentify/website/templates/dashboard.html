@@ -1,425 +1,304 @@
 {% extends "base.html" %}
-
 {% block title %} User Dashboard {% endblock %}
-
 {% block stylesheet %} 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
 {% endblock %}
-
 {% block content %}
-
-    <div class="dashboard">
-       
-        <div class="welcome-back">
-            <div class="welcome-message">
-                <h1 style="font-size: 56px; margin-bottom:25px;"> Welcome back name</h1>
-                <p style="color: #6d6d6d"> Discover your personalised dashboard below, view your watchlist,<br> and browse the latest articles we think you'd like!</p>
-                
-                <div class="see-all-companies">
-                    See Recommended 
-                </div>
-                
-            </div>
-            <div class="overall-sentiment">
-
-            </div>
-        </div>
-        <div class="followed-companies-dashboard">
-            <div class="title-followed"
-            style="
-                margin-top: 50px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 30px;
-            ">
-                Latest Stories
-            </div>
-            <div class="little-box">
-                <div class="plus-arrow">
-                    +
-                </div>
-                <div>
-                    Keep up with the latest in any company 
-                </div>
-            </div>
-            <div class="article-containers">
-                <div>
-                    <div class="tab">
-                      <button class="tablinks active" onclick="openTab(event, 'Tab1')"> Following </button>
-                      <button class="tablinks" onclick="openTab(event, 'Tab2')"> Recommended </button>
-                    </div>
-                
-                    <div id="Tab1" class="tabcontent" style="display:block;">
-                      <div class="article-tab">
-                
-                        <div class="article-information">
-                
-                            <div class="pfp">
-                              <p style="color: black; font-size: 11px; 
-                              left: 50px; position: relative; width: 1000px; top: 12px">
-                                Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                              </p>
-                
-                            </div>
-                
-                
-                           <p class="article-header">Microsoft CEO explains recent tweets</p>
-                           <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                           line-height: 1.5;" >
-                             Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                           </p>
-                
-                           <div class="sector-div">
-                             sector
-                           </div>
-                           <div class="three-dots">
-                             ...
-                           </div>
-                
-                        </div>
-                        <div class="article-image">
-                
-                
-                          <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                
-                           <div class="article-sentiment">
-                                <p>
-                                 POSITIVE
-                                </p>
-                           </div>
-                
-                        </div>
-                
-                      </div>
-
-                      <div class="article-tab">
-                
-                        <div class="article-information">
-                
-                            <div class="pfp">
-                              <p style="color: black; font-size: 11px; 
-                              left: 50px; position: relative; width: 1000px; top: 12px">
-                                Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                              </p>
-                
-                            </div>
-                
-                
-                           <p class="article-header">Microsoft CEO explains recent tweets</p>
-                           <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                           line-height: 1.5;" >
-                             Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                           </p>
-                
-                           <div class="sector-div">
-                             sector
-                           </div>
-                           <div class="three-dots">
-                             ...
-                           </div>
-                
-                        </div>
-                        <div class="article-image">
-                
-                
-                          <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                
-                           <div class="article-sentiment">
-                                <p>
-                                 POSITIVE
-                                </p>
-                           </div>
-                
-                        </div>
-                
-                      </div>
-
-                      <div class="article-tab">
-                
-                        <div class="article-information">
-                
-                            <div class="pfp">
-                              <p style="color: black; font-size: 11px; 
-                              left: 50px; position: relative; width: 1000px; top: 12px">
-                                Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                              </p>
-                
-                            </div>
-                
-                
-                           <p class="article-header">Microsoft CEO explains recent tweets</p>
-                           <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                           line-height: 1.5;" >
-                             Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                           </p>
-                
-                           <div class="sector-div">
-                             sector
-                           </div>
-                           <div class="three-dots">
-                             ...
-                           </div>
-                
-                        </div>
-                        <div class="article-image">
-                
-                
-                          <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                
-                           <div class="article-sentiment">
-                                <p>
-                                 POSITIVE
-                                </p>
-                           </div>
-                
-                        </div>
-                
-                      </div>
-
-                      <div class="article-tab">
-                
-                        <div class="article-information">
-                
-                            <div class="pfp">
-                              <p style="color: black; font-size: 11px; 
-                              left: 50px; position: relative; width: 1000px; top: 12px">
-                                Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                              </p>
-                
-                            </div>
-                
-                
-                           <p class="article-header">Microsoft CEO explains recent tweets</p>
-                           <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                           line-height: 1.5;" >
-                             Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                           </p>
-                
-                           <div class="sector-div">
-                             sector
-                           </div>
-                           <div class="three-dots">
-                             ...
-                           </div>
-                
-                        </div>
-                        <div class="article-image">
-                
-                
-                          <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                
-                           <div class="article-sentiment">
-                                <p>
-                                 POSITIVE
-                                </p>
-                           </div>
-                
-                        </div>
-                
-                      </div>
-                
-                    </div>
-                
-                    <div id="Tab2" class="tabcontent">
-                        <div class="article-tab">
-                
-                            <div class="article-information">
-                    
-                                <div class="pfp">
-                                  <p style="color: black; font-size: 11px; 
-                                  left: 50px; position: relative; width: 1000px; top: 12px">
-                                    Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                                  </p>
-                    
-                                </div>
-                    
-                    
-                               <p class="article-header">Microsoft CEO explains recent tweets</p>
-                               <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                               line-height: 1.5;" >
-                                 Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                               </p>
-                    
-                               <div class="sector-div">
-                                 sector
-                               </div>
-                               <div class="three-dots">
-                                 ...
-                               </div>
-                    
-                            </div>
-                            <div class="article-image">
-                    
-                    
-                              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                    
-                               <div class="article-sentiment">
-                                    <p>
-                                     POSITIVE
-                                    </p>
-                               </div>
-                    
-                            </div>
-                    
-                          </div>
-    
-                          <div class="article-tab">
-                    
-                            <div class="article-information">
-                    
-                                <div class="pfp">
-                                  <p style="color: black; font-size: 11px; 
-                                  left: 50px; position: relative; width: 1000px; top: 12px">
-                                    Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                                  </p>
-                    
-                                </div>
-                    
-                    
-                               <p class="article-header">Microsoft CEO explains recent tweets</p>
-                               <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                               line-height: 1.5;" >
-                                 Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                               </p>
-                    
-                               <div class="sector-div">
-                                 sector
-                               </div>
-                               <div class="three-dots">
-                                 ...
-                               </div>
-                    
-                            </div>
-                            <div class="article-image">
-                    
-                    
-                              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                    
-                               <div class="article-sentiment">
-                                    <p>
-                                     POSITIVE
-                                    </p>
-                               </div>
-                    
-                            </div>
-                    
-                          </div>
-    
-                          <div class="article-tab">
-                    
-                            <div class="article-information">
-                    
-                                <div class="pfp">
-                                  <p style="color: black; font-size: 11px; 
-                                  left: 50px; position: relative; width: 1000px; top: 12px">
-                                    Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                                  </p>
-                    
-                                </div>
-                    
-                    
-                               <p class="article-header">Microsoft CEO explains recent tweets</p>
-                               <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                               line-height: 1.5;" >
-                                 Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                               </p>
-                    
-                               <div class="sector-div">
-                                 sector
-                               </div>
-                               <div class="three-dots">
-                                 ...
-                               </div>
-                    
-                            </div>
-                            <div class="article-image">
-                    
-                    
-                              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                    
-                               <div class="article-sentiment">
-                                    <p>
-                                     POSITIVE
-                                    </p>
-                               </div>
-                    
-                            </div>
-                    
-                          </div>
-    
-                          <div class="article-tab">
-                    
-                            <div class="article-information">
-                    
-                                <div class="pfp">
-                                  <p style="color: black; font-size: 11px; 
-                                  left: 50px; position: relative; width: 1000px; top: 12px">
-                                    Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                                  </p>
-                    
-                                </div>
-                    
-                    
-                               <p class="article-header">Microsoft CEO explains recent tweets</p>
-                               <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                               line-height: 1.5;" >
-                                 Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-                               </p>
-                    
-                               <div class="sector-div">
-                                 sector
-                               </div>
-                               <div class="three-dots">
-                                 ...
-                               </div>
-                    
-                            </div>
-                            <div class="article-image">
-                    
-                    
-                              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-                    
-                               <div class="article-sentiment">
-                                    <p>
-                                     POSITIVE
-                                    </p>
-                               </div>
-                    
-                            </div>
-                    
-                          </div>
-                
-                    </div>
-                </div>
-
-                <div class="side-box">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="followed-dashboard-section">
-            <!-- paste in the watch list and then reccomended companies-->
-        </div>
-
-
+<div class="dashboard">
+  <div class="welcome-back">
+    <div class="welcome-message">
+      <h1 style="font-size: 56px; margin-bottom:25px;"> Welcome back, {{ current_user.firstname }}</h1>
+      <p style="color: #6d6d6d"> Discover your personalised dashboard below, view your watchlist,<br> and browse the latest articles we think you'd like!</p>
+      <div class="see-all-companies">
+        See Recommended 
+      </div>
     </div>
-
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-    </script>
-
+    <div class="overall-sentiment">
+    </div>
+  </div>
+  <div class="followed-companies-dashboard">
+    <div class="title-followed"
+      style="
+      margin-top: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      ">
+      Latest Stories
+    </div>
+    <div class="little-box">
+      <div class="plus-arrow">
+        +
+      </div>
+      <div>
+        Keep up with the latest in any company 
+      </div>
+    </div>
+    <div class="article-containers">
+      <div>
+        <div class="tab">
+          <button class="tablinks active" onclick="openTab(event, 'Tab1')"> Following </button>
+          <button class="tablinks" onclick="openTab(event, 'Tab2')"> Recommended </button>
+        </div>
+        <div id="Tab1" class="tabcontent" style="display:block;">
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="Tab2" class="tabcontent">
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="article-tab">
+            <div class="article-information">
+              <div class="pfp">
+                <p style="color: black; font-size: 11px; 
+                  left: 50px; position: relative; width: 1000px; top: 12px">
+                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
+                </p>
+              </div>
+              <p class="article-header">Microsoft CEO explains recent tweets</p>
+              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
+                line-height: 1.5;" >
+                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
+              </p>
+              <div class="sector-div">
+                sector
+              </div>
+              <div class="three-dots">
+                ...
+              </div>
+            </div>
+            <div class="article-image">
+              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
+              <div class="article-sentiment">
+                <p>
+                  POSITIVE
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="side-box">
+      </div>
+    </div>
+  </div>
+  <div class="followed-dashboard-section">
+    <!-- paste in the watch list and then reccomended companies-->
+  </div>
+</div>
+<script>
+  function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+  }
+</script>
 {% endblock %}

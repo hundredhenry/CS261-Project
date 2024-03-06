@@ -181,7 +181,6 @@
 }
 
 .sentiment-box, .company-info-box {
-    border: 1px dotted black;
     height: 70%;
     width: calc(100% - 20px);
     padding: 10px;
@@ -207,7 +206,9 @@
 .company-info-box .company-description {
     padding-top: 10px;
     font-size: 16px;
-    color: #999; /* Light gray */
+    color: #666; /* Light gray */
+    font-weight: 300;
+    line-height: 1.1;
 }
 
 .advanced-chart-container {
@@ -224,7 +225,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f934; /* Light background to distinguish the sentiment area */
     padding: 20px;
     border-radius: 8px; /* Optional: adds rounded corners */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */

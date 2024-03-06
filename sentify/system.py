@@ -186,4 +186,4 @@ class NewsSystem:
                 query = insert(Notification).values(
                     user_id = row[0],
                     message = f"New articles available for {ticker}!")
-                db.session.execute(query) # commit after?!
+                db.session.execute(query)
