@@ -92,7 +92,7 @@ def register():
             db.session.commit()
 
             send_email(subject, email, html)
-
+            session.clear()
             return redirect(url_for("views.unconfirmed"))
 
     return render_template('register.html')
@@ -149,8 +149,7 @@ def login():
 @views.route('/resend/', methods=['GET', 'POST'])
 def resend_email():
     if current_user.is_authenticated:
-        logout_user()
-        return redirect(url_for("views.landing"))
+        return redirect(url_for("views.dashboard"))
     if request.method == "POST":
         email = request.form.get('email')
         user = User.query.filter_by(email=email, verified=False).first()
