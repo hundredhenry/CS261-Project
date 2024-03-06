@@ -10,7 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from recommend import recommend_specific
 
 from . import db
-from .models import User, Company, Follow, SentimentRating, Article, ArticleTopic
+from .models import User, Company, Follow, SentimentRating
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
@@ -165,8 +165,14 @@ def company(ticker):
 
     positive = SentimentRating.query.filter_by(stock_ticker=ticker).order_by(SentimentRating.date.desc()).first().rating
     negative = 100 - positive
-
-    return render_template('base_company.html', ticker=ticker, desc=company.description, sector=company.sector_company.sector_name, positive = positive, negative = negative)
+    is_following = Follow.query.filter_by(user_id=current_user.id, stock_ticker=ticker).first()
+    return render_template('base_company.html',
+                           ticker=ticker,
+                           desc=company.description,
+                           sector=company.sector_company.sector_name,
+                           positive = positive,
+                           negative = negative,
+                           is_following = is_following is not None)
 
 @views.route('/companies/articles')
 @login_required
@@ -268,12 +274,12 @@ def modify_follow():
     if is_following:
         db.session.delete(is_following)
         db.session.commit()
-        return jsonify({'status': 'unfollowing', 'ticker': ticker})
+        return jsonify({'status': 'unfollowed', 'ticker': ticker})
 
     new_follow = Follow(user_id=current_user.id, stock_ticker=ticker)
     db.session.add(new_follow)
     db.session.commit()
-    return jsonify({'status': 'following', 'ticker': ticker})
+    return jsonify({'status': 'followed', 'ticker': ticker})
 
 
 @views.route('/dashboard')
