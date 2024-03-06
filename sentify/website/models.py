@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from datetime import date
+from datetime import datetime, date
 from . import db
 
 # Model of a user
@@ -34,7 +34,7 @@ class Notification(db.Model):
     read = db.Column(db.Boolean, default = False)
     sent = db.Column(db.Boolean, default = False)
     message = db.Column(db.Text, nullable = False)
-    time = db.Column(db.DateTime, default = date.today())
+    time = db.Column(db.DateTime, default = datetime.now)
 
     def __init__(self, user_id, message, sent):
         self.user_id = user_id
