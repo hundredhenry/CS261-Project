@@ -7,9 +7,9 @@
     margin: 20px;
     height: 2000px;
     padding: 20px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
 
-    font-family: Roboto;
-    font-weight: lighter;
 }
 
 .welcome-back {
@@ -45,7 +45,6 @@
 }
 
 .followed-companies-dashboard {
-
     position: relative;
     height: 600px;
     width: auto;
@@ -144,7 +143,6 @@
     margin: 20px;
     margin-top: 0px;
     margin-left: 0px;
-
   }
   
   .actual-image {
@@ -155,7 +153,6 @@
   .article-information {
     flex: 2;
     font-family: 'Roboto', sans-serif;
-    font-weight: lighter;
     padding: 0px;
   }
   
@@ -217,6 +214,7 @@
      align-items: center;
      justify-content: space-between;
      overflow: auto;
+    
   }
   
   .side-box {
@@ -225,4 +223,8 @@
     width: 600px;
     padding: 20px;
 
+  }
+
+  .right-articles {
+    
   }
