@@ -9,7 +9,7 @@ function truncateText(text, maxLength) {
 function refreshArticles(tickers, currentArticles) {
     var tickersString = tickers.join(',');
     // Fetch the articles from the server
-    fetch(`/companies/articles?tickers=${tickersString}`)
+    fetch(`/api/get/articles?tickers=${tickersString}`)
     .then(response => response.json())
     .then(newArticles => {
         if (JSON.stringify(newArticles) !== JSON.stringify(currentArticles)) {

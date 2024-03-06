@@ -20,6 +20,10 @@ views = Blueprint("views", __name__)
 def landing():
     return render_template('landing_page.html')
 
+@views.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
 @views.route('/register/', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -154,7 +158,6 @@ def logout():
     logout_user()
     return redirect(url_for("views.landing"))
 
-# this is a temporary route
 @views.route('/companies/<ticker>')
 @login_required
 def company(ticker):
@@ -174,7 +177,81 @@ def company(ticker):
                            negative = negative,
                            is_following = is_following is not None)
 
-@views.route('/companies/articles')
+def random_color():
+    return '#' + ''.join(random.choices('0123456789abcdef', k=6))
+
+def get_following():
+    if current_user.is_authenticated:
+        following = Follow.query.filter_by(user_id=current_user.id).all()
+        return [follow.stock_ticker for follow in following]
+    return []
+
+def get_companies():
+    max_attempts = 3
+    attempts = 0
+
+    while attempts < max_attempts:
+        try:
+            companies = Company.query.with_entities(
+                Company.stock_ticker, Company.company_name).order_by(
+                Company.company_name).all()
+            results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name}
+                       for company in companies]
+            return results
+        except SQLAlchemyError:
+            attempts += 1
+            if attempts == max_attempts:
+                raise
+
+@views.route('/companies/search/')
+@login_required
+def search_companies():
+    followed_companies = get_following()
+    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
+    return render_template('company_search.html',
+                           companies=followed_companies,
+                           suggested_companies=suggested_companies,
+                           randomColor=random_color,
+                           showNavSearchBar=False)
+
+@views.route('/companies/')
+@login_required
+def all_companies():
+    companies = get_companies()
+    following = get_following()
+    return render_template('all_companies.html', companies=companies, following=following)
+      
+@views.route('/api/modify/follow', methods=['POST'])
+@login_required
+def modify_follow():
+    data = request.get_json()
+    ticker = data.get('ticker')
+    if not ticker:
+        return jsonify({'error': 'No ticker provided'}), 400
+    company_exists = Company.query.filter_by(stock_ticker=ticker).first()
+    if not company_exists:
+        return jsonify({'error': 'Ticker does not exist'}), 404
+
+    is_following = Follow.query.filter_by(user_id=current_user.id, stock_ticker=ticker).first()
+    if is_following:
+        db.session.delete(is_following)
+        db.session.commit()
+        return jsonify({'status': 'unfollowed', 'ticker': ticker})
+
+    new_follow = Follow(user_id=current_user.id, stock_ticker=ticker)
+    db.session.add(new_follow)
+    db.session.commit()
+    return jsonify({'status': 'followed', 'ticker': ticker})
+
+@views.route('/api/get/companies', methods=['GET'])
+def retrieve_companies():
+    try:
+        results = get_companies()
+        return jsonify(results)
+    except SQLAlchemyError:
+        return jsonify({'error': 'Maximum number of attempts reached.'}), 500
+
+@views.route('/api/get/articles')
 @login_required
 def company_articles():
     tickers = request.args.get('tickers')
@@ -206,82 +283,3 @@ def company_articles():
             for article in company.articles
         ]
     return jsonify({'articles': articles_json})
-
-def random_color():
-    return '#' + ''.join(random.choices('0123456789abcdef', k=6))
-
-def get_following():
-    if current_user.is_authenticated:
-        following = Follow.query.filter_by(user_id=current_user.id).all()
-        return [follow.stock_ticker for follow in following]
-    return []
-
-@views.route('/companies/search/')
-@login_required
-def search_companies():
-    followed_companies = get_following()
-    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
-    return render_template('company_search.html',
-                           companies=followed_companies,
-                           suggested_companies=suggested_companies,
-                           randomColor=random_color,
-                           showNavSearchBar=False)
-
-def get_companies():
-    max_attempts = 3
-    attempts = 0
-
-    while attempts < max_attempts:
-        try:
-            companies = Company.query.with_entities(
-                Company.stock_ticker, Company.company_name).order_by(
-                Company.company_name).all()
-            results = [{'stock_ticker': company.stock_ticker, 'company_name': company.company_name}
-                       for company in companies]
-            return results
-        except SQLAlchemyError:
-            attempts += 1
-            if attempts == max_attempts:
-                raise
-
-@views.route('/retrieve_companies/', methods=['GET'])
-def retrieve_companies():
-    try:
-        results = get_companies()
-        return jsonify(results)
-    except SQLAlchemyError:
-        return jsonify({'error': 'Maximum number of attempts reached.'}), 500
-
-@views.route('/companies/')
-@login_required
-def all_companies():
-    companies = get_companies()
-    following = get_following()
-    return render_template('all_companies.html', companies=companies, following=following)
-      
-@views.route('/modify-follow/', methods=['POST'])
-@login_required
-def modify_follow():
-    data = request.get_json()
-    ticker = data.get('ticker')
-    if not ticker:
-        return jsonify({'error': 'No ticker provided'}), 400
-    company_exists = Company.query.filter_by(stock_ticker=ticker).first()
-    if not company_exists:
-        return jsonify({'error': 'Ticker does not exist'}), 404
-
-    is_following = Follow.query.filter_by(user_id=current_user.id, stock_ticker=ticker).first()
-    if is_following:
-        db.session.delete(is_following)
-        db.session.commit()
-        return jsonify({'status': 'unfollowed', 'ticker': ticker})
-
-    new_follow = Follow(user_id=current_user.id, stock_ticker=ticker)
-    db.session.add(new_follow)
-    db.session.commit()
-    return jsonify({'status': 'followed', 'ticker': ticker})
-
-
-@views.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')

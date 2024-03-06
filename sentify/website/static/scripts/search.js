@@ -1,7 +1,7 @@
 var companies = [];
 
 window.onload = function() {
-    fetch('/retrieve_companies/')
+    fetch('/api/get/companies')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
