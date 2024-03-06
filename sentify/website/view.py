@@ -160,17 +160,16 @@ def logout():
     return redirect(url_for("views.landing"))
 
 def daily_sentiment(stock_ticker):
-    # Query to get daily average sentiment
+    # Query to get daily sentiment
     results = db.session.query(
         SentimentRating.date,
-        func.avg(SentimentRating.rating).label('average_rating')
+        SentimentRating.rating
     ).filter(SentimentRating.stock_ticker == stock_ticker
-    ).group_by(SentimentRating.date
     ).order_by(SentimentRating.date.asc()).all()
 
-    # Extract dates and average ratings from the query results
+    # Extract dates and ratings from the query results
     labels = [result.date.strftime('%Y-%m-%d') for result in results]
-    data = [round(result.average_rating, 2) for result in results]
+    data = [round(result.rating, 2) for result in results]
 
     # Prepare data for Chart.js
     chart_data = {
