@@ -35,10 +35,6 @@ def on_join(data):
 def landing():
     return render_template('landing_page.html')
 
-@views.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-
 @views.route('/register/', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -290,6 +286,15 @@ def search_companies():
                            suggested_companies=suggested_companies,
                            randomColor=random_color,
                            showNavSearchBar=False)
+
+@views.route('/dashboard')
+def dashboard():
+    followed_companies = get_following()
+    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
+    return render_template('dashboard.html',
+                           companies=followed_companies,
+                           suggested_companies=suggested_companies,
+                           randomColor=random_color)
 
 @views.route('/companies/')
 @login_required
