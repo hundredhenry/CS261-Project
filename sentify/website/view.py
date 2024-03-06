@@ -8,9 +8,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
 from recommend import recommend_specific
+from sqlalchemy import func
 
 from . import db
-from .models import User, Company, Follow, SentimentRating
+from .models import User, Company, Follow, SentimentRating, Article
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
@@ -158,6 +159,59 @@ def logout():
     logout_user()
     return redirect(url_for("views.landing"))
 
+def daily_sentiment(stock_ticker):
+    # Query to get daily average sentiment
+    results = db.session.query(
+        SentimentRating.date,
+        func.avg(SentimentRating.rating).label('average_rating')
+    ).filter(SentimentRating.stock_ticker == stock_ticker
+    ).group_by(SentimentRating.date
+    ).order_by(SentimentRating.date.asc()).all()
+
+    # Extract dates and average ratings from the query results
+    labels = [result.date.strftime('%Y-%m-%d') for result in results]
+    data = [round(result.average_rating, 2) for result in results]
+
+    # Prepare data for Chart.js
+    chart_data = {
+        'labels': labels,
+        'datasets': [{
+            'label': f'Daily Sentiment for {stock_ticker}',
+            'data': data,
+            'fill': False,
+            'borderColor': 'rgb(75, 192, 192)',
+            'lineTension': 0.1
+        }]
+    }
+
+    return chart_data
+
+def industry_sentiment(stock_ticker):
+    # Query to get the sector ID of the company
+    sector_id = db.session.query(Company.sector_id).filter(Company.stock_ticker == stock_ticker).scalar()
+
+    if sector_id is None:
+        return None  # Sector ID not found for the given stock ticker
+
+    # Query to get stock tickers of all companies within the same sector
+    companies_stock_tickers = db.session.query(Company.stock_ticker).filter(Company.sector_id == sector_id).all()
+
+    # Convert the result into a list of stock tickers
+    stock_tickers = [ticker[0] for ticker in companies_stock_tickers]
+
+    # Query to get the sentiment scores of articles related to companies within the sector
+    sentiment_scores = db.session.query(Article.sentiment_score)\
+                        .join(Company, Article.stock_ticker == Company.stock_ticker)\
+                        .filter(Company.stock_ticker.in_(stock_tickers)).all()
+
+    # Calculate the average sentiment score
+    if sentiment_scores:
+        average_sentiment = sum(score[0] for score in sentiment_scores) / len(sentiment_scores)
+    else:
+        average_sentiment = None
+
+    return average_sentiment
+
 @views.route('/companies/<ticker>')
 @login_required
 def company(ticker):
@@ -168,6 +222,11 @@ def company(ticker):
 
     positive = SentimentRating.query.filter_by(stock_ticker=ticker).order_by(SentimentRating.date.desc()).first().rating
     negative = 100 - positive
+    total_articles = db.session.query(func.count(Article.id)).filter(Article.stock_ticker == ticker).scalar()
+    positive_articles = db.session.query(func.count(Article.id)).filter(Article.stock_ticker == ticker, Article.sentiment_label == 'Positive').scalar()
+    negative_articles = total_articles - positive_articles
+    industry_average = industry_sentiment(ticker)
+    chart_data = daily_sentiment(ticker)
     is_following = Follow.query.filter_by(user_id=current_user.id, stock_ticker=ticker).first()
     return render_template('base_company.html',
                            ticker=ticker,
@@ -175,6 +234,11 @@ def company(ticker):
                            sector=company.sector_company.sector_name,
                            positive = positive,
                            negative = negative,
+                           total_articles = total_articles,
+                           positive_articles = positive_articles,
+                           negative_articles = negative_articles,
+                           industry_average = industry_average,
+                           chart_data = chart_data,
                            is_following = is_following is not None)
 
 def random_color():

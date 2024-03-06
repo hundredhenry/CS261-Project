@@ -4,6 +4,9 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company.css') }}">
 {% endblock %}
 {% block content %}
+<script type="text/javascript">
+    var chartData = {{ chart_data | tojson | safe }};
+</script>
 <div class="container">
     <div class="main-content">
         <div class="overview-article">
@@ -31,12 +34,19 @@
         </div>
         <div class="sentiment-chart-and-overview">
             <div class="sentiment-box">
-                <h2 class="sentiment-heading">Sentiment Analysis</h2>
-                <h2 class="sentiment-subheading">Current Sentiment</h2>
-                <div class="sentiment-chart" 
+                <h2 class="sentiment-heading">{{ ticker }} Sentiment Analysis</h2>
+                <h2 class="sentiment-subheading">Current Daily Sentiment</h2>
+                <div class="sentiment-doughnut" 
                     data-positive="{{ positive }}" 
                     data-negative="{{ negative }}">
-                    <canvas id="sentimentChart" width="250" height="250"></canvas>
+                    <canvas id="sentimentDoughnut" width="250" height="250"></canvas>
+                </div>
+                <h2 class="article-subcount" style="color: rgba(75, 192, 132, 0.8);">{{positive_articles}} positive articles</h2>
+                <h2 class="article-subcount" style="color: rgba(255, 99, 132, 0.8);">{{negative_articles}} negative articles</h2>
+                <h2 class="sentiment-subheading">Overall Sentiment</h2>
+                <h2 class="sentiment-subheading">Sentiment Over Time</h2>
+                <div class = "sentiment-chart">
+                    <canvas id="sentimentChart" height="250"></canvas>
                 </div>
             </div>
             <div class="company-info-box">
@@ -68,6 +78,9 @@
 </div>
 <script src="/static/scripts/refresh_articles.js"></script>
 <script src="/static/scripts/modify_follow.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/scripts/doughnut.js"></script>
+<script src="/static/scripts/chart.js"></script>
 <script>
     currentArticles = refreshArticles(["{{ ticker }}"], null);
     setInterval(function() {

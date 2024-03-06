@@ -235,9 +235,15 @@
     margin-top: 20px; /* Adds space between the sentiment box and company info */
 }
 
+.sentiment-doughnut {
+    margin: 0 auto; /* Centers the canvas element inside the div if it has a specified width */
+    display: block; /* Ensures the canvas is treated as a block-level element for centering */
+}
+
 .sentiment-chart {
     margin: 0 auto; /* Centers the canvas element inside the div if it has a specified width */
     display: block; /* Ensures the canvas is treated as a block-level element for centering */
+    align-self: flex-end;
 }
 
 .articles-section, .company-info-box {
@@ -250,13 +256,29 @@
 .sentiment-heading {
     font-size: 2em; /* Adjust as needed */
     color: #333; /* Dark gray */
-    margin-bottom: 20px; /* Creates space below the heading */
     text-align: center;
 }
 
 .sentiment-subheading {
     font-size: 1.5em; /* Adjust as needed */
     color: #333; /* Dark gray */
+    margin-top: 20px;
     margin-bottom: 20px; /* Creates space below the heading */
+    text-align: center;
+}
+
+.article-count {
+    font-size: 1.5em; /* Adjust as needed */
+    color: #333; /* Dark gray */
+    margin-top: 10px; /* Creates space below the heading */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.article-subcount {
+    font-size: 1.5em; /* Adjust as needed */
+    color: #333; /* Dark gray */
+    margin-top: 5px; /* Creates space below the heading */
+    margin-bottom: 5px;
     text-align: center;
 }
