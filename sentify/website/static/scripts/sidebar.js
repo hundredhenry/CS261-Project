@@ -17,11 +17,21 @@ function toggleSidebar() {
     }
 }
 
-function toggleDropdown() {
-    var dropdownContent = document.getElementById("dropdownContent");
+var dropdownContent = document.getElementById("dropdownContent");
+
+function toggleDropdown(event) {
+    event.stopPropagation(); // Prevent this event from triggering the click event on the document
     if (dropdownContent.style.display === "none") {
         dropdownContent.style.display = "block";
     } else {
         dropdownContent.style.display = "none";
     }
 }
+
+// Add an event listener to the document that hides the dropdown when you click outside of it
+document.addEventListener('click', function(event) {
+    var isClickInside = dropdownContent.contains(event.target);
+    if (!isClickInside) {
+        dropdownContent.style.display = "none";
+    }
+});
