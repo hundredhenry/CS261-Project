@@ -5,7 +5,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 175vh; /* Full height of the viewport */
+    height: 200vh; /* Full height of the viewport */
     font-family: 'Inter', 'Roboto', sans-serif;
     background-color: white;
 }
@@ -14,7 +14,7 @@
     display: flex;
     gap: 20px;
     flex-direction: row;
-    height: 70%; /* Takes up 60% of the container height */
+    height: 65%; /* Takes up 60% of the container height */
 }
 
 .overview-article {
@@ -168,6 +168,7 @@
 }
 
 .tag {
+    font-size: small;
     background-color: #f9f9f9; /* Light gray */
     padding: 10px;
     border-radius: 25px;
@@ -213,7 +214,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 40%; /* Takes up 30% of the container height */
+    height: 35%;
     margin-top: 20px;   
     padding-bottom: 20px;
 }   
@@ -223,7 +224,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9; /* Light background to distinguish the sentiment area */
+    background-color: #f9f9f934; /* Light background to distinguish the sentiment area */
     padding: 20px;
     border-radius: 8px; /* Optional: adds rounded corners */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */

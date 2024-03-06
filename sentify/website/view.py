@@ -6,13 +6,11 @@ from urllib.parse import urlparse
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from sqlalchemy.sql import func
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import joinedload
 from recommend import recommend_specific
 
 from . import db
-from .models import User, Company, Follow, SentimentRating
+from .models import User, Company, Follow, SentimentRating, Article, ArticleTopic
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
@@ -181,7 +179,7 @@ def company_articles():
 
     articles_json = {}
     for ticker in tickers:
-        company = Company.query.options(joinedload(Company.articles)).get(ticker)
+        company = Company.query.get(ticker)
         if not company:
             articles_json[ticker] = {'error': f'{ticker} does not exist'}
             continue
@@ -196,7 +194,8 @@ def company_articles():
                 "description": article.description,
                 "banner_image": article.banner_image,
                 "sentiment_label": article.sentiment_label,
-                "sentiment_score": article.sentiment_score
+                "sentiment_score": article.sentiment_score,
+                "topics": [topic.topic for topic in article.topics]
             }
             for article in company.articles
         ]

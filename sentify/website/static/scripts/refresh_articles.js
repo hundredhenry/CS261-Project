@@ -6,22 +6,25 @@ function truncateText(text, maxLength) {
     }
 }
 
-function refreshArticles(tickers) {
+function refreshArticles(tickers, currentArticles) {
     var tickersString = tickers.join(',');
     // Fetch the articles from the server
     fetch(`/companies/articles?tickers=${tickersString}`)
     .then(response => response.json())
-    .then(data => {
+    .then(newArticles => {
+        if (JSON.stringify(newArticles) !== JSON.stringify(currentArticles)) {
         // Clear the existing articles
         var articlesSection = document.querySelector('.articles-section');
-
+        function generateTags(topics) {
+            return topics.map(topic => `<span class="tag">${topic}</span>`).join('');
+        }
         // Clear the existing articles
         articlesSection.innerHTML = '';
 
         // Loop through each ticker
-        for (var ticker in data.articles) {
+        for (var ticker in newArticles.articles) {
             // Loop through each article
-            data.articles[ticker].forEach(article => {
+            newArticles.articles[ticker].forEach(article => {
                 // Generate the HTML for the article
                 var str = article.sentiment_label.toLowerCase();
                 
@@ -37,9 +40,9 @@ function refreshArticles(tickers) {
                             <a href="${article.url}">
                                 <h1 class="article-title">${truncateText(article.title, 80)}</h1>
                             </a>
-                            <p class="article-content">${article.description ? truncateText(article.description, 300) : 'No description available for this article.'}</p>
+                            <p class="article-content">${article.description ? truncateText(article.description, 225) : 'No description available for this article.'}</p>
                             <div class="article-tags">
-                                <span class="tag">Temp</span>
+                                ${generateTags(article.topics)}
                             </div>
                         </div>
                         <div class="article-right">
@@ -54,8 +57,10 @@ function refreshArticles(tickers) {
                 articlesSection.innerHTML += articleHTML;
             });
         }
+    }
         addEventListenersToButtons();
-
+        currentArticles = newArticles;
+        return currentArticles;
     })
     .catch(error => console.error('Error:', error));
 }

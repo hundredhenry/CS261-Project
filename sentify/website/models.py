@@ -106,6 +106,7 @@ class Article(UserMixin, db.Model):
     banner_image = db.Column(db.Text)
     sentiment_label = db.Column(db.String(10), nullable = False)
     sentiment_score = db.Column(db.Float, nullable = False)
+    topics = db.relationship('Topic', secondary = 'article_topics', backref = 'article_topic')
 
     def __init__(self, title, stock_ticker, source_name, source_domain,
                  url, published, description, banner_image, 
@@ -120,6 +121,7 @@ class Article(UserMixin, db.Model):
         self.banner_image = banner_image
         self.sentiment_label = sentiment_label
         self.sentiment_score = sentiment_score
+        self.topics = []
 
 class Topic(db.Model):
     __tablename__ = 'topics'
