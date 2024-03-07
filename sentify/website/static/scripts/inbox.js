@@ -20,19 +20,7 @@ window.addEventListener('load', function() {
           dropdownContent.innerHTML += `<div class='empty-inbox-row'> No notifications </div>`;
         }
         const clearInboxButton = document.getElementById('clear-inbox');
-        clearInboxButton.addEventListener('click', function() {
-          fetch('/api/delete/notifications', { method: 'DELETE' })
-            .then(() => {
-              dropdownContent.innerHTML = `
-                <div class="inbox-header">
-                  <h1 class='inbox-heading'>Inbox</h1>
-                </div>
-                <div class="empty-inbox-row">No notifications</div>
-              `;
-              toastr.success('Inbox cleared successfully.');
-            })
-            .catch(error => toastr.error('Error deleting notifications:'));
-        });
+        clearInboxButton.onclick = clearInbox;
       })
       .catch(error => console.error('Error fetching notifications:', error));
 });
@@ -71,4 +59,19 @@ function constructNotification(message, timeText) {
   messageDiv.textContent = message;
   row.appendChild(messageDiv); // Add the message div to the row
   return row;
+}
+
+function clearInbox() {
+  fetch('/api/delete/notifications', { method: 'DELETE' })
+    .then(() => {
+      const dropdownContent = document.getElementById('dropdownContent');
+      dropdownContent.innerHTML = `
+        <div class="inbox-header">
+          <h1 class='inbox-heading'>Inbox</h1>
+        </div>
+        <div class="empty-inbox-row">No notifications</div>
+      `;
+      toastr.success('Inbox cleared!');
+    })
+    .catch(error => toastr.error('Error deleting notifications:'));
 }

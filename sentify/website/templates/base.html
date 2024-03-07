@@ -220,9 +220,7 @@
       const newClearAllButton = document.createElement('button');
       newClearAllButton.className = 'clear-inbox-button';
       newClearAllButton.textContent = 'Clear all';
-      newClearAllButton.onclick = function() {
-        // Add code here to clear all notifications
-      };
+      newClearAllButton.onclick = clearInbox;
       inboxHeader.appendChild(newClearAllButton);
     }
       });
