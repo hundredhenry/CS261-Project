@@ -205,25 +205,26 @@ def industry_sentiment(stock_ticker):
     # Query to get stock tickers of all companies within the same sector
     companies = db.session.query(Company.stock_ticker).filter(Company.sector_id == sector_id).all()
 
-    # Initialize a list to hold the average sentiment scores for each company
+    # Initialize a list to hold the average sentiment ratings for each company
     company_sentiments = []
 
     # Loop through each company in the sector
     for company in companies:
         stock_ticker = company[0]
-        
-        # Query to get the sentiment scores of articles related to this company
-        sentiment_scores = db.session.query(Article.sentiment_score)\
-                            .filter(Article.stock_ticker == stock_ticker).all()
 
-        # Calculate the average sentiment score for this company, if there are scores
-        if sentiment_scores:
-            average_sentiment = sum(score[0] for score in sentiment_scores) / len(sentiment_scores)
+        # Query to get the sentiment ratings of the company
+        sentiment_ratings = db.session.query(SentimentRating.rating) \
+                                      .filter(SentimentRating.stock_ticker == stock_ticker) \
+                                      .all()
+
+        # Calculate the average sentiment rating for this company
+        if sentiment_ratings:
+            average_sentiment = sum(rating[0] for rating in sentiment_ratings) / len(sentiment_ratings)
             company_sentiments.append(average_sentiment)
 
-    # Calculate the overall average sentiment for the sector based on the company averages
+    # Calculate the overall average sentiment for the sector
     if company_sentiments:
-        overall_average_sentiment = round((sum(company_sentiments) / len(company_sentiments)) * 100)
+        overall_average_sentiment = round(sum(company_sentiments) / len(company_sentiments))
     else:
         overall_average_sentiment = None
 
