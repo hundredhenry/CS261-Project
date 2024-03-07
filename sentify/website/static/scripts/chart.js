@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   display: false
               }
           },
-          responsive: false
+          responsive: true
       }
   });
 
@@ -67,7 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 10
+                    }
                 }
             },
             plugins: {
