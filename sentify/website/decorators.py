@@ -4,6 +4,17 @@ from flask import flash, redirect, url_for, jsonify
 from . import db
 
 def handle_sqlalchemy_error(redirect_url, error_message):
+    """
+    Decorator function that handles SQLAlchemy errors by rolling back the session,
+    flashing an error message, and redirecting to a specified URL.
+
+    Args:
+        redirect_url (str): The URL to redirect to in case of an error.
+        error_message (str): The error message to display.
+
+    Returns:
+        The decorated function.
+    """
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -17,6 +28,15 @@ def handle_sqlalchemy_error(redirect_url, error_message):
     return decorator
 
 def handle_api_sqlalchemy_error(error_message):
+    """
+    Decorator function that handles SQLAlchemy errors in API endpoints.
+
+    Args:
+        error_message (str): The error message to be returned in the response.
+
+    Returns:
+        function: The decorated function.
+    """
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
