@@ -466,6 +466,7 @@ def search_companies():
                            showNavSearchBar=False)
 
 @views.route('/dashboard')
+@login_required
 @handle_sqlalchemy_error('views.dashboard',
                         'Error retrieving dashboard data.')
 def dashboard():
