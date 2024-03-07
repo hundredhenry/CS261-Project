@@ -156,3 +156,95 @@
     background-color: #bbbbbb3d;
     width: 100%;
 }
+
+.inbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clear-inbox-button {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.clear-inbox-button:hover {
+    background-color: #f1f1f1;
+}
+
+.inbox-heading {
+    font-size: 24px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    color: black;
+    margin: 0;
+    padding: 10px 20px;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 60px;
+    right: 140px;
+    background-color: #f9f9f9;
+    width: 350px;
+    height: 500px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    overflow: auto;
+    padding: 10px;
+    padding-top: 20px;
+    border-radius: 20px;
+}
+
+.dropdown-row, .empty-inbox-row {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 30px;
+    text-decoration: none;
+    color: black;
+    background-color: rgb(233, 233, 233);
+    height: 70px;
+    min-height: 70px;
+    margin: 10px;
+    border-radius: 15px;
+}
+
+.empty-inbox-row {
+    background-color: #f9f9f9;
+    color: #888;
+    font-size: 0.9em;
+    padding: 20px;
+    text-align: center;
+    height: 100px;
+    margin: 0;
+}
+
+.dropdown-row .notification-time {
+    font-size: 0.8em;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.dropdown-row .notification-message {
+    margin-top: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-bottom: 2px;
+}
+
+.dropdown-row:hover {
+    background-color: #f1f1f1;
+    height: fit-content;
+    cursor: pointer;
+}
+
+.dropdown-row:hover .notification-message {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}

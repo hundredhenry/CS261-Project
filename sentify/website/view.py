@@ -9,7 +9,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
 from flask_socketio import join_room
 from recommend import recommend_specific
-from sqlalchemy import func
+from sqlalchemy import func, desc
 
 from . import db, socketio
 from .models import User, Company, Follow, SentimentRating, Article, Notification
@@ -365,3 +365,34 @@ def company_articles():
             for article in company.articles
         ]
     return jsonify({'articles': articles_json})
+
+@views.route('/api/get/notifications', methods=['GET'])
+@login_required
+def get_notifs():
+    notifications = Notification.query.filter(
+        Notification.user_id == current_user.id,
+        Notification.read == False
+    ).order_by(desc(Notification.time)).all()
+    notif_list = [{"message": notif.message,
+                   "time": notif.time.strftime('%Y-%m-%d %H:%M:%S')}
+                  for notif in notifications]
+    
+    return jsonify(notif_list)
+    
+@views.route('/api/test/notifs', methods=['GET'])
+def add_notifs():
+    test_notifications = [
+        Notification(1, "Test notification 1", False),
+        Notification(1, "Test notification 2", False),
+        Notification(1, "Test notification 3", False),
+        Notification(1, "Test notification 4", False),
+        Notification(1, "Test notification 5", False),
+        Notification(1, "Test notification 6", False),
+        Notification(1, "Test notification 7", False),
+        Notification(1, "Test notification 8", False),
+        Notification(1, "Test notification 9", False),
+        Notification(1, "Test notification 10", False)
+    ]
+    db.session.add_all(test_notifications)
+    db.session.commit()
+    return jsonify({'status': 'success'})

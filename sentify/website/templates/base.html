@@ -20,63 +20,40 @@
   <body style="margin: 0px; background: rgb(251, 251, 251);">
     {% with messages = get_flashed_messages(category_filter=["login_success"]) %}
     {% if messages %}
-      {% for message in messages %}
-        <script>
-          toastr.success("{{ message }}");
-        </script>
-      {% endfor %}
+    {% for message in messages %}
+    <script>
+      toastr.success("{{ message }}");
+    </script>
+    {% endfor %}
     {% endif %}
-  {% endwith %}
+    {% endwith %}
     <nav class="navbar">
       <a href="/" class="navbar-brand">Sentify</a>
       {% if showNavSearchBar|default(True) %}
       <div class="navbar-search">
         <input id="search-input" type="text" placeholder="Search..." class="search-input" oninput="searchCompany(this.value)">
         <div id="results" class="search-results"></div>
-    </div>
-    {% endif %}
+      </div>
+      {% endif %}
       <div class="navbar-buttons">
-          {% if current_user.is_authenticated %}
-            <a href="#" class="navbar-button navbar-inbox-link" onclick="toggleDropdown(event)" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
-              <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="height: 25px;">
-            </a>
-
-            <div id="dropdownContent" class="dropdown-content" style="display: none;">
-              
-              <p style="
-                color: black;
-                font-family: Roboto;
-                font-weight: 500;
-                padding: 20px;
-                font-size: 25px;
-              "> Inbox <p>
-              
-              <!-- Notification content goes here -->
-              <div class="dropdown-row">Row 1</div>
-              <div class="dropdown-row">Row 2</div>
-              <div class="dropdown-row">Row 3</div>
-              <div class="dropdown-row">Row 4</div>
-              <div class="dropdown-row">Row 5</div>
-              <div class="dropdown-row">Row 6</div>
-              <div class="dropdown-row">Row 7</div>
-              <div class="dropdown-row">Row 8</div>
-              <div class="dropdown-row">Row 9</div>
-            </div>
-
-            <a href="/logout" class="navbar-button">Log Out</a>
-          {% else %}
-            <a href="/login" class="navbar-button">Log In</a>
-            <a href="/register" class="navbar-button">Join Us</a>
-          {% endif %}
+        {% if current_user.is_authenticated %}
+        <a href="#" class="navbar-button navbar-inbox-link" onclick="toggleDropdown(event)" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="height: 25px;">
+        </a>
+        <div id="dropdownContent" class="dropdown-content" style="display: none;">
+          <!-- Notification content goes here -->
+        </div>
+        <a href="/logout" class="navbar-button">Log Out</a>
+        {% else %}
+        <a href="/login" class="navbar-button">Log In</a>
+        <a href="/register" class="navbar-button">Join Us</a>
+        {% endif %}
       </div>
     </nav>
-
-      
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-WjYNi3" >
         <div class="general-0TSxxs general" data-id="196:748">
-
           <div class="general-GW8UXT general" data-id="196:754">
             <div class="general-aCqfMN general roboto-normal-black-14px" data-id="196:755">
               General
@@ -185,27 +162,27 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
     <!-- Main Content -->
     <div class="content">
-    <div class="container-center-horizontal">
+      <div class="container-center-horizontal">
         <div class="macbook-air-1 screen " data-id="1:2">
-          
           <div class="side-arrow-cbxlvq" data-id="2:46">
             <span class="toggle-btn" onclick="toggleSidebar()">
-                <div class="button">
-                    <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
-                </div>
+              <div class="button">
+                <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
+              </div>
             </span>
-        </div>
+          </div>
           <!-- side arrow for the navigation bar -->
           {% block content %}{% endblock %}
           <!-- Footer -->
+        </div>
       </div>
-    </div>
     </div>
     <script src="/static/scripts/sidebar.js"></script>
     <script src="/static/scripts/search.js"></script>
+    <script src="/static/scripts/inbox.js"></script>
     <script>
       var isAuthenticated = {{ 'true' if current_user.is_authenticated else 'false' }};
       var socket = io();
@@ -216,14 +193,14 @@
           socket.emit('join', {'room': {{current_user.id}} });
         }
       });
-
+      
       socket.on('disconnect', function() {
         console.log('Disconnected from the server');
       });
       
       socket.on('notif', function(data) {
         toastr.success(data.message);
-    });
+      });
     </script>
   </body>
 </html>

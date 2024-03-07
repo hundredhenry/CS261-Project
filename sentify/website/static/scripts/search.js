@@ -1,6 +1,6 @@
 var companies = [];
 
-window.onload = function() {
+window.addEventListener('load', function() {
     fetch('/api/get/companies')
         .then(response => {
             if (!response.ok) {
@@ -12,7 +12,7 @@ window.onload = function() {
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
-}
+});
 
 function searchCompany(query) {
     let results = query ? companies.filter(company => company.company_name.toLowerCase().includes(query.toLowerCase()) || company.stock_ticker.toLowerCase().includes(query.toLowerCase())) : [];
