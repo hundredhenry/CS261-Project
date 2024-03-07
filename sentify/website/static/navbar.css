@@ -23,6 +23,7 @@
     letter-spacing: 0.05em;
     margin-left: 10px;
     transition: color 0.3s ease;
+    padding-right: 25px;
 }
 
 .navbar-brand:hover {

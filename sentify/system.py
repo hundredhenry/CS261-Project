@@ -181,14 +181,13 @@ class NewsSystem:
 
             if result:
                 for row in result:
-                    msg = f"New articles available for {ticker}!"
                     # Send a notification to the current user
                     query = insert(Notification).values(
                         user_id = row[0],
-                        message = msg)
+                        message =  f"New articles available for {ticker}!")
                     db.session.execute(query)
                     notification = Notification.query.order_by(Notification.id.desc()).first()
-                    socketio.emit('notification', {'message': notification.message, 'time': notification.time.strftime('%Y-%m-%d %H:%M:%S')}, room=str(row[0]))
+                    socketio.emit('notification', {'id': notification.id, 'message': notification.message, 'time': notification.time.strftime('%Y-%m-%d %H:%M:%S')}, room=str(row[0]))
     
     def backlog(self):
         # Get a list of dates from yesterday to 14 days ago

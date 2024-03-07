@@ -13,7 +13,7 @@ window.addEventListener('load', function() {
           notifications.forEach(notification => {
             const notificationDate = new Date(notification.time);
             const timeText = constructTimeText(notificationDate);
-            const row = constructNotification(notification.message, timeText);
+            const row = constructNotification(notification.message, timeText, notification.id);
             dropdownContent.appendChild(row);
           });
         } else {
@@ -44,7 +44,7 @@ function constructTimeText(notificationDate) {
   return timeText;
 }
 
-function constructNotification(message, timeText) {
+function constructNotification(message, timeText, notificationId) {
   const row = document.createElement('div');
   row.className = 'dropdown-row';
   row.title = 'Click to delete'; // Add a tooltip
@@ -58,6 +58,38 @@ function constructNotification(message, timeText) {
   messageDiv.className = 'notification-message';
   messageDiv.textContent = message;
   row.appendChild(messageDiv); // Add the message div to the row
+
+  // Add an event listener to delete the notification when it's clicked
+  row.addEventListener('click', function() {
+    fetch(`/api/delete/notification/${notificationId}`, { method: 'DELETE' })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('HTTP error ' + response.status);
+        }
+        return response.json();  // we only proceed once the promise is resolved
+      })
+      .then(() => {
+        row.remove();
+        toastr.success('Notification deleted!');
+
+        // Check if there are any notifications left
+        const dropdownContent = document.getElementById('dropdownContent');
+        if (!dropdownContent.querySelector('.dropdown-row')) {
+          // If there are no notifications left, add the "No notifications" message
+          const emptyRow = document.createElement('div');
+          emptyRow.className = 'empty-inbox-row';
+          emptyRow.textContent = 'No notifications';
+          dropdownContent.appendChild(emptyRow);
+          const clearInboxButton = document.getElementById('clear-inbox');
+          if (clearInboxButton) {
+            clearInboxButton.remove();
+          }
+
+        }
+      })
+      .catch(error => toastr.error('Error deleting notification: ' + error));
+  });
+
   return row;
 }
 

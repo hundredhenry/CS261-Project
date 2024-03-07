@@ -32,7 +32,6 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     read = db.Column(db.Boolean, default = False)
-    sent = db.Column(db.Boolean, default = False)
     message = db.Column(db.Text, nullable = False)
     time = db.Column(db.DateTime, default = datetime.now)
 

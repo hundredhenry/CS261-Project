@@ -2,7 +2,6 @@ import re
 import random
 
 from urllib.parse import urlparse
-from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
@@ -15,6 +14,8 @@ from . import db, socketio
 from .models import User, Company, Follow, SentimentRating, Article, Notification
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
+
+from system import NewsSystem
 
 views = Blueprint("views", __name__)
 
@@ -384,26 +385,30 @@ def get_notifs():
         Notification.user_id == current_user.id,
         Notification.read == False
     ).order_by(desc(Notification.time)).all()
-    notif_list = [{"message": notif.message,
+    notif_list = [{"id": notif.id, "message": notif.message,
                    "time": notif.time.strftime('%Y-%m-%d %H:%M:%S')}
                   for notif in notifications]
     
     return jsonify(notif_list)
-    
-@views.route('/api/test/notifs', methods=['GET'])
-def add_notifs():
-    test_notifications = [
-        Notification(1, "Test notification 1", False),
-        Notification(1, "Test notification 2", False),
-        Notification(1, "Test notification 3", False),
-        Notification(1, "Test notification 4", False),
-        Notification(1, "Test notification 5", False),
-        Notification(1, "Test notification 6", False),
-        Notification(1, "Test notification 7", False),
-        Notification(1, "Test notification 8", False),
-        Notification(1, "Test notification 9", False),
-        Notification(1, "Test notification 10", False)
-    ]
-    db.session.add_all(test_notifications)
-    db.session.commit()
-    return jsonify({'status': 'success'})
+
+@views.route('/api/delete/notifications', defaults={'notification_id': None}, methods=['DELETE'])
+@views.route('/api/delete/notification/<int:notification_id>', methods=['DELETE'])
+@login_required
+def delete_notifications(notification_id):
+    if notification_id is None:
+        # No ID provided, delete all notifications
+        Notification.query.filter(
+            Notification.user_id == current_user.id,
+            Notification.read == False
+        ).delete()
+        db.session.commit()
+        return jsonify({'status': 'success'})
+    else:
+        # ID provided, delete specific notification
+        notification = Notification.query.get(notification_id)
+        if notification and notification.user_id == current_user.id:
+            db.session.delete(notification)
+            db.session.commit()
+            return jsonify({'status': 'success'})
+        else:
+            return jsonify({'status': 'error', 'message': 'Notification not found'}), 404
