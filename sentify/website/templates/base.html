@@ -41,7 +41,8 @@
         <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="height: 25px;">
         </a>
         <div id="dropdownContent" class="dropdown-content" style="display: none;">
-          <!-- Notification content goes here -->
+          <div class="inbox-header">
+          </div>
         </div>
         <a href="/logout" class="navbar-button">Log Out</a>
         {% else %}
@@ -198,8 +199,32 @@
         console.log('Disconnected from the server');
       });
       
-      socket.on('notif', function(data) {
+      socket.on('notification', function(data) {
         toastr.success(data.message);
+        const notificationDate = new Date(data.time);
+        const timeText = constructTimeText(notificationDate);
+        const row = constructNotification(data.message, timeText);
+        
+        const dropdownContent = document.getElementById('dropdownContent');
+        const inboxHeader = dropdownContent.querySelector('.inbox-header');
+        dropdownContent.insertBefore(row, inboxHeader.nextSibling);
+        // If the "No notifications" row is present, remove it
+    const noNotificationsRow = dropdownContent.querySelector('.empty-inbox-row');
+    if (noNotificationsRow) {
+      noNotificationsRow.remove();
+    }
+
+    // If the "Clear all" button is not present, add it
+    const clearAllButton = inboxHeader.querySelector('.clear-inbox-button');
+    if (!clearAllButton) {
+      const newClearAllButton = document.createElement('button');
+      newClearAllButton.className = 'clear-inbox-button';
+      newClearAllButton.textContent = 'Clear all';
+      newClearAllButton.onclick = function() {
+        // Add code here to clear all notifications
+      };
+      inboxHeader.appendChild(newClearAllButton);
+    }
       });
     </script>
   </body>
