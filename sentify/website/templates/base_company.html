@@ -35,15 +35,15 @@
         <div class="sentiment-chart-and-overview">
             <div class="sentiment-box">
                 <h2 class="sentiment-heading">{{ ticker }} Sentiment Analysis</h2>
-                <h2 class="sentiment-subheading">Current Daily Sentiment</h2>
+                <h2 class="sentiment-subheading">Average Sentiment</h2>
                 <div class="sentiment-doughnut" 
                     data-positive="{{ positive }}" 
                     data-negative="{{ negative }}">
-                    <canvas id="sentimentDoughnut" width="250" height="250"></canvas>
+                    <canvas id="sentimentDoughnut" width="200" height="200"></canvas>
                 </div>
                 <h2 class="article-subcount" style="color: rgba(75, 192, 132, 0.8);">{{positive_articles}} positive articles</h2>
                 <h2 class="article-subcount" style="color: rgba(255, 99, 132, 0.8);">{{negative_articles}} negative articles</h2>
-                <h2 class="sentiment-subheading">Overall Sentiment</h2>
+
                 <h2 class="sentiment-subheading">Sentiment Over Time</h2>
                 <div class = "sentiment-chart">
                     <canvas id="sentimentChart" height="250"></canvas>

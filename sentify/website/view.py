@@ -2,7 +2,7 @@ import re
 import random
 
 from urllib.parse import urlparse
-
+from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
@@ -170,18 +170,22 @@ def logout():
     return redirect(url_for("views.landing"))
 
 def daily_sentiment(stock_ticker):
-    # Query to get daily sentiment
+    # Calculate the date 7 days ago from today
+    one_week_ago = datetime.now().date() - timedelta(days=7)
+    
+    # Query to get the last week's daily sentiment
     results = db.session.query(
         SentimentRating.date,
         SentimentRating.rating
-    ).filter(SentimentRating.stock_ticker == stock_ticker
+    ).filter(SentimentRating.stock_ticker == stock_ticker,
+             SentimentRating.date >= one_week_ago
     ).order_by(SentimentRating.date.asc()).all()
 
-    # Extract dates and ratings from the query results
-    labels = [result.date.strftime('%Y-%m-%d') for result in results]
+    # Extract dates and ratings from the query results, formatting dates as dd-mm-yy
+    labels = [result.date.strftime('%d-%m-%y') for result in results]
     data = [round(result.rating, 2) for result in results]
 
-    # Prepare data for Chart.js
+    # Prepare data for Chart.js with filtered results
     chart_data = {
         'labels': labels,
         'datasets': [{
@@ -190,7 +194,7 @@ def daily_sentiment(stock_ticker):
             'fill': False,
             'borderColor': 'rgb(75, 192, 192)',
             'lineTension': 0.1
-        }]
+        }],
     }
 
     return chart_data
@@ -203,23 +207,32 @@ def industry_sentiment(stock_ticker):
         return None  # Sector ID not found for the given stock ticker
 
     # Query to get stock tickers of all companies within the same sector
-    companies_stock_tickers = db.session.query(Company.stock_ticker).filter(Company.sector_id == sector_id).all()
+    companies = db.session.query(Company.stock_ticker).filter(Company.sector_id == sector_id).all()
 
-    # Convert the result into a list of stock tickers
-    stock_tickers = [ticker[0] for ticker in companies_stock_tickers]
+    # Initialize a list to hold the average sentiment scores for each company
+    company_sentiments = []
 
-    # Query to get the sentiment scores of articles related to companies within the sector
-    sentiment_scores = db.session.query(Article.sentiment_score)\
-                        .join(Company, Article.stock_ticker == Company.stock_ticker)\
-                        .filter(Company.stock_ticker.in_(stock_tickers)).all()
+    # Loop through each company in the sector
+    for company in companies:
+        stock_ticker = company[0]
+        
+        # Query to get the sentiment scores of articles related to this company
+        sentiment_scores = db.session.query(Article.sentiment_score)\
+                            .filter(Article.stock_ticker == stock_ticker).all()
 
-    # Calculate the average sentiment score
-    if sentiment_scores:
-        average_sentiment = sum(score[0] for score in sentiment_scores) / len(sentiment_scores)
+        # Calculate the average sentiment score for this company, if there are scores
+        if sentiment_scores:
+            average_sentiment = sum(score[0] for score in sentiment_scores) / len(sentiment_scores)
+            company_sentiments.append(average_sentiment)
+
+    # Calculate the overall average sentiment for the sector based on the company averages
+    if company_sentiments:
+        overall_average_sentiment = round((sum(company_sentiments) / len(company_sentiments)) * 100)
     else:
-        average_sentiment = None
+        overall_average_sentiment = None
 
-    return average_sentiment
+    return overall_average_sentiment
+
 
 @views.route('/companies/<ticker>')
 @login_required
@@ -229,7 +242,8 @@ def company(ticker):
     if not company:
         abort(404, "Company not found")
 
-    positive = SentimentRating.query.filter_by(stock_ticker=ticker).order_by(SentimentRating.date.desc()).first().rating
+    average_rating = db.session.query(func.avg(SentimentRating.rating)).filter_by(stock_ticker=ticker).scalar()
+    positive = round(float(average_rating)) if average_rating else 0
     negative = 100 - positive
     total_articles = db.session.query(func.count(Article.id)).filter(Article.stock_ticker == ticker).scalar()
     positive_articles = db.session.query(func.count(Article.id)).filter(Article.stock_ticker == ticker, Article.sentiment_label == 'Positive').scalar()
