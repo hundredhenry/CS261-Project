@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Inter:300,400,200|Roboto:700,200,400");
 
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -12,6 +13,7 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     z-index: 1001;
+    height: 72px;
 }
 
 .navbar-brand {
@@ -89,13 +91,22 @@
     justify-content: center;
 }
 
-.search-input {
+#search-input {
+    background-color: white; /* Add your desired color here */
     width: 100%;
     padding: 8px 20px;
     border-radius: 20px;
     border: 1px solid var(--alto);
     font-family: var(--font-family-inter);
     font-size: var(--font-size-l);
+    height: auto;
+    outline: none;
+    margin: auto;
+    box-shadow: none;
+}
+
+#search-input::placeholder {
+    color: #666;
 }
 
 .search-results {

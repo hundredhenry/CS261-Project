@@ -2262,7 +2262,6 @@ input:focus {
   a:hover {
     color: grey;
   }
-
   .search-container {
     display: flex;
     align-items: center;
