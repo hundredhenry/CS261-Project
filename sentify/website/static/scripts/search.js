@@ -1,7 +1,7 @@
 var companies = [];
 
-window.onload = function() {
-    fetch('/retrieve_companies/')
+window.addEventListener('load', function() {
+    fetch('/api/get/companies')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -12,7 +12,7 @@ window.onload = function() {
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
-}
+});
 
 function searchCompany(query) {
     let results = query ? companies.filter(company => company.company_name.toLowerCase().includes(query.toLowerCase()) || company.stock_ticker.toLowerCase().includes(query.toLowerCase())) : [];

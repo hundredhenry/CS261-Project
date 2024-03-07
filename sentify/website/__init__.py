@@ -4,10 +4,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_login import LoginManager
+from flask_socketio import SocketIO
 from sqlalchemy.exc import OperationalError
 
 db = SQLAlchemy()
 mail = Mail()
+socketio = SocketIO()
+
 
 def create_app():
     app = Flask(__name__)
@@ -22,8 +25,9 @@ def create_app():
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USE_SSL'] = True
 
-    db.init_app(app)   
+    db.init_app(app)
     mail.init_app(app)
+    socketio.init_app(app)
 
     #registering blueprints 
     from .view import views 

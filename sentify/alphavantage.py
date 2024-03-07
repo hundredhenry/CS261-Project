@@ -7,14 +7,15 @@ API_KEY = 'PSPGHH6OJUGEPT7F'
 class AlphaVantageWrapper:
     BASE_URL = 'https://www.alphavantage.co/query?'
 
-    def week_articles(self, ticker):
-        # Get the date from a week ago
+    def day_articles(self, ticker, date):
+        # Get the date today and formatted
         datetime_format = '%Y%m%dT%H%M'
-        past_week = datetime.now() - timedelta(weeks=1)
-        formatted_past_week = past_week.strftime(datetime_format)
+        formatted_date = date.strftime(datetime_format)
+        day_after = date + timedelta(days=1)
+        formatted_day_after = day_after.strftime(datetime_format)
 
         # Using default values for the other parameters
-        url = f"{self.BASE_URL}function=NEWS_SENTIMENT&tickers={ticker}&time_from={formatted_past_week}&sort=LATEST&apikey={API_KEY}"
+        url = f"{self.BASE_URL}function=NEWS_SENTIMENT&tickers={ticker}&time_from={formatted_date}&time_to={formatted_day_after}&sort=LATEST&apikey={API_KEY}"
         print(url)
         try:
             response = requests.get(url)

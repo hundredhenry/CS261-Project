@@ -1,19 +1,36 @@
 import re
 import random
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from urllib.parse import urlparse
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import SQLAlchemyError
+from flask_socketio import join_room
 from recommend import recommend_specific
+from sqlalchemy import func, desc
 
-from . import db
-from .models import User, Company, Follow
+from . import db, socketio
+from .models import User, Company, Follow, SentimentRating, Article, Notification
 from .token import generate_confirmation_token, confirm_token
 from .email import send_email
 
+from system import NewsSystem
+
 views = Blueprint("views", __name__)
+
+@socketio.on('join')
+def on_join(data):
+    room = str(data['room'])
+    join_room(room)
+    query = db.session.query(Notification).filter(
+        Notification.user_id == data['room'],
+        not Notification.sent
+    ).all()
+    for notif in query:
+        socketio.emit('notif', {'message': notif.message}, room=room)
+        notif.sent = True
+    db.session.commit()
 
 @views.route('/')
 def landing():
@@ -72,7 +89,7 @@ def register():
             db.session.commit()
 
             send_email(subject, email, html)
-
+            session.clear()
             return redirect(url_for("views.unconfirmed"))
 
     return render_template('register.html')
@@ -103,7 +120,7 @@ def confirm_email(token):
 @views.route('/login/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("views.landing"))
+        return redirect(url_for("views.dashboard"))
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
@@ -115,9 +132,10 @@ def login():
             elif check_password_hash(user.password_hash, password):
                 flash("Logged in successfully", category="login_success")
                 login_user(user, remember=is_remember)
+                session['user_id'] = user.id
                 next_page = request.args.get('next')
                 if not next_page or urlparse(next_page).netloc != '':
-                    next_page = url_for("views.landing")
+                    next_page = url_for("views.dashboard")
                 return redirect(next_page)
             else:
                 flash("Email or password is incorrect!", category="login_error")
@@ -128,8 +146,7 @@ def login():
 @views.route('/resend/', methods=['GET', 'POST'])
 def resend_email():
     if current_user.is_authenticated:
-        logout_user()
-        return redirect(url_for("views.landing"))
+        return redirect(url_for("views.dashboard"))
     if request.method == "POST":
         email = request.form.get('email')
         user = User.query.filter_by(email=email, verified=False).first()
@@ -153,14 +170,97 @@ def logout():
     logout_user()
     return redirect(url_for("views.landing"))
 
-# this is a temporary route
+def daily_sentiment(stock_ticker):
+    # Query to get daily sentiment
+    results = db.session.query(
+        SentimentRating.date,
+        SentimentRating.rating
+    ).filter(SentimentRating.stock_ticker == stock_ticker
+    ).order_by(SentimentRating.date.asc()).all()
+
+    # Extract dates and ratings from the query results
+    labels = [result.date.strftime('%d-%m-%y') for result in results]
+    data = [round(result.rating, 2) for result in results]
+
+    # Prepare data for Chart.js
+    chart_data = {
+        'labels': labels,
+        'datasets': [{
+            'label': f'Daily Sentiment for {stock_ticker}',
+            'data': data,
+            'fill': False,
+            'borderColor': 'rgb(75, 192, 192)',
+            'lineTension': 0.1
+        }],
+    }
+
+    return chart_data
+
+def industry_sentiment(stock_ticker):
+    # Query to get the sector ID of the company
+    sector_id = db.session.query(Company.sector_id).filter(Company.stock_ticker == stock_ticker).scalar()
+
+    if sector_id is None:
+        return None  # Sector ID not found for the given stock ticker
+
+    # Query to get stock tickers of all companies within the same sector
+    companies = db.session.query(Company.stock_ticker).filter(Company.sector_id == sector_id).all()
+
+    # Initialize a list to hold the average sentiment ratings for each company
+    company_sentiments = []
+
+    # Loop through each company in the sector
+    for company in companies:
+        stock_ticker = company[0]
+
+        # Query to get the sentiment ratings of the company
+        sentiment_ratings = db.session.query(SentimentRating.rating) \
+                                      .filter(SentimentRating.stock_ticker == stock_ticker) \
+                                      .all()
+
+        # Calculate the average sentiment rating for this company
+        if sentiment_ratings:
+            average_sentiment = sum(rating[0] for rating in sentiment_ratings) / len(sentiment_ratings)
+            company_sentiments.append(average_sentiment)
+
+    # Calculate the overall average sentiment for the sector
+    if company_sentiments:
+        overall_average_sentiment = round(sum(company_sentiments) / len(company_sentiments))
+    else:
+        overall_average_sentiment = None
+
+    return overall_average_sentiment
+
+
 @views.route('/companies/<ticker>')
 @login_required
 def company(ticker):
-    company = Company.query.filter_by(stock_ticker=ticker).first()
+    company = Company.query.get(ticker)
+    
     if not company:
         abort(404, "Company not found")
-    return render_template('base_company.html', ticker=ticker, desc=company.description, sector=company.sector_company.sector_name)
+
+    average_rating = db.session.query(func.avg(SentimentRating.rating)).filter_by(stock_ticker=ticker).scalar()
+    positive = round(float(average_rating)) if average_rating else 0
+    negative = 100 - positive
+    total_articles = db.session.query(func.count(Article.id)).filter(Article.stock_ticker == ticker).scalar()
+    positive_articles = db.session.query(func.count(Article.id)).filter(Article.stock_ticker == ticker, Article.sentiment_label == 'Positive').scalar()
+    negative_articles = total_articles - positive_articles
+    industry_average = industry_sentiment(ticker)
+    chart_data = daily_sentiment(ticker)
+    is_following = Follow.query.filter_by(user_id=current_user.id, stock_ticker=ticker).first()
+    return render_template('base_company.html',
+                           ticker=ticker,
+                           desc=company.description,
+                           sector=company.sector_company.sector_name,
+                           positive = positive,
+                           negative = negative,
+                           total_articles = total_articles,
+                           positive_articles = positive_articles,
+                           negative_articles = negative_articles,
+                           industry_average = industry_average,
+                           chart_data = chart_data,
+                           is_following = is_following is not None)
 
 def random_color():
     return '#' + ''.join(random.choices('0123456789abcdef', k=6))
@@ -170,17 +270,6 @@ def get_following():
         following = Follow.query.filter_by(user_id=current_user.id).all()
         return [follow.stock_ticker for follow in following]
     return []
-
-@views.route('/companies/search/')
-@login_required
-def search_companies():
-    followed_companies = get_following()
-    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
-    return render_template('company_search.html',
-                           companies=followed_companies,
-                           suggested_companies=suggested_companies,
-                           randomColor=random_color,
-                           showNavSearchBar=False)
 
 def get_companies():
     max_attempts = 3
@@ -199,13 +288,25 @@ def get_companies():
             if attempts == max_attempts:
                 raise
 
-@views.route('/retrieve_companies/', methods=['GET'])
-def retrieve_companies():
-    try:
-        results = get_companies()
-        return jsonify(results)
-    except SQLAlchemyError:
-        return jsonify({'error': 'Maximum number of attempts reached.'}), 500
+@views.route('/companies/search/')
+@login_required
+def search_companies():
+    followed_companies = get_following()
+    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
+    return render_template('company_search.html',
+                           companies=followed_companies,
+                           suggested_companies=suggested_companies,
+                           randomColor=random_color,
+                           showNavSearchBar=False)
+
+@views.route('/dashboard')
+def dashboard():
+    followed_companies = get_following()
+    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
+    return render_template('dashboard.html',
+                           companies=followed_companies,
+                           suggested_companies=suggested_companies,
+                           randomColor=random_color)
 
 @views.route('/companies/')
 @login_required
@@ -214,7 +315,7 @@ def all_companies():
     following = get_following()
     return render_template('all_companies.html', companies=companies, following=following)
       
-@views.route('/modify-follow/', methods=['POST'])
+@views.route('/api/modify/follow', methods=['POST'])
 @login_required
 def modify_follow():
     data = request.get_json()
@@ -229,14 +330,85 @@ def modify_follow():
     if is_following:
         db.session.delete(is_following)
         db.session.commit()
-        return jsonify({'status': 'unfollowing', 'ticker': ticker})
+        return jsonify({'status': 'unfollowed', 'ticker': ticker})
 
     new_follow = Follow(user_id=current_user.id, stock_ticker=ticker)
     db.session.add(new_follow)
     db.session.commit()
-    return jsonify({'status': 'following', 'ticker': ticker})
+    return jsonify({'status': 'followed', 'ticker': ticker})
 
+@views.route('/api/get/companies', methods=['GET'])
+def retrieve_companies():
+    try:
+        results = get_companies()
+        return jsonify(results)
+    except SQLAlchemyError:
+        return jsonify({'error': 'Maximum number of attempts reached.'}), 500
 
-@views.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
+@views.route('/api/get/articles', methods=['GET'])
+@login_required
+def company_articles():
+    tickers = request.args.get('tickers')
+    
+    if not tickers:
+        return jsonify({'error': 'No tickers provided'}), 400
+    tickers = set(tickers.split(','))
+
+    articles_json = {}
+    for ticker in tickers:
+        company = Company.query.get(ticker)
+        if not company:
+            articles_json[ticker] = {'error': f'{ticker} does not exist'}
+            continue
+        
+        articles_json[ticker] = [
+            {
+                "url": article.url,
+                "title": article.title,
+                "source": article.source_name,
+                "source_domain": article.source_domain,
+                "published": article.published.strftime('%Y-%m-%d'),
+                "description": article.description,
+                "banner_image": article.banner_image,
+                "sentiment_label": article.sentiment_label,
+                "sentiment_score": article.sentiment_score,
+                "topics": [topic.topic for topic in article.topics]
+            }
+            for article in company.articles
+        ]
+    return jsonify({'articles': articles_json})
+
+@views.route('/api/get/notifications', methods=['GET'])
+@login_required
+def get_notifs():
+    notifications = Notification.query.filter(
+        Notification.user_id == current_user.id,
+        Notification.read == False
+    ).order_by(desc(Notification.time)).all()
+    notif_list = [{"id": notif.id, "message": notif.message,
+                   "time": notif.time.strftime('%Y-%m-%d %H:%M:%S')}
+                  for notif in notifications]
+    
+    return jsonify(notif_list)
+
+@views.route('/api/delete/notifications', defaults={'notification_id': None}, methods=['DELETE'])
+@views.route('/api/delete/notification/<int:notification_id>', methods=['DELETE'])
+@login_required
+def delete_notifications(notification_id):
+    if notification_id is None:
+        # No ID provided, delete all notifications
+        Notification.query.filter(
+            Notification.user_id == current_user.id,
+            Notification.read == False
+        ).delete()
+        db.session.commit()
+        return jsonify({'status': 'success'})
+    else:
+        # ID provided, delete specific notification
+        notification = Notification.query.get(notification_id)
+        if notification and notification.user_id == current_user.id:
+            db.session.delete(notification)
+            db.session.commit()
+            return jsonify({'status': 'success'})
+        else:
+            return jsonify({'status': 'error', 'message': 'Notification not found'}), 404

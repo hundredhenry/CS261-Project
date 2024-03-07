@@ -7,9 +7,9 @@
     margin: 20px;
     height: 2000px;
     padding: 20px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
 
-    font-family: Roboto;
-    font-weight: lighter;
 }
 
 .welcome-back {
@@ -26,9 +26,11 @@
 }
 
 .overall-sentiment {
-    background-color: #ccc;
-    padding: 30px;
     flex: 1;
+}
+
+.subtract-rptxkZ {
+
 }
 
 .see-all-companies {
@@ -45,7 +47,6 @@
 }
 
 .followed-companies-dashboard {
-
     position: relative;
     height: 600px;
     width: auto;
@@ -54,9 +55,17 @@
 }
 
 .followed-dashboard-section {
-    position: relative;
+
+    margin-top: 400px;
     height: 1200px;
-    width: auto;
+    width: 1300px;
+
+
+}
+
+.container-suggested {
+  position: relative;
+  top: 40px;
 }
 
 
@@ -144,7 +153,6 @@
     margin: 20px;
     margin-top: 0px;
     margin-left: 0px;
-
   }
   
   .actual-image {
@@ -155,7 +163,6 @@
   .article-information {
     flex: 2;
     font-family: 'Roboto', sans-serif;
-    font-weight: lighter;
     padding: 0px;
   }
   
@@ -211,18 +218,37 @@
 }
   
    #Tab2 {
-     height: 1000px;
-     width: 800px;
-     display: flex;
-     align-items: center;
-     justify-content: space-between;
-     overflow: auto;
+    height: 700px;
+    overflow: auto;
+    width: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
   }
   
   .side-box {
-    border: 1px solid black;
-    height: 700px;
-    width: 600px;
-    padding: 20px;
-
+    height: 1500px;
+    width: 500px;
+    position: absolute;
+    right: -100px;
+    top: -250px;
   }
+
+  .companies-container-2 {
+    position: relative;
+    top: 20px;
+    height: 1500px;
+  }
+
+.box {
+  border: 1px solid black;
+  height: 250px;
+  width: 250px;
+  top: 250px;
+  right: 250px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

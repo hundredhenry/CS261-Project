@@ -1,10 +1,11 @@
 from alphavantage import AlphaVantageWrapper
 from scraper import ArticleScraper
-from sqlalchemy import select, insert, delete, update, bindparam
-from website import db
-from website.models import User, Notification, Follow, Company, Article
+from sqlalchemy import select, insert, update, bindparam
+from website import db, socketio
+from website.models import User, Notification, Follow, Company, Article, SentimentRating, Topic, ArticleTopic
 from transformers import pipeline
-from datetime import date
+from datetime import date, timedelta
+from flask import current_app
 
 class NewsSystem:
     def __init__(self):
@@ -27,21 +28,15 @@ class NewsSystem:
 
         return companies
 
-    def get_last_updated(self, ticker):
-        # Get the last updated date for the specified company
-        query = select(Company.last_updated).where(Company.stock_ticker == ticker)
-        result = db.session.execute(query)
-        update_date = result.fetchone()[0]
-
-        return update_date
-
     def update_companies_desc(self):
         for ticker in self.companies:
-            # Get the last updated date for the current company
-            last_updated = self.get_last_updated(ticker)
+            # Get the description for the company
+            query = select(Company.description).where(Company.stock_ticker == ticker)
+            result = db.session.execute(query)
+            result = result.fetchone()
 
-            # Check if the current company has been updated
-            if last_updated > date(1970, 1, 1):
+            # If there is a description for the company
+            if result:
                 continue
 
             # Get the description for the current company
@@ -52,27 +47,25 @@ class NewsSystem:
             db.session.execute(query)
             db.session.commit()
 
-    def update_companies(self):
+    def update_companies(self, date=date.today() - timedelta(days=1)):
         for ticker in self.companies:
             try:
-                # Get the last updated date for the current company
-                last_updated = self.get_last_updated(ticker)
+                # Check if there is a Sentiment Rating for the current company
+                query = select(SentimentRating).where(SentimentRating.stock_ticker == ticker).where(SentimentRating.date == date)
+                result = db.session.execute(query)
+                result = result.fetchone()
 
-                # Check if the current company has been updated today
-                if last_updated == date.today():
+                if result:
+                    print(f"Sentiment rating already exists for {ticker} on {date}")
                     continue
 
-                articles = self.collection(ticker)
+                articles = self.collection(ticker, date)
                 positive = 0
                 total = 0
 
                 # Check if there are no articles for the current company
                 if not articles:
                     continue
-
-                # Drop all articles for the current company in the database
-                query = delete(Article).where(Article.stock_ticker == ticker)
-                db.session.execute(query)
 
                 # Prepare the SQL statement
                 stmt = insert(Article).values(
@@ -91,6 +84,20 @@ class NewsSystem:
                 # Execute the statement for all data
                 db.session.execute(stmt, articles)
 
+                # Insert article topics for each article
+                for article in articles:
+                    for topic in article['topics']:
+                        query = select(Topic.id).where(Topic.topic == topic['topic'])
+                        result = db.session.execute(query)
+                        topic_id = result.fetchone()[0]
+
+                        query = select(Article.id).where(Article.url == article['url'])
+                        result = db.session.execute(query)
+                        article_id = result.fetchone()[0]
+
+                        query = insert(ArticleTopic).values(article_id=article_id, topic_id=topic_id)
+                        db.session.execute(query)
+
                 # Update the total and positive ratings for the current company
                 total = len(articles)
                 positive = sum(1 for article in articles
@@ -98,17 +105,9 @@ class NewsSystem:
 
                 # Update the positive rating for the current company
                 if total != 0:
-                    positive_rating = (positive / total) * 100
-                    query = update(Company).where(
-                        Company.stock_ticker == ticker).values(
-                            positive_rating = positive_rating)
+                    positive_rating = int((positive / total) * 100)
+                    query = insert(SentimentRating).values(stock_ticker=ticker, date=date, rating=positive_rating)
                     db.session.execute(query)
-
-                # Update the last updated date for the current company
-                query = update(Company).where(
-                    Company.stock_ticker == ticker).values(
-                        last_updated = date.today())
-                db.session.execute(query)
 
                 # Send notifications to all users following the current company
                 self.send_notifications(ticker)
@@ -119,9 +118,9 @@ class NewsSystem:
                 print(e)
                 db.session.rollback()
 
-    def collection(self, ticker):
+    def collection(self, ticker, date):
         # Get articles for the specified company
-        articles = self.alpha_vantage.week_articles(ticker)
+        articles = self.alpha_vantage.day_articles(ticker, date)
         filtered = []
 
         if articles:
@@ -139,6 +138,8 @@ class NewsSystem:
                 else:
                     sentiment = self.get_sentiment(article['title'])
 
+                top_topics = sorted(article['topics'], key=lambda x: x['relevance_score'], reverse=True)[:3]
+
                 # Append specified article details to the filtered list
                 filtered.append({
                     'title': article['title'],
@@ -148,6 +149,7 @@ class NewsSystem:
                     'url': article['url'],
                     'published': article['time_published'],
                     'description': meta_desc,
+                    'topics': top_topics,
                     'banner_image': article['banner_image'],
                     'sentiment_label': sentiment[0]['label'],
                     'sentiment_score': sentiment[0]['score'],
@@ -170,16 +172,28 @@ class NewsSystem:
         return max_ticker == ticker
 
     def send_notifications(self, ticker):
-        # Get all users following the specified company
-        query = select(User.id).join(
-            Follow, User.id == Follow.user_id).where(
-                Follow.stock_ticker == ticker)
-        result = db.session.execute(query)
+        with current_app.app_context():
+            # Get all users following the specified company
+            query = select(User.id).join(
+                Follow, User.id == Follow.user_id).where(
+                    Follow.stock_ticker == ticker)
+            result = db.session.execute(query)
 
-        if result:
-            for row in result:
-                # Send a notification to the current user
-                query = insert(Notification).values(
-                    user_id = row[0],
-                    message = f"New articles available for {ticker}!")
-                db.session.execute(query) # commit after?!
+            if result:
+                for row in result:
+                    # Send a notification to the current user
+                    query = insert(Notification).values(
+                        user_id = row[0],
+                        message =  f"New articles available for {ticker}!")
+                    db.session.execute(query)
+                    notification = Notification.query.order_by(Notification.id.desc()).first()
+                    socketio.emit('notification', {'id': notification.id, 'message': notification.message, 'time': notification.time.strftime('%Y-%m-%d %H:%M:%S')}, room=str(row[0]))
+    
+    def backlog(self):
+        # Get a list of dates from yesterday to 14 days ago
+        dates = [date.today() - timedelta(days=i) for i in range(1, 8)]
+
+        # Update companies for each date in the list
+        for d in dates:
+            print(d)
+            self.update_companies(date=d)

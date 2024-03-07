@@ -4,6 +4,9 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company.css') }}">
 {% endblock %}
 {% block content %}
+<script type="text/javascript">
+    var chartData = {{ chart_data | tojson | safe }};
+</script>
 <div class="container">
     <div class="main-content">
         <div class="overview-article">
@@ -23,99 +26,28 @@
                     	"container_id": "tradingview_2f394"
                     }
                 </script>
-                <button class="follow-button">Follow</button>
+                <button onclick="modifyFollowCompany(event, this, 'Followed', 'Follow');var cardElement = event.target.closest('.card-followed');cardElement.parentNode.removeChild(cardElement);" data-ticker='{{ ticker }}' class="follow-button">{{ 'Followed' if is_following else 'Follow' }}</button>
             </div>
             <h1 class="articles-heading">Latest Stories</h1>
-            <div class="articles-section">
-                    <div class="article">
-                        <div class="article-left">
-                            <div class="article-header">
-                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
-                                <h2 class="article-source">The Guardian • 4 days ago</h2>
-                                <!-- Replace with actual source -->
-                            </div>
-                            <a href="article-url.html">
-                                <!-- Replace with actual article URL -->
-                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
-                                <!-- Replace with actual title -->
-                            </a>
-                            <p class="article-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
-                            </p>
-                            <!-- Replace with actual content -->
-                            <div class="article-tags">
-                                <!-- Replace with actual tags -->
-                                <span class="tag">Technology</span>
-                                <span class="tag">Energy</span>
-                            </div>
-                        </div>
-                        <div class="article-right">
-                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
-                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
-                        </div>
-                    </div>
-                    <hr style="width:80%;">
-                    <div class="article">
-                        <div class="article-left">
-                            <div class="article-header">
-                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
-                                <h2 class="article-source">The Guardian • 4 days ago</h2>
-                                <!-- Replace with actual source -->
-                            </div>
-                            <a href="article-url.html">
-                                <!-- Replace with actual article URL -->
-                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
-                                <!-- Replace with actual title -->
-                            </a>
-                            <p class="article-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
-                            </p>
-                            <!-- Replace with actual content -->
-                            <div class="article-tags">
-                                <!-- Replace with actual tags -->
-                                <span class="tag">Technology</span>
-                                <span class="tag">Energy</span>
-                            </div>
-                        </div>
-                        <div class="article-right">
-                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
-                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
-                        </div>
-                    </div>
-                    <hr style="width:80%;">
-                    <div class="article">
-                        <div class="article-left">
-                            <div class="article-header">
-                                <img class="source-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png" alt="Source Icon"> <!-- Replace with actual source icon -->
-                                <h2 class="article-source">The Guardian • 4 days ago</h2>
-                                <!-- Replace with actual source -->
-                            </div>
-                            <a href="article-url.html">
-                                <!-- Replace with actual article URL -->
-                                <h1 class="article-title">sed velit dignissim sodales ut eu sem integer vitae</h1>
-                                <!-- Replace with actual title -->
-                            </a>
-                            <p class="article-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ut eu sem integer vitae.
-                            </p>
-                            <!-- Replace with actual content -->
-                            <div class="article-tags">
-                                <!-- Replace with actual tags -->
-                                <span class="tag">Technology</span>
-                                <span class="tag">Energy</span>
-                            </div>
-                        </div>
-                        <div class="article-right">
-                            <img src="https://www.tilelook.com/system/tile_picture/resource/10040161/d3d_default_COTTODESTE_BLACK_WHITE_BLACK_3plus_100X100.jpg" alt="Description of image"> <!-- Replace with actual image URL and description -->
-                            <button class="article-rating positive">Positive</button> <!-- Replace 'positive' with actual rating -->                
-                        </div>
-                    </div>
-                    <hr style="width:80%;">
+                <div class="articles-section">
             </div>
         </div>
         <div class="sentiment-chart-and-overview">
             <div class="sentiment-box">
-                overall sentiment goes here
+                <h2 class="sentiment-heading">{{ ticker }} Sentiment Analysis</h2>
+                <h2 class="sentiment-subheading">Average Sentiment</h2>
+                <div class="sentiment-doughnut" 
+                    data-positive="{{ positive }}" 
+                    data-negative="{{ negative }}">
+                    <canvas id="sentimentDoughnut" width="200" height="200"></canvas>
+                </div>
+                <h2 class="article-subcount" style="color: rgba(75, 192, 132, 0.8);">{{positive_articles}} positive articles</h2>
+                <h2 class="article-subcount" style="color: rgba(255, 99, 132, 0.8);">{{negative_articles}} negative articles</h2>
+                <h2 class="article-subcount">Industry Average: {{industry_average}}</h2>
+                <h2 class="sentiment-subheading">Sentiment Over Time</h2>
+                <div class = "sentiment-chart">
+                    <canvas id="sentimentChart" height="250"></canvas>
+                </div>
             </div>
             <div class="company-info-box">
                 <h1>Company Overview</h1>
@@ -144,4 +76,14 @@
         </script>
     </div>
 </div>
+<script src="/static/scripts/refresh_articles.js"></script>
+<script src="/static/scripts/modify_follow.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/scripts/chart.js"></script>
+<script>
+    currentArticles = refreshArticles(["{{ ticker }}"], null);
+    setInterval(function() {
+        currentArticles = refreshArticles(["{{ ticker }}"], currentArticles);
+    }, 300000);
+</script>
 {% endblock %}

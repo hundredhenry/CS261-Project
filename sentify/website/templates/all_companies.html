@@ -15,7 +15,7 @@
             <h2>{{ company.company_name }}</h2>
             {% if current_user.is_authenticated %}
                 {% set is_following = company.stock_ticker in following %}
-                <button class="follow-button" data-ticker="{{ company.stock_ticker }}" onclick="modifyFollowCompany(event, this, '+', 'x')">{{ 'x' if is_following else '+' }}</button>
+                <button class="follow-button" data-ticker="{{ company.stock_ticker }}" onclick="modifyFollowCompany(event, this, 'x', '+')">{{ 'x' if is_following else '+' }}</button>
             {% endif %}
         </div>
         <p>{{ company.stock_ticker }}</p>
