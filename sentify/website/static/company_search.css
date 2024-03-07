@@ -1208,7 +1208,7 @@
     grid-gap:  20px;
     max-width: 85%;
     position: relative;
-    max-height: 900px; /* Set a fixed height */
+
     overflow-y: auto; /* Enable vertical scrolling */
 }
 

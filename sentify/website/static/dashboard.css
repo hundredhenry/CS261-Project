@@ -55,12 +55,9 @@
 }
 
 .followed-dashboard-section {
-
-    margin-top: 400px;
+    margin-top: 0px;
     height: 1200px;
     width: 1300px;
-
-
 }
 
 .container-suggested {
@@ -228,17 +225,17 @@
   }
   
   .side-box {
-    height: 1500px;
+    height: 1300px;
     width: 500px;
     position: absolute;
     right: -100px;
-    top: -250px;
+    top: -1000px;
   }
 
   .companies-container-2 {
     position: relative;
-    top: 20px;
-    height: 1500px;
+    top: 50px;
+    height: 1200px;
   }
 
 .box {
@@ -248,7 +245,61 @@
   top: 250px;
   right: 250px;
   position: relative;
+
+}
+
+/* carousel */
+
+.container-suggested {
+  top: 55%;
+  left: 7.5%;
+  width: 85%;
+  position: relative;
+}
+
+.carousel{
+  margin-top: -5%;
+  height: 700px; 
+  perspective: 1300px;
+}
+
+.carousel .carousel-item {
+width: 400px;
+height: 402px;
+animation: animate 2s infinite alternate;
+border-radius: 15px;
+}
+
+.carousel-arrow {
+  width: 50px;
+  height: 50px;
+  background: rgb(0, 0, 0);
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%; /* Add this line */
+  z-index: 1;
+  margin: 0 10px; /* Adjust as needed */
+  line-height: 50px;
+  user-select: none; /* Add this line */
+}
+
+.arrow-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -5%;
+  padding-bottom: 5%;
+}
+.carousel .indicators {
+  margin-bottom: 5%;
+}
+
+.carousel .indicators .indicator-item {
+  background-color: lightgray;
+}
+
+.carousel .indicators .indicator-item.active {
+  background-color: gray;
 }

@@ -3,8 +3,11 @@
 {% block stylesheet %} 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+
+
 {% endblock %}
 {% block content %}
 <div class="dashboard">
@@ -289,12 +292,7 @@
         </div>
       </div>
       <div class="side-box">
-        <div style="
-          font-size: 26px;
-          margin-bottom: 30px;
-          top: 0px;
-          right: 20px;
-          "
+        <div 
           class="my-watch-list-title" data-id="212:758">My Watch List</div>
         <div class="companies-container-2">
           {% if current_user.is_authenticated  %}
@@ -333,44 +331,17 @@
       </div>
     </div>
   </div>
-  <div class="followed-dashboard-section">
-    <div class="container-suggested">
-      <div  style='margin:0;' class="my-watch-list-title" data-id="212:758">You Might Like...</div>
-      <div class="carousel">
-        {% for company in suggested_companies %}
-        <div class="carousel-item">
-          <div class="card-followed">
-            <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-              <div style='margin-bottom:46px;'class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                  {
-                  "symbol": "{{ company }}",
-                  "width": "400",
-                  "height": "350",
-                  "locale": "en",
-                  "dateRange": "12M",
-                  "colorTheme": "light",
-                  "trendLineColor": "{{ randomColor() }}",
-                  "isTransparent": true,
-                  "autosize": false,
-                  "largeChartUrl": "#"
-                  }
-                </script>   
-              </div>
-              <div style='left:95px'onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="arrow-container">
-        <div class="carousel-arrow" onclick="prevSlide()"> &lt; </div>
-        <div class="carousel-arrow" onclick="nextSlide()"> &gt; </div>
-      </div>
-    </div>
+
+
+  <div class="qwerty"
+  style="
+    height: 100px;
+    width: 100px;
+    background-color: aqua;
+  ">
   </div>
 </div>
+
 <script>
   $(document).ready(function(){
   $('.carousel').carousel({
@@ -425,4 +396,5 @@
   
 </script>
 <script src="/static/scripts/modify_follow.js"></script>
+
 {% endblock %}
