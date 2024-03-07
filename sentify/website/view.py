@@ -170,22 +170,18 @@ def logout():
     return redirect(url_for("views.landing"))
 
 def daily_sentiment(stock_ticker):
-    # Calculate the date 7 days ago from today
-    one_week_ago = datetime.now().date() - timedelta(days=7)
-    
-    # Query to get the last week's daily sentiment
+    # Query to get daily sentiment
     results = db.session.query(
         SentimentRating.date,
         SentimentRating.rating
-    ).filter(SentimentRating.stock_ticker == stock_ticker,
-             SentimentRating.date >= one_week_ago
+    ).filter(SentimentRating.stock_ticker == stock_ticker
     ).order_by(SentimentRating.date.asc()).all()
 
-    # Extract dates and ratings from the query results, formatting dates as dd-mm-yy
+    # Extract dates and ratings from the query results
     labels = [result.date.strftime('%d-%m-%y') for result in results]
     data = [round(result.rating, 2) for result in results]
 
-    # Prepare data for Chart.js with filtered results
+    # Prepare data for Chart.js
     chart_data = {
         'labels': labels,
         'datasets': [{
