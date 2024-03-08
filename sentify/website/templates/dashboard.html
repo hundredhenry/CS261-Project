@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} User Dashboard {% endblock %}
+{% block title %} Sentifty Dashboard {% endblock %}
 {% block stylesheet %} 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
@@ -26,9 +26,14 @@
         data-id="212:728"
         src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract.svg"
         alt="Subtract">
-      <div class="box">
-        overall sentiment goes here
-      </div>
+        <div class="box">
+          <div class="sentiment-doughnut" 
+              data-positive="{{ positive }}" 
+              data-negative="{{ negative }}">
+              <canvas id="sentimentDoughnut" width="300" height="300"></canvas>
+          </div>
+          <h2 class="sentiment-heading">Watchlist Sentiment</h2>
+        </div>
     </div>
   </div>
   <div class="followed-companies-dashboard">
@@ -145,6 +150,8 @@
 <script src="/static/scripts/refresh_articles.js"></script>
 <script src="/static/scripts/modify_follow.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/scripts/chart.js"></script>
 <script>
   $(document).ready(function(){
   $('.carousel').carousel({

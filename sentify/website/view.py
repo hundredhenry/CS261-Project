@@ -283,8 +283,12 @@ def daily_sentiment(stock_ticker):
     ).order_by(SentimentRating.date.asc()).all()
 
     # Extract dates and ratings from the query results
-    labels = [result.date.strftime('%d-%m-%y') for result in results]
-    data = [round(result.rating, 2) for result in results]
+    labels = []
+    data = []
+    for result in results:
+        if result.rating is not None:  # Add your condition for missing data here
+            labels.append(result.date.strftime('%d-%m-%y'))
+            data.append(round(result.rating, 2))
 
     # Prepare data for Chart.js
     chart_data = {
@@ -299,6 +303,7 @@ def daily_sentiment(stock_ticker):
     }
 
     return chart_data
+
 
 def industry_sentiment(stock_ticker):
     """
@@ -375,8 +380,8 @@ def company(ticker):
         func.avg(
             SentimentRating.rating)).filter_by(
                 stock_ticker=ticker).scalar()
-    positive = round(float(average_rating)) if average_rating else 0
-    negative = 100 - positive
+    positive = round(float(average_rating)) if average_rating else None
+    negative = (100 - positive) if average_rating else None
     total_articles = db.session.query(
         func.count(
             Article.id)).filter(
@@ -442,6 +447,44 @@ def get_companies():
                 for company in companies]
     return results
 
+def following_sentiment(stock_tickers):
+    """
+    Calculate the overall average sentiment for a given array of stock tickers.
+
+    Args:
+        stock_tickers (list[str]): An array of stock ticker symbols.
+
+    Returns:
+        float or None: The overall average sentiment rating for the given stock tickers, rounded to the nearest integer.
+            Returns None if there are no sentiment ratings for any of the companies.
+    """
+    # Initialize a list to hold the average sentiment ratings for each stock ticker
+    ticker_sentiments = []
+
+    for stock_ticker in stock_tickers:
+        # Query to get the sentiment ratings of the company
+        sentiment_ratings = db.session.query(
+            SentimentRating.rating
+        ).filter(
+            SentimentRating.stock_ticker == stock_ticker
+        ).all()
+
+        # Calculate the average sentiment rating for this stock ticker
+        if sentiment_ratings:
+            average_sentiment = sum(
+                rating[0] for rating in sentiment_ratings
+            ) / len(sentiment_ratings)
+            ticker_sentiments.append(average_sentiment)
+
+    # Calculate the overall average sentiment for the provided stock tickers
+    if ticker_sentiments:
+        following_sentiment = round(sum(ticker_sentiments) / len(ticker_sentiments))
+    else:
+        following_sentiment = None
+
+    return following_sentiment
+
+
 @views.route('/dashboard/')
 @login_required
 @handle_sqlalchemy_error('views.dashboard',
@@ -457,8 +500,12 @@ def dashboard():
         - randomColor: A random color for the dashboard page.
     """
     followed_companies = get_following()
+    positive = following_sentiment(followed_companies)
+    negative = (100 - positive) if positive else None
     suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
     return render_template('dashboard.html',
+                           positive = positive,
+                           negative = negative,
                            companies=followed_companies,
                            suggested_companies=suggested_companies,
                            randomColor=random_color)
