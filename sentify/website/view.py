@@ -442,29 +442,6 @@ def get_companies():
                 for company in companies]
     return results
 
-@views.route('/companies/search/')
-@login_required
-@handle_sqlalchemy_error('views.search_companies',
-                        'Error retrieving companies.')
-def search_companies():
-    """
-    Renders the company search page with the following data:
-    - followed_companies: a list of companies that the current user is following
-    - suggested_companies: a list of recommended companies for the current user
-    - randomColor: a function that generates a random color
-    - showNavSearchBar: a boolean indicating whether to show the navigation search bar
-    
-    Returns:
-    - The rendered company search template with the above data
-    """
-    followed_companies = get_following()
-    suggested_companies = [company.stock_ticker for company in recommend_specific(current_user.id)]
-    return render_template('company_search.html',
-                           companies=followed_companies,
-                           suggested_companies=suggested_companies,
-                           randomColor=random_color,
-                           showNavSearchBar=False)
-
 @views.route('/dashboard/')
 @login_required
 @handle_sqlalchemy_error('views.dashboard',

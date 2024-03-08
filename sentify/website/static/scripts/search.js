@@ -14,6 +14,15 @@ window.addEventListener('load', function() {
         });
 });
 
+document.addEventListener('click', function(event) {
+    const resultsDiv = document.getElementById('results');
+    const searchInput = document.getElementById('search-input'); // replace 'search-input' with the id of your search input
+
+    if (!resultsDiv.contains(event.target) && !searchInput.contains(event.target)) {
+        resultsDiv.style.display = 'none';
+    }
+});
+
 function searchCompany(query) {
     let results = query ? companies.filter(company => company.company_name.toLowerCase().includes(query.toLowerCase()) || company.stock_ticker.toLowerCase().includes(query.toLowerCase())) : [];
     results = results.slice(0, 4); // limit the results to a maximum of 4
