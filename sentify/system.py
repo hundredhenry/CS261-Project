@@ -188,7 +188,7 @@ class NewsSystem:
                     socketio.emit('notification', {'id': notification.id, 'message': notification.message, 'time': notification.time.strftime('%Y-%m-%d %H:%M:%S')}, room=str(row[0]))
     
     def backlog(self):
-        # Get a list of dates from yesterday to 14 days ago
+        # Get a list of dates from yesterday to 8 days ago
         dates = [date.today() - timedelta(days=i) for i in range(1, 8)]
 
         # Update companies for each date in the list
