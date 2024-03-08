@@ -205,6 +205,38 @@ def login():
             flash("Email or password is incorrect!", category="login_error")
     return render_template('login.html')
 
+@views.route('/contact/', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+
+        error_occurred = False
+        if len(name) < 1:
+            flash("Name is too short!", category="name_error")
+            error_occurred = True
+        if len(email) < 1:
+            flash("Email is too short!", category="email_error")
+            error_occurred = True
+        if not re.match("^[a-zA-Z]*$", name):
+            flash('Name must contain only letters!', category='name_error')
+            error_occurred = True
+        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$)", email):
+            flash('Invalid email address!', category='email_error')
+            error_occurred = True
+        if not len(message) < 300:
+            flash("Message is too long!", category="message_error")
+            error_occurred = True
+
+        if not error_occurred:
+            subject = "Support Request - Sentify"
+            html = render_template('contact_email.html', name=name, message=message)
+            send_email(subject, 'patej162.316@gmail.com', html)
+            flash("Message sent successfully!", category="success")
+
+    return render_template('contact.html')
+
 @views.route('/resend/', methods=['GET', 'POST'])
 @handle_sqlalchemy_error('views.resend_email',
                          'Unable to resend email please try again.')
