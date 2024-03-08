@@ -1,5 +1,5 @@
-from flask_login import UserMixin
 from datetime import datetime, date
+from flask_login import UserMixin
 from . import db
 
 # Model of a user
@@ -41,7 +41,7 @@ class Notification(db.Model):
         self.sent = sent
 
 # Model of a follow
-class Follow(UserMixin, db.Model):
+class Follow(db.Model):
     __tablename__ = 'follows'
 
     # Attributes
@@ -56,7 +56,7 @@ class Follow(UserMixin, db.Model):
         self.stock_ticker = stock_ticker
 
 # Model of a sector
-class Sector(UserMixin, db.Model):
+class Sector(db.Model):
     __tablename__ = 'sectors'
 
     # Attributes
@@ -70,7 +70,7 @@ class Sector(UserMixin, db.Model):
         self.sector_name = sector_name
 
 # Model of a company
-class Company(UserMixin, db.Model):
+class Company(db.Model):
     __tablename__ = 'companies'
 
     # Attributes
@@ -90,7 +90,7 @@ class Company(UserMixin, db.Model):
         self.sector_id = sector_id
 
 # Model of an article
-class Article(UserMixin, db.Model):
+class Article(db.Model):
     __tablename__ = 'articles'
 
     # Attributes

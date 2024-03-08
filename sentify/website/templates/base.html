@@ -18,6 +18,25 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='toastr.css') }}">
   </head>
   <body style="margin: 0px; background: rgb(251, 251, 251);">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category == 'success' %}
+        <script>
+          toastr.success("{{ message }}");
+        </script>
+      {% elif category == 'info' %}
+        <script>
+          toastr.info("{{ message }}");
+        </script>
+      {% elif category == 'error' %}
+        <script>
+          toastr.error("{{ message }}");
+        </script>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
     {% with messages = get_flashed_messages(category_filter=["login_success"]) %}
     {% if messages %}
     {% for message in messages %}
@@ -68,45 +87,6 @@
                   </a>
                 </div>
               </div>
-              <div class="frame-1000001746-RdjiIr" data-id="196:760">
-                <div class="frame-1000001715-Waq7SZ" data-id="196:761">
-                  <img class="message-mail-oDTmqV" data-id="196:762" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" alt="Message-Mail">
-                  <div class="inbox-oDTmqV roboto-extra-light-black-16px" data-id="196:763">
-                    <a href="#">
-                    Inbox
-                    </a>
-                  </div>
-                </div>
-                <div class="add-Waq7SZ add" data-id="196:764">
-                  <img class="vector" data-id="196:772" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" alt="Vector">
-                  <div class="x2-2yU72H" data-id="196:774">2</div>
-                </div>
-              </div>
-              <div class="frame-1000001747-RdjiIr" data-id="196:775">
-                <div class="frame-1000001717-59uErq" data-id="196:776">
-                  <img class="event-calendar-kgQfG4" data-id="196:777" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" alt="Event Calendar">
-                  <div class="companies-kgQfG4" data-id="196:778">
-                    <a href="/companies/search/">
-                    Companies
-                    </a>
-                  </div>
-                </div>
-                <div class="frame-1000001718-59uErq" data-id="196:779">
-                  <div class="add-Y90JDp add" data-id="196:780">
-                    <img class="vector" data-id="196:788" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" alt="Vector">
-                    <div class="x3-oSJO6k" data-id="196:790">3</div>
-                  </div>
-                  <img class="add" data-id="196:791" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" alt="Add">
-                </div>
-              </div>
-              <div class="frame-1000001721-RdjiIr" data-id="196:792">
-                <img class="form-i52fqj" data-id="196:793" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" alt="Form">
-                <div class="news-i52fqj roboto-extra-light-black-16px" data-id="196:794">
-                  <a href="#">
-                  News
-                  </a>
-                </div>
-              </div>
               <div class="frame-1000001722-RdjiIr" data-id="196:795">
                 <img class="briefcase-kYTqIm" data-id="196:796" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/briefcase.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/briefcase.svg" alt="Briefcase">
                 <div class="all-companies-kYTqIm roboto-extra-light-black-16px" data-id="196:797">
@@ -127,40 +107,14 @@
               <div class="frame-1000001729-qfXu1U" data-id="196:815">
                 <img class="question-mark-IFWzvw" data-id="196:816" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" alt="Question Mark">
                 <div class="help-IFWzvw roboto-extra-light-black-16px" data-id="196:817">
-                  <a href="#">
-                  Help!
+                  <a href="/contact/">
+                  Contact Us
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="buttom-0TSxxs" data-id="196:818">
-          <div class="frame-1000001765-nmWx00" data-id="196:819">
-            <div class="frame-1000001704-kvkcHP" data-id="196:820">
-              <div class="ellipse-982-06TEVn" data-id="196:821"></div>
-              <img class="sun-brightness-06TEVn" data-id="196:822" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" alt="Sun-Brightness"><img class="half-moon-06TEVn" data-id="196:823" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" alt="Half Moon">
-            </div>
-            <div class="lightmode-kvkcHP roboto-extra-light-black-16px" data-id="196:824">Lightmode</div>
-          </div>
-          {% if current_user.is_authenticated %}
-          <div class="frame-1000001740-nmWx00" data-id="196:825">
-            <div class="frame-1000001738-pY8mGy" data-id="196:826">
-              <div class="frame-1000001702-wVa9Jb" data-id="196:827"><img class="male-user-GMsvWa" data-id="196:828" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" alt="Male User"></div>
-              <div class="profile-wVa9Jb roboto-extra-light-black-16px" data-id="196:829">
-                <a href="#">
-                Profile
-                </a>
-              </div>
-            </div>
-            <div class="frame-1000001739-pY8mGy" data-id="196:830">
-              <a href = "/logout">
-                <img class="logout-exit-bfsqxW" data-id="196:831" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" alt="Logout-Exit">
-                <div class="ellipse-983-bfsqxW" data-id="196:832"></div>
-              </a>
-            </div>
-            {% endif %}
-          </div>
         </div>
       </div>
     </div>
@@ -177,9 +131,10 @@
           </div>
           <!-- side arrow for the navigation bar -->
           {% block content %}{% endblock %}
-          <!-- Footer -->
+          <!-- Footer --> 
         </div>
       </div>
+      
     </div>
     <script src="/static/scripts/sidebar.js"></script>
     <script src="/static/scripts/search.js"></script>
@@ -197,7 +152,7 @@
       
       socket.on('disconnect', function() {
         console.log('Disconnected from the server');
-      });
+      }); 
       
       socket.on('notification', function(data) {
         toastr.success(data.message);

@@ -1162,9 +1162,7 @@
 .add-button:hover {
     color: #888; /* Adjust hover color as needed */
     font-size: 240px; /* Adjust scale as needed */
-
 }
-
 
 .rectangle-10-g7RNeJ {
     border-color: var(--black);
@@ -1201,14 +1199,14 @@
 }
 
 .companies-container-2 {
-    top: 52.5%;
-    margin-left: 8%;
+    top: 63.5%;
+    margin-left: 10%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-gap:  20px;
     max-width: 85%;
+    max-height: 820px;
     position: relative;
-    max-height: 900px; /* Set a fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
@@ -1278,8 +1276,7 @@
 }
 
 .container-suggested {
-    top: 55%;
-    left: 7.5%;
+    top: 10%;
     width: 85%;
     position: relative;
 }

@@ -6,7 +6,7 @@ function truncateText(text, maxLength) {
     }
 }
 
-function refreshArticles(tickers, currentArticles) {
+function refreshArticles(tickers, currentArticles, articlesTab) {
     var tickersString = tickers.join(',');
     // Fetch the articles from the server
     fetch(`/api/get/articles?tickers=${tickersString}`)
@@ -14,17 +14,15 @@ function refreshArticles(tickers, currentArticles) {
     .then(newArticles => {
         if (JSON.stringify(newArticles) !== JSON.stringify(currentArticles)) {
         // Clear the existing articles
-        var articlesSection = document.querySelector('.articles-section');
+        var articlesSection = document.querySelector('.'+articlesTab);
         function generateTags(topics) {
             return topics.map(topic => `<span class="tag">${topic}</span>`).join('');
         }
         // Clear the existing articles
         articlesSection.innerHTML = '';
-
         // Loop through each ticker
-        for (var ticker in newArticles.articles) {
             // Loop through each article
-            newArticles.articles[ticker].forEach(article => {
+            newArticles.articles.forEach(article => {
                 // Generate the HTML for the article
                 var str = article.sentiment_label.toLowerCase();
                 
@@ -46,7 +44,7 @@ function refreshArticles(tickers, currentArticles) {
                             </div>
                         </div>
                         <div class="article-right">
-                        <img src="${article.banner_image ? article.banner_image : '/static/images/'+ticker+'.png'}" alt="Banner Image">
+                        <img src="${article.banner_image ? article.banner_image : '/static/images/'+article.ticker+'.png'}" alt="Banner Image">
                         <button class="article-rating ${article.sentiment_label.toLowerCase()}" data-confidence="${article.sentiment_score}">${str.charAt(0).toUpperCase() + str.slice(1)}</button>
                         </div>
                     </div>
@@ -56,7 +54,7 @@ function refreshArticles(tickers, currentArticles) {
                 // Insert the article HTML into the page
                 articlesSection.innerHTML += articleHTML;
             });
-        }
+        
     }
         addEventListenersToButtons();
         currentArticles = newArticles;

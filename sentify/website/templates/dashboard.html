@@ -1,29 +1,39 @@
 {% extends "base.html" %}
-{% block title %} User Dashboard {% endblock %}
+{% block title %} Sentifty Dashboard {% endblock %}
 {% block stylesheet %} 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company_search.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='company.css') }}">
+
 {% endblock %}
 {% block content %}
 <div class="dashboard">
   <div class="welcome-back">
     <div class="welcome-message">
-      <h1 style="font-size: 40px; margin-bottom:25px; font-weight: 400;"> Welcome back {{current_user.firstname}}</h1>
+      <h1 style="font-size: 40px; margin-bottom:25px; font-weight: 400;"> Welcome back, {{current_user.firstname}}</h1>
       <p style="color: #6d6d6d"> Discover your personalised dashboard below, view your watchlist,<br> and browse the latest articles we think you'd like!</p>
-      <div class="see-all-companies">
-        See Recommended 
-      </div>
+      <a href="#suggestions">
+        <div class="see-all-companies">
+          See Recommended
+        </div>
+      </a>
     </div>
     <div class="overall-sentiment">
       <img class="subtract-rptxkZ subtract"
         data-id="212:728"
         src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/subtract.svg"
         alt="Subtract">
-      <div class="box">
-        overall sentiment goes here
-      </div>
+        <div class="box">
+          <div class="sentiment-doughnut" 
+              data-positive="{{ positive }}" 
+              data-negative="{{ negative }}">
+              <canvas id="sentimentDoughnut" width="300" height="300"></canvas>
+          </div>
+          <h2 class="sentiment-heading">Watchlist Sentiment</h2>
+        </div>
     </div>
   </div>
   <div class="followed-companies-dashboard">
@@ -37,10 +47,12 @@
       ">
       Latest Stories
     </div>
+    <a href="/companies">
     <div class="little-box">
       <div class="plus-arrow">
         +
       </div>
+    </a>
       <div>
         Keep up with the latest in any company 
       </div>
@@ -51,250 +63,14 @@
           <button class="tablinks active" onclick="openTab(event, 'Tab1')"> Following </button>
           <button class="tablinks" onclick="openTab(event, 'Tab2')"> Recommended </button>
         </div>
-        <div id="Tab1" class="tabcontent" style="display:block;">
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
+        <div id="Tab1" class="articles-section tb1" style="display:block;">
         </div>
-        <div id="Tab2" class="tabcontent" style="display:none;">
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="article-tab">
-            <div class="article-information">
-              <div class="pfp">
-                <p style="color: black; font-size: 11px; 
-                  left: 50px; position: relative; width: 1000px; top: 12px">
-                  Source Name <span style="position: relative; left: 40px; color: grey;" >date of article</span>
-                </p>
-              </div>
-              <p class="article-header">Microsoft CEO explains recent tweets</p>
-              <p style="color: grey; font-size: 14px; margin: 0px; margin-right: 20px;
-                line-height: 1.5;" >
-                Microsoft Corp. on Tuesday announced that fiscal year 2024 second-quarter financial results are available on its Investor Relations website. The direct link to the earnings press release is...
-              </p>
-              <div class="sector-div">
-                sector
-              </div>
-              <div class="three-dots">
-                ...
-              </div>
-            </div>
-            <div class="article-image">
-              <img class="actual-image" src="https://www.walshgraphics.co.uk/image/cache/data/Cover%20Styl%20Images/Colours/Cover%20Styl'%20M10%20Colour%20-%20Main-1000x1000.jpg" >
-              <div class="article-sentiment">
-                <p>
-                  POSITIVE
-                </p>
-              </div>
-            </div>
-          </div>
+        <div id="Tab2" class="articles-section tb2" style="display:none;">
+
         </div>
       </div>
       <div class="side-box">
-        <div style="
-          font-size: 26px;
-          margin-bottom: 30px;
-          top: 0px;
-          right: 20px;
-          "
+        <div 
           class="my-watch-list-title" data-id="212:758">My Watch List</div>
         <div class="companies-container-2">
           {% if current_user.is_authenticated  %}
@@ -332,45 +108,50 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="followed-dashboard-section">
-    <div class="container-suggested">
-      <div  style='margin:0;' class="my-watch-list-title" data-id="212:758">You Might Like...</div>
-      <div class="carousel">
-        {% for company in suggested_companies %}
-        <div class="carousel-item">
-          <div class="card-followed">
-            <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
-              <div style='margin-bottom:46px;'class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                  {
-                  "symbol": "{{ company }}",
-                  "width": "400",
-                  "height": "350",
-                  "locale": "en",
-                  "dateRange": "12M",
-                  "colorTheme": "light",
-                  "trendLineColor": "{{ randomColor() }}",
-                  "isTransparent": true,
-                  "autosize": false,
-                  "largeChartUrl": "#"
-                  }
-                </script>   
-              </div>
-              <div style='left:95px'onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
+
+        <div class="container-suggested">
+        <div  style='margin:0;top:40px' class="my-watch-list-title" id='suggestions' data-id="212:758">You Might Like...</div>
+        <div class="carousel">
+            {% for company in suggested_companies %}
+            <div class="carousel-item">  
+                <div class="card-followed">
+                    <div class="rectangle-10-OFcwRL rectangle-10" data-id="212:768">
+                        <div style='margin-bottom:46px;'class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                            {
+                            "symbol": "{{ company }}",
+                            "width": "400",
+                            "height": "350",
+                            "locale": "en",
+                            "dateRange": "12M",
+                            "colorTheme": "light",
+                            "trendLineColor": "{{ randomColor() }}",
+                            "isTransparent": true,
+                            "autosize": false,
+                            "largeChartUrl": "#"
+                            }
+                            </script>   
+                        </div>
+
+                        <div style='left:95px'onclick="window.location.href='/companies/{{ company }}'" class="full-analytics">View Full Analytics </div>
+                </div> 
+                </div>
             </div>
-          </div>
+            {% endfor %}
+        </div> 
+        <div class="arrow-container">
+            <div class="carousel-arrow" onclick="prevSlide()"> &lt; </div>  
+            <div class="carousel-arrow" onclick="nextSlide()"> &gt; </div>
         </div>
-        {% endfor %}
-      </div>
-      <div class="arrow-container">
-        <div class="carousel-arrow" onclick="prevSlide()"> &lt; </div>
-        <div class="carousel-arrow" onclick="nextSlide()"> &gt; </div>
-      </div>
     </div>
   </div>
 </div>
+<script src="/static/scripts/refresh_articles.js"></script>
+<script src="/static/scripts/modify_follow.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/scripts/chart.js"></script>
 <script>
   $(document).ready(function(){
   $('.carousel').carousel({
@@ -408,10 +189,16 @@
       }
   );
   });
+
+  var tabCompanies = {
+    'Tab1': {{ companies|tojson }},
+    'Tab2': {{ suggested_companies|tojson }}
+    // add more tabs as needed
+  };
   
   function openTab(evt, tabName) {
       var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
+      tabcontent = document.getElementsByClassName("articles-section");
       for (i = 0; i < tabcontent.length; i++) {
           tabcontent[i].style.display = "none";
       }
@@ -422,7 +209,20 @@
       document.getElementById(tabName).style.display = "block";
       evt.currentTarget.className += " active";
   }
+  function refreshTab(tabName) {
+    var targetClass = 'articles-section.tb' + tabName[tabName.length - 1];
+    refreshArticles(tabCompanies[tabName], null, targetClass);
+  }
+
+    // Refresh both tabs initially
+    refreshTab('Tab1');
+    refreshTab('Tab2');
   
+    // Refresh both tabs every 5 minutes
+    setInterval(function() {
+      refreshTab('Tab1');
+      refreshTab('Tab2');
+    }, 60 * 5 * 1000);
 </script>
-<script src="/static/scripts/modify_follow.js"></script>
+
 {% endblock %}

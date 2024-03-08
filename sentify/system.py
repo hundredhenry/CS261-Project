@@ -31,12 +31,10 @@ class NewsSystem:
     def update_companies_desc(self):
         for ticker in self.companies:
             # Get the description for the company
-            query = select(Company.description).where(Company.stock_ticker == ticker)
-            result = db.session.execute(query)
-            result = result.fetchone()
+            result = Company.query.filter_by(stock_ticker=ticker).first()
 
             # If there is a description for the company
-            if result:
+            if result.description is not None:
                 continue
 
             # Get the description for the current company

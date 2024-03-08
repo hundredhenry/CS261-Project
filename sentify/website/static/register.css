@@ -32,7 +32,7 @@ justify-content: space-between;
 align-items: center;
 }
 
-.input-group input {
+.input-group input, .input-group textarea{
 font-size: 16px;
 padding: 15px;
 margin: 5px 0px;
@@ -44,6 +44,12 @@ box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 outline: none;
 overflow: hidden;
 text-overflow: ellipsis;
+}
+
+.input-group textarea {
+  resize: vertical;
+  border-radius: 10px;
+  max-height: 300px;
 }
 
 .reg-button {
