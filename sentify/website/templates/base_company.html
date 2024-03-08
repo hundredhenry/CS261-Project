@@ -30,7 +30,7 @@
             </div>
             <h1 class="articles-heading">Latest Stories</h1>
                 <div class="articles-section">
-            </div>
+                </div>
         </div>
         <div class="sentiment-chart-and-overview">
             <div class="sentiment-box">
@@ -81,9 +81,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/static/scripts/chart.js"></script>
 <script>
-    currentArticles = refreshArticles(["{{ ticker }}"], null);
+    currentArticles = refreshArticles(["{{ ticker }}"], null, 'articles-section');
     setInterval(function() {
-        currentArticles = refreshArticles(["{{ ticker }}"], currentArticles);
+        currentArticles = refreshArticles(["{{ ticker }}"], currentArticles, 'articles-section');
     }, 300000);
 </script>
 {% endblock %}

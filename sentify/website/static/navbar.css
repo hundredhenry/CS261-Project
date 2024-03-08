@@ -209,6 +209,8 @@
     padding: 10px;
     padding-top: 20px;
     border-radius: 20px;
+    opacity: 1;
+    left: auto;
 }
 
 .dropdown-row, .empty-inbox-row {

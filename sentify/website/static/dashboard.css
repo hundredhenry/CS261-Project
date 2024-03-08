@@ -9,7 +9,6 @@
     padding: 20px;
     font-weight: 400;
     font-family: 'Roboto', sans-serif;
-
 }
 
 .welcome-back {
@@ -110,9 +109,11 @@
     font-weight: lighter;
     letter-spacing: -0.3px;
     height: 50px;
+    font-weight: 400;
   }
   
   .tab button.active {
+    font-weight: 400;
     color: black;
   }
   
@@ -123,13 +124,17 @@
   }
   
   #Tab1 {
-     height: 700px;
+     height: 800px;
      overflow: auto;
      width: 800px;
      display: flex;
      align-items: center;
      justify-content: space-between;
-   
+    background-color: white;
+  }
+
+  .articles-section.tb1, .articles-section.tb2 {
+    margin-left: 0;
   }
   
   .article-tab {
@@ -140,7 +145,7 @@
     border-bottom: 1px solid #f2f2f2;
     display: flex;
     padding: 20px;
-  }
+  } 
   
   .article-image {
     flex: 1;
@@ -215,7 +220,7 @@
 }
   
    #Tab2 {
-    height: 700px;
+    height: 800px;
     overflow: auto;
     width: 800px;
     display: flex;

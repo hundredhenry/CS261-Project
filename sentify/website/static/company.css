@@ -164,6 +164,7 @@
 .article-tags {
     display: flex;
     gap: 10px;
+    padding-top: 10px;
     margin: auto 0 0 10px;
 }
 

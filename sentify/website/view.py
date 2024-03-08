@@ -465,7 +465,7 @@ def search_companies():
                            randomColor=random_color,
                            showNavSearchBar=False)
 
-@views.route('/dashboard')
+@views.route('/dashboard/')
 @login_required
 @handle_sqlalchemy_error('views.dashboard',
                         'Error retrieving dashboard data.')
@@ -570,15 +570,13 @@ def company_articles():
         return jsonify({'error': 'No tickers provided'}), 400
     tickers = set(tickers.split(','))
 
-    articles_json = {}
-    for ticker in tickers:
-        company = Company.query.get(ticker)
-        if not company:
-            articles_json[ticker] = {'error': f'{ticker} does not exist'}
-            continue
-
-        articles_json[ticker] = [
-            {
+    companies = Company.query.filter(Company.stock_ticker.in_(tickers)).all()
+    all_articles = []
+    for company in companies:
+        articles = Article.query.with_parent(company).order_by(desc(Article.published)).limit(10).all()
+        for article in articles:
+            all_articles.append({
+                "ticker": company.stock_ticker,
                 "url": article.url,
                 "title": article.title,
                 "source": article.source_name,
@@ -589,10 +587,9 @@ def company_articles():
                 "sentiment_label": article.sentiment_label,
                 "sentiment_score": article.sentiment_score,
                 "topics": [topic.topic for topic in article.topics]
-            }
-            for article in company.articles
-        ]
-    return jsonify({'articles': articles_json})
+            })
+
+    return jsonify({'articles': all_articles})
 
 @views.route('/api/get/notifications', methods=['GET'])
 @login_required
