@@ -983,13 +983,12 @@ input:focus {
     height: 592px;
     left: -75px;
     position: absolute;
-    top: 1696px;
+    top: 1400px;
     width: 1683px;
 }
 
 .macbook-air-1 .media-r1C0AL {
-    background-color: var(--white);
-    border: 1px solid;
+
     border-color: var(--black);
     border-radius: 8px;
     height: 355px;
@@ -1031,11 +1030,11 @@ input:focus {
 }
 
 .macbook-air-1 .ellipse-lSD6Nw {
-    border-radius: 5.84px/4.93px;
+    border-radius: 50%;
     height: 10px;
     left: 0px;
     top: 8px;
-    width: 12px;
+    width: 10px;
 }
 
 .macbook-air-1 .list-item-uTxycv {
@@ -1047,11 +1046,11 @@ input:focus {
 }
 
 .macbook-air-1 .ellipse-Fx5WxX {
-    border-radius: 5.84px/4.93px;
+    border-radius: 50%;
     height: 10px;
     left: 0px;
     top: 8px;
-    width: 12px;
+    width: 10px;
 }
 
 .macbook-air-1 .list-item-fmrTnj {
@@ -1063,11 +1062,11 @@ input:focus {
 }
 
 .macbook-air-1 .ellipse-DxAx5T {
-    border-radius: 5.84px/4.93px;
+    border-radius: 50%;
     height: 10px;
     left: 0px;
     top: 8px;
-    width: 12px;
+    width: 10px;
 }
 
 .macbook-air-1 .line-20-r1C0AL {
@@ -1137,6 +1136,7 @@ input:focus {
     background-color: var(--alto);
     left: 0px;
     top: 67px;
+    border-radius: 10px;
 }
 
 .macbook-air-1 .content-b6hxFf {
@@ -1446,20 +1446,6 @@ input:focus {
     position: absolute;
     text-align: left;
 }
-
-.navbar {
-    background-color: #333;
-    color: #fff;
-    padding: 0px;
-
-  }
-  
-  .navbar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
   .toggle-btn {
     cursor: pointer;
     margin-left: 20%;
@@ -1484,7 +1470,7 @@ input:focus {
     position: fixed;
     top: 0;
     left: -500px; 
-    width: 20%;
+    width: 5%;
     height: 800px;
     background-color: transparent;
     transition: left 0.3s ease;
