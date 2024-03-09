@@ -13,6 +13,12 @@ socketio = SocketIO()
 
 
 def create_app():
+    """
+    Creates and configures the Flask application.
+
+    Returns:
+        app (Flask): The configured Flask application.
+    """
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "123"
     app.config['SECURITY_PASSWORD_SALT'] = "f36d7eda6b91ecaff1a9e7045529ec71"
@@ -29,7 +35,6 @@ def create_app():
     mail.init_app(app)
     socketio.init_app(app)
 
-    #registering blueprints 
     from .view import views 
     from . import models
     app.register_blueprint(views, url_prefix="/")

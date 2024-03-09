@@ -49,6 +49,33 @@ def landing():
         return redirect(url_for("views.dashboard"))
     return render_template('landing_page.html')
 
+def validate_min_form(name, email):
+    """
+    Validates the minimum form requirements for name and email.
+
+    Args:
+        name (str): The name to be validated.
+        email (str): The email to be validated.
+
+    Returns:
+        bool: True if any validation error occurred, False otherwise.
+    """
+    error_occurred = False
+    if len(name) < 1:
+        flash("Name is too short!", category="name_error")
+        error_occurred = True
+    if len(email) < 1:
+        flash("Email is too short!", category="email_error")
+        error_occurred = True
+    if not re.match("^[a-zA-Z]*$", name):
+        flash('Name must contain only letters!', category='name_error')
+        error_occurred = True
+    if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$)", email):
+        flash('Invalid email address!', category='email_error')
+        error_occurred = True
+
+    return error_occurred
+
 @views.route('/register/', methods=['GET', 'POST'])
 @handle_sqlalchemy_error('views.register',
                          'Unable to register please try again.')
@@ -78,19 +105,8 @@ def register():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
-        error_occurred = False
-        if len(name) < 1:
-            flash("Name is too short!", category="name_error")
-            error_occurred = True
-        if len(email) < 1:
-            flash("Email is too short!", category="email_error")
-            error_occurred = True
-        if not re.match("^[a-zA-Z]*$", name):
-            flash('Name must contain only letters!', category='name_error')
-            error_occurred = True
-        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$)", email):
-            flash('Invalid email address!', category='email_error')
-            error_occurred = True
+        error_occurred = validate_min_form(name, email)
+
         if password != confirm_password:
             flash('Passwords do not match!', category='pw_match_error')
             error_occurred = True
@@ -207,24 +223,24 @@ def login():
 
 @views.route('/contact/', methods=['GET', 'POST'])
 def contact():
+    """
+    Handle the contact form submission.
+
+    If the request method is POST, this function retrieves the name, email, and message from the form data.
+    It then performs validation checks on the input fields and displays appropriate flash messages if errors occur.
+    If no errors occur, it sends an email with the contact information to the specified email address.
+    Finally, it renders the contact.html template.
+
+    Returns:
+        The rendered contact.html template.
+    """
     if request.method == 'POST':
         name = request.form.get('name')
         email = request.form.get('email')
         message = request.form.get('message')
 
         error_occurred = False
-        if len(name) < 1:
-            flash("Name is too short!", category="name_error")
-            error_occurred = True
-        if len(email) < 1:
-            flash("Email is too short!", category="email_error")
-            error_occurred = True
-        if not re.match("^[a-zA-Z]*$", name):
-            flash('Name must contain only letters!', category='name_error')
-            error_occurred = True
-        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$)", email):
-            flash('Invalid email address!', category='email_error')
-            error_occurred = True
+        error_occurred = validate_min_form(name, email)
         if not len(message) < 300:
             flash("Message is too long!", category="message_error")
             error_occurred = True
@@ -680,11 +696,13 @@ def delete_notifications(notification_id):
     Deletes notifications from the database.
 
     Args:
-        notification_id (int): The ID of the notification to be deleted. If None, all notifications for the current user
-                               that are unread will be deleted.
+        notification_id (int): The ID of the notification to be deleted.
+        If None, all notifications for the current user
+        that are unread will be deleted.
 
     Returns:
-        A JSON response with the status of the deletion operation. If successful, the status will be 'success'.
+        A JSON response with the status of the deletion operation.
+        If successful, the status will be 'success'.
         If the notification is not found, the status will be 'error' and a message will be included.
     """
     if notification_id is None:

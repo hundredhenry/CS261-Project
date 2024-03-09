@@ -1,28 +1,30 @@
 window.addEventListener('load', function() {
-    fetch('/api/get/notifications')
-      .then(response => response.json())
-      .then(notifications => {
-        const dropdownContent = document.getElementById('dropdownContent');
-          dropdownContent.innerHTML = `
+  fetch('/api/get/notifications')
+    .then(response => response.json())
+    .then(notifications => {
+      const dropdownContent = document.getElementById('dropdownContent');
+      dropdownContent.innerHTML = `
           <div class="inbox-header">
             <h1 class='inbox-heading'>Inbox</h1>
-          </div>`; 
-        const inboxHeader = dropdownContent.querySelector('.inbox-header');
-        if (notifications.length > 0) {   
-          inboxHeader.innerHTML += `<button id="clear-inbox" class="clear-inbox-button">Clear inbox</button>`;
-          notifications.forEach(notification => {
-            const notificationDate = new Date(notification.time);
-            const timeText = constructTimeText(notificationDate);
-            const row = constructNotification(notification.message, timeText, notification.id);
-            dropdownContent.appendChild(row);
-          });
-        } else {
-          dropdownContent.innerHTML += `<div class='empty-inbox-row'> No notifications </div>`;
-        }
-        const clearInboxButton = document.getElementById('clear-inbox');
+          </div>`;
+      const inboxHeader = dropdownContent.querySelector('.inbox-header');
+      if (notifications.length > 0) {
+        inboxHeader.innerHTML += `<button id="clear-inbox" class="clear-inbox-button">Clear inbox</button>`;
+        notifications.forEach(notification => {
+          const notificationDate = new Date(notification.time);
+          const timeText = constructTimeText(notificationDate);
+          const row = constructNotification(notification.message, timeText, notification.id);
+          dropdownContent.appendChild(row);
+        });
+      } else {
+        dropdownContent.innerHTML += `<div class='empty-inbox-row'> No notifications </div>`;
+      }
+      const clearInboxButton = document.getElementById('clear-inbox');
+      if (clearInboxButton) {
         clearInboxButton.onclick = clearInbox;
-      })
-      .catch(error => console.error('Error fetching notifications:', error));
+      }
+    })
+    .catch(error => console.error('Error fetching notifications:', error));
 });
 
 function constructTimeText(notificationDate) {
@@ -61,12 +63,14 @@ function constructNotification(message, timeText, notificationId) {
 
   // Add an event listener to delete the notification when it's clicked
   row.addEventListener('click', function() {
-    fetch(`/api/delete/notification/${notificationId}`, { method: 'DELETE' })
+    fetch(`/api/delete/notification/${notificationId}`, {
+        method: 'DELETE'
+      })
       .then(response => {
         if (!response.ok) {
           throw new Error('HTTP error ' + response.status);
         }
-        return response.json();  // we only proceed once the promise is resolved
+        return response.json(); // we only proceed once the promise is resolved
       })
       .then(() => {
         row.remove();
@@ -94,7 +98,9 @@ function constructNotification(message, timeText, notificationId) {
 }
 
 function clearInbox() {
-  fetch('/api/delete/notifications', { method: 'DELETE' })
+  fetch('/api/delete/notifications', {
+      method: 'DELETE'
+    })
     .then(() => {
       const dropdownContent = document.getElementById('dropdownContent');
       dropdownContent.innerHTML = `
