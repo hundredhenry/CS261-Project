@@ -12,7 +12,7 @@ mail = Mail()
 socketio = SocketIO()
 
 
-def create_app():
+def create_app(config_object=None):
     """
     Creates and configures the Flask application.
 
@@ -20,16 +20,19 @@ def create_app():
         app (Flask): The configured Flask application.
     """
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = "123"
-    app.config['SECURITY_PASSWORD_SALT'] = "f36d7eda6b91ecaff1a9e7045529ec71"
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sql8687211:iwcRTfjlEi@sql8.freemysqlhosting.net:3306/sql8687211"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    if config_object is None:
+        app.config['SECRET_KEY'] = "123"
+        app.config['SECURITY_PASSWORD_SALT'] = "f36d7eda6b91ecaff1a9e7045529ec71"
+        app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sql8687211:iwcRTfjlEi@sql8.freemysqlhosting.net:3306/sql8687211"
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    app.config['MAIL_USERNAME'] = 'donotreplysentify@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'uffc zybc kqga sebj'
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USE_SSL'] = True
+        app.config['MAIL_USERNAME'] = 'donotreplysentify@gmail.com'
+        app.config['MAIL_PASSWORD'] = 'uffc zybc kqga sebj'
+        app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+        app.config['MAIL_PORT'] = 465
+        app.config['MAIL_USE_SSL'] = True
+    else:
+        app.config.from_object(config_object)
 
     db.init_app(app)
     mail.init_app(app)
