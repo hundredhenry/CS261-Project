@@ -1,7 +1,6 @@
 from auth_test import AuthBase
 from sentify.website.models import User, Notification
 
-
 class APITests(AuthBase):
     def setUp(self):
         super().setUp()
@@ -11,12 +10,6 @@ class APITests(AuthBase):
             self.user.verified = True
             self.db.session.commit()
             self.login_user()
-
-    def login_user(self, email="test@gmail.com", password="StrongPassword123!"):
-        return self.client.post('/login', data={
-            "email": email,
-            "password": password
-        }, follow_redirects=True)
 
     def test_modify_follow_incorrect_method(self):
         response = self.client.get('/api/modify/follow', follow_redirects=True)
