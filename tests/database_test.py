@@ -3,7 +3,7 @@ from sentify.website import create_app, db
 from sentify.website.models import User, Notification, Follow, Sector, Company, Article
 from sentify.website.recommend import recommend_specific
 from tests.test_config import TestConfig
-from datetime import date
+from datetime import date, datetime
 
 class AuthBase(unittest.TestCase):
     def setUp(self):
@@ -29,27 +29,30 @@ class AuthBase(unittest.TestCase):
     test_texts = [-1, 1, 0.5, True, date.today()]
     test_floats = ['a', True, date.today()]
 
+# Insert tests for the user table
 class UserTest(AuthBase):
     # Setup user test cases
     valid_firstname = 'testname'
     valid_email = 'test@email.com'
     valid_password_hash = 'passwordhash'
+    valid_confirmation_token = 'Test Token'
     strings = AuthBase.test_strings.copy()
 
     user_tests = [
-        ('Valid User', valid_firstname, valid_email, valid_password_hash, True),
-        ('Invalid First Name', strings + ['a'*17, valid_email, valid_password_hash, False]),
-        ('Invalid Email', valid_firstname, strings + ['a'*49, valid_password_hash, False]),
-        ('Invalid Password Hash', valid_firstname, valid_email, strings + ['a'*257, False])
+        ('Valid User', valid_firstname, valid_email, valid_password_hash, valid_confirmation_token, True),
+        ('Invalid First Name', strings + ['a'*17], valid_email, valid_password_hash, valid_confirmation_token, False),
+        ('Invalid Email', valid_firstname, strings + ['a'*49], valid_password_hash, valid_confirmation_token, False),
+        ('Invalid Password Hash', valid_firstname, valid_email, strings + ['a'*257], valid_confirmation_token, False),
+        ('Invalid Confirmation Token', valid_firstname, valid_email, valid_password_hash, strings, False)
     ]
 
     # Run user test cases
     def test_insert_user(self):
-        for _, firstname, email, password_hash, valid in self.user_tests:
+        for _, firstname, email, password_hash, con_token, valid in self.user_tests:
             with self.subTest(msg=_):
-                user = User(firstname, email, password_hash)
+                user = User(firstname, email, password_hash, con_token)
                 self.addEntry(user)
-                result = User.query.filter_by(firstname=firstname, email=email, password_hash=password_hash).first()
+                result = User.query.filter_by(firstname=firstname, email=email, password_hash=password_hash, confirmation_token=con_token).first()
 
                 if valid:
                     self.assertIsNotNone(result)
@@ -57,6 +60,8 @@ class UserTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
+# Insert tests for the notification table
+# Add time attribute (type datetime)
 class NotificationTest(AuthBase):
     # Setup notification test cases
     valid_user_id = 1
@@ -84,6 +89,7 @@ class NotificationTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
+# Insert tests for the follow table
 class FollowTest(AuthBase):
     # Setup follow test cases
     valid_userid = 1
@@ -111,6 +117,7 @@ class FollowTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
+# Insert tests for the sector table
 class SectorTest(AuthBase):
     # Setup sector test cases
     valid_sector_name = 'Test Sector'
@@ -135,33 +142,33 @@ class SectorTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
+# Insert tests for the company table
 class CompanyTest(AuthBase):
     # Setup company test cases
     valid_stock_ticker = 'TEST'
     valid_company_name = 'Test Company'
     valid_sector_id = 1
     valid_description = 'Test Description'
-    valid_rating = 0
     valid_updated = date.today()
     strings = AuthBase.test_strings.copy()
-    integers = AuthBase.test_integers.copy()
+    sector_ids = AuthBase.test_integers.copy()
     dates = AuthBase.test_dates.copy()
 
     company_tests = [
-        ('Valid company', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_rating, valid_updated, True),
-        ('Invalid stock_ticker', strings, valid_company_name, valid_sector_id, valid_description, valid_rating, valid_updated, False),
-        ('Invalid company_name', valid_stock_ticker, strings, valid_sector_id, valid_description, valid_rating, valid_updated, False),
-        ('Invalid sector_id', valid_stock_ticker, valid_company_name, integers, valid_description, valid_rating, valid_updated, False),
-        ('Invalid description', valid_stock_ticker, valid_company_name, valid_sector_id, strings, valid_rating, valid_updated, False),
-        ('Invalid rating', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, integers, valid_updated, False),
-        ('Invalid updated', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_rating, dates, False),
+        ('Valid company', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_updated, True),
+        ('Invalid stock_ticker', strings, valid_company_name, valid_sector_id, valid_description, valid_updated, False),
+        ('Invalid company_name', valid_stock_ticker, strings, valid_sector_id, valid_description, valid_updated, False),
+        ('Invalid sector_id', valid_stock_ticker, valid_company_name, sector_ids, valid_description, valid_updated, False),
+        ('Invalid description', valid_stock_ticker, valid_company_name, valid_sector_id, strings, valid_updated, False),
+        ('Invalid rating', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_updated, False),
+        ('Invalid updated', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, dates, False),
     ]
 
     # Run company test cases
     def test_insert_company(self):
-        for _, stock_ticker, company_name, sector_id, valid in self.sector_tests:
+        for _, stock_ticker, company_name, sector_id, description, updated, valid in self.sector_tests:
             with self.subTest(msg=_):
-                company = Company(stock_ticker, company_name, sector_id)
+                company = Company(stock_ticker, company_name, sector_id, description, updated)
                 self.addEntry(company)
                 result = Company.query.filter_by(company_name=company_name).first()
 
@@ -171,13 +178,14 @@ class CompanyTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
+# Insert tests for the article table
 class ArticleTest(AuthBase):
     # Setup article test cases
+    valid_url = 'Test URL'
     valid_title = 'Test Title'
     valid_stock_ticker = 'TEST'
     valid_source = 'Test Source'
     valid_domain = 'Test Domain'
-    valid_url = 'Test URL'
     valid_date = date.today()
     valid_description = 'Test Description'
     valid_image = 'Test Image'
@@ -215,6 +223,70 @@ class ArticleTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
+# Insert tests for the topic table
+class TopicTest(AuthBase):
+    # Setup topic test cases
+    valid_topic = 'Test Topic'
+    topics = AuthBase.test_strings.copy()
+    topic_tests = [
+        ('Valid topic', valid_topic, True),
+        ('Invalid topic_name', topics, False)
+    ]
+
+    # Run company test cases
+    def test_insert_company(self):
+        for _, stock_ticker, company_name, sector_id, description, updated, valid in self.topic_tests:
+            with self.subTest(msg=_):
+                company = Company(stock_ticker, company_name, sector_id, description, updated)
+                self.addEntry(company)
+                result = Company.query.filter_by(company_name=company_name).first()
+
+                if valid:
+                    self.assertIsNotNone(result)
+                    self.assertEqual(result.company_name, company_name)
+                else:
+                    self.assertIsNone(result)
+
+# Insert tests for the article-topic table
+class ArticleTopicTest(AuthBase):
+    # Setup article-topic test cases
+    valid_id = 1
+
+    # Run company test cases
+    def test_insert_company(self):
+        for _, stock_ticker, company_name, sector_id, description, updated, valid in self.sector_tests:
+            with self.subTest(msg=_):
+                company = Company(stock_ticker, company_name, sector_id, description, updated)
+                self.addEntry(company)
+                result = Company.query.filter_by(company_name=company_name).first()
+
+                if valid:
+                    self.assertIsNotNone(result)
+                    self.assertEqual(result.company_name, company_name)
+                else:
+                    self.assertIsNone(result)
+
+# Insert tests for the sentiment rating table
+class SentimentRating(AuthBase):
+    # Setup sentiment rating tests cases
+    valid_stock_ticker = 'TEST'
+    valid_date = date.today()
+    valid_rating = 1
+    sentiment_tests = []
+
+    # Run sentiment rating test cases
+    def test_insert_sentiment(self):
+        for _, stock_ticker, date, rating, valid in self.sentiment_tests:
+            with self.subTest(msg=_):
+                company = SentimentRating(stock_ticker, date, rating)
+                self.addEntry(company)
+                result = SentimentRating.query.filter_by(stock_ticker=stock_ticker).first()
+
+                if valid:
+                    self.assertIsNotNone(result)
+                    self.assertEqual(result.stock_ticker, stock_ticker)
+                else:
+                    self.assertIsNone(result)
 
 if __name__ == '__main__':
     unittest.main()
