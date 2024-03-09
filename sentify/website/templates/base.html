@@ -11,75 +11,69 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='navbar.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="/static/scripts/toastr_config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='toastr.css') }}">
   </head>
   <body style="margin: 0px; background: rgb(251, 251, 251);">
-    {% with messages = get_flashed_messages(category_filter=["login_success"]) %}
-    {% if messages %}
-      {% for message in messages %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category == 'success' %}
         <script>
           toastr.success("{{ message }}");
         </script>
-      {% endfor %}
+      {% elif category == 'info' %}
+        <script>
+          toastr.info("{{ message }}");
+        </script>
+      {% elif category == 'error' %}
+        <script>
+          toastr.error("{{ message }}");
+        </script>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+    {% with messages = get_flashed_messages(category_filter=["login_success"]) %}
+    {% if messages %}
+    {% for message in messages %}
+    <script>
+      toastr.success("{{ message }}");
+    </script>
+    {% endfor %}
     {% endif %}
-  {% endwith %}
+    {% endwith %}
     <nav class="navbar">
       <a href="/" class="navbar-brand">Sentify</a>
       {% if showNavSearchBar|default(True) %}
       <div class="navbar-search">
         <input id="search-input" type="text" placeholder="Search..." class="search-input" oninput="searchCompany(this.value)">
         <div id="results" class="search-results"></div>
-    </div>
-    {% endif %}
+      </div>
+      {% endif %}
       <div class="navbar-buttons">
-          {% if current_user.is_authenticated %}
-            <a href="#" class="navbar-button navbar-inbox-link" onclick="toggleDropdown()" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
-              <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="height: 25px;">
-            </a>
-
-            <div id="dropdownContent" class="dropdown-content" style="display: none;">
-              
-              <p style="
-                color: black;
-                font-family: Roboto;
-                font-weight: 500;
-                padding: 20px;
-                font-size: 25px;
-              "> Inbox <p>
-              
-              <!-- Notification content goes here -->
-              <div class="dropdown-row">Row 1</div>
-              <div class="dropdown-row">Row 2</div>
-              <div class="dropdown-row">Row 3</div>
-              <div class="dropdown-row">Row 4</div>
-              <div class="dropdown-row">Row 5</div>
-              <div class="dropdown-row">Row 6</div>
-              <div class="dropdown-row">Row 7</div>
-              <div class="dropdown-row">Row 8</div>
-              <div class="dropdown-row">Row 9</div>
-            </div>
-
-            <a href="/logout" class="navbar-button">Log Out</a>
-          {% else %}
-            <a href="/login" class="navbar-button">Log In</a>
-            <a href="/register" class="navbar-button">Join Us</a>
-          {% endif %}
+        {% if current_user.is_authenticated %}
+        <a href="#" class="navbar-button navbar-inbox-link" onclick="toggleDropdown(event)" style="display: flex; align-items: center; gap: 8px; background-color: transparent; color: black; padding: 0;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1159/1159627.png" alt="Message-Mail" style="padding-left:25px;height: 25px;">
+        </a>
+        <div id="dropdownContent" class="dropdown-content" style="display: none;">
+          <div class="inbox-header">
+          </div>
+        </div>
+        <a href="/logout" class="navbar-button">Log Out</a>
+        {% else %}
+        <a href="/login" class="navbar-button">Log In</a>
+        <a href="/register" class="navbar-button">Join Us</a>
+        {% endif %}
       </div>
     </nav>
-
-      
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-WjYNi3" >
         <div class="general-0TSxxs general" data-id="196:748">
-          <div class="frame-1000001840-GW8UXT" data-id="196:749">
-            <div class="search-container">
-              <input type="text" placeholder="Search" class="search-box">
-            </div>
-          </div>
           <div class="general-GW8UXT general" data-id="196:754">
             <div class="general-aCqfMN general roboto-normal-black-14px" data-id="196:755">
               General
@@ -88,47 +82,8 @@
               <div class="frame-1000001711-RdjiIr" data-id="196:757">
                 <img class="home-yjJvjE" data-id="196:758" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/home.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/home.svg" alt="Home">
                 <div class="dashboard-yjJvjE" data-id="196:759">
-                  <a href="#">
+                  <a href="/dashboard">
                   Dashboard
-                  </a>
-                </div>
-              </div>
-              <div class="frame-1000001746-RdjiIr" data-id="196:760">
-                <div class="frame-1000001715-Waq7SZ" data-id="196:761">
-                  <img class="message-mail-oDTmqV" data-id="196:762" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/message-mail.svg" alt="Message-Mail">
-                  <div class="inbox-oDTmqV roboto-extra-light-black-16px" data-id="196:763">
-                    <a href="#">
-                    Inbox
-                    </a>
-                  </div>
-                </div>
-                <div class="add-Waq7SZ add" data-id="196:764">
-                  <img class="vector" data-id="196:772" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector.svg" alt="Vector">
-                  <div class="x2-2yU72H" data-id="196:774">2</div>
-                </div>
-              </div>
-              <div class="frame-1000001747-RdjiIr" data-id="196:775">
-                <div class="frame-1000001717-59uErq" data-id="196:776">
-                  <img class="event-calendar-kgQfG4" data-id="196:777" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/event-calendar.svg" alt="Event Calendar">
-                  <div class="companies-kgQfG4" data-id="196:778">
-                    <a href="/companies/search/">
-                    Companies
-                    </a>
-                  </div>
-                </div>
-                <div class="frame-1000001718-59uErq" data-id="196:779">
-                  <div class="add-Y90JDp add" data-id="196:780">
-                    <img class="vector" data-id="196:788" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/vector-1.svg" alt="Vector">
-                    <div class="x3-oSJO6k" data-id="196:790">3</div>
-                  </div>
-                  <img class="add" data-id="196:791" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/add.svg" alt="Add">
-                </div>
-              </div>
-              <div class="frame-1000001721-RdjiIr" data-id="196:792">
-                <img class="form-i52fqj" data-id="196:793" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/form.svg" alt="Form">
-                <div class="news-i52fqj roboto-extra-light-black-16px" data-id="196:794">
-                  <a href="#">
-                  News
                   </a>
                 </div>
               </div>
@@ -152,62 +107,78 @@
               <div class="frame-1000001729-qfXu1U" data-id="196:815">
                 <img class="question-mark-IFWzvw" data-id="196:816" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/question-mark.svg" alt="Question Mark">
                 <div class="help-IFWzvw roboto-extra-light-black-16px" data-id="196:817">
-                  <a href="#">
-                  Help!
+                  <a href="/contact/">
+                  Contact Us
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="buttom-0TSxxs" data-id="196:818">
-          <div class="frame-1000001765-nmWx00" data-id="196:819">
-            <div class="frame-1000001704-kvkcHP" data-id="196:820">
-              <div class="ellipse-982-06TEVn" data-id="196:821"></div>
-              <img class="sun-brightness-06TEVn" data-id="196:822" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/sun-brightness.svg" alt="Sun-Brightness"><img class="half-moon-06TEVn" data-id="196:823" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/half-moon.svg" alt="Half Moon">
-            </div>
-            <div class="lightmode-kvkcHP roboto-extra-light-black-16px" data-id="196:824">Lightmode</div>
-          </div>
-          {% if current_user.is_authenticated %}
-          <div class="frame-1000001740-nmWx00" data-id="196:825">
-            <div class="frame-1000001738-pY8mGy" data-id="196:826">
-              <div class="frame-1000001702-wVa9Jb" data-id="196:827"><img class="male-user-GMsvWa" data-id="196:828" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/male-user@2x.png" alt="Male User"></div>
-              <div class="profile-wVa9Jb roboto-extra-light-black-16px" data-id="196:829">
-                <a href="#">
-                Profile
-                </a>
-              </div>
-            </div>
-            <div class="frame-1000001739-pY8mGy" data-id="196:830">
-              <a href = "/logout">
-                <img class="logout-exit-bfsqxW" data-id="196:831" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" anima-src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65ddd3ea6e99010013567b00/img/logout-exit.svg" alt="Logout-Exit">
-                <div class="ellipse-983-bfsqxW" data-id="196:832"></div>
-              </a>
-            </div>
-            {% endif %}
-          </div>
         </div>
-      </div>
-    </div> 
-    <!-- Main Content -->
-    <div class="content">
-    <div class="container-center-horizontal">
-        <div class="macbook-air-1 screen " data-id="1:2">
-          
-          <div class="side-arrow-cbxlvq" data-id="2:46">
-            <span class="toggle-btn" onclick="toggleSidebar()">
-                <div class="button">
-                    <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
-                </div>
-            </span>
-        </div>
-          <!-- side arrow for the navigation bar -->
-          {% block content %}{% endblock %}
-          <!-- Footer -->
       </div>
     </div>
+    <!-- Main Content -->
+    <div class="content">
+      <div class="container-center-horizontal">
+        <div class="macbook-air-1 screen " data-id="1:2">
+          <div class="side-arrow-cbxlvq" data-id="2:46">
+            <span class="toggle-btn" onclick="toggleSidebar()">
+              <div class="button">
+                <img class="arrow" id="arrow-icon" src="https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65db38dbd8a7585f62fd00f2/img/forward@2x.png">
+              </div>
+            </span>
+          </div>
+          <!-- side arrow for the navigation bar -->
+          {% block content %}{% endblock %}
+          <!-- Footer --> 
+        </div>
+      </div>
+      
     </div>
     <script src="/static/scripts/sidebar.js"></script>
     <script src="/static/scripts/search.js"></script>
+    <script src="/static/scripts/inbox.js"></script>
+    <script>
+      var isAuthenticated = {{ 'true' if current_user.is_authenticated else 'false' }};
+      var socket = io();
+      socket.on('connect', function() {
+        console.log('Connected to the server');
+        if (isAuthenticated) {
+          console.log('Joining room')
+          socket.emit('join', {'room': {{current_user.id}} });
+        }
+      });
+      
+      socket.on('disconnect', function() {
+        console.log('Disconnected from the server');
+      }); 
+      
+      socket.on('notification', function(data) {
+        toastr.success(data.message);
+        const notificationDate = new Date(data.time);
+        const timeText = constructTimeText(notificationDate);
+        const row = constructNotification(data.message, timeText);
+        
+        const dropdownContent = document.getElementById('dropdownContent');
+        const inboxHeader = dropdownContent.querySelector('.inbox-header');
+        dropdownContent.insertBefore(row, inboxHeader.nextSibling);
+        // If the "No notifications" row is present, remove it
+    const noNotificationsRow = dropdownContent.querySelector('.empty-inbox-row');
+    if (noNotificationsRow) {
+      noNotificationsRow.remove();
+    }
+
+    // If the "Clear all" button is not present, add it
+    const clearAllButton = inboxHeader.querySelector('.clear-inbox-button');
+    if (!clearAllButton) {
+      const newClearAllButton = document.createElement('button');
+      newClearAllButton.className = 'clear-inbox-button';
+      newClearAllButton.textContent = 'Clear all';
+      newClearAllButton.onclick = clearInbox;
+      inboxHeader.appendChild(newClearAllButton);
+    }
+      });
+    </script>
   </body>
 </html>

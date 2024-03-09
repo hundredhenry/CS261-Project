@@ -46,7 +46,7 @@
 }
 
 .follow-button:hover {
-    color: rgba(0, 0, 0, 0.46);
+    color: rgba(0, 0, 0, 0.5);
     transform: scale(1.25); /* Scales up the card when it's hovered over */
 }
 

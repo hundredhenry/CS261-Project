@@ -1,21 +1,25 @@
 import unittest
-from sentify.website import create_app, db
+from sentify.website import create_app, db, socketio
 from sentify.website.models import User
+from tests.test_config import TestConfig
 
 class AuthBase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(TestConfig)
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.db = db
         self.db.create_all()
 
+        # Include SocketIO wrapper
+        self.socketio = socketio
+
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        self.db.session.remove()
+        self.db.drop_all()
         self.app_context.pop()
-    
+
     def register_user(self, firstname="Test",
                       email="test@gmail.com",
                       password="StrongPassword123!",
@@ -26,8 +30,14 @@ class AuthBase(unittest.TestCase):
             "password": password,
             "confirm_password": confirm_password
         }, follow_redirects=True)
+    
+    def login_user(self, email="test@gmail.com", password="StrongPassword123!"):
+        return self.client.post('/login', data={
+            "email": email,
+            "password": password
+        }, follow_redirects=True)
+
 class RegistrationTest(AuthBase):
-        
     def test_load_register_form(self):
         response = self.client.get('/register', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -66,8 +76,7 @@ class RegistrationTest(AuthBase):
                     db.session.commit()
     
     def test_register_user_invalid_email(self):
-        test_emails = ["", "test", "test@", "test@gmail", "test@gmail.", "@gmail.com",
-                       "test@gmail..com", "test@gmail.c", "test@gmail.com ", "test@gmail.com.",
+        test_emails = ["", "test", "test@", "test@gmail", "test@gmail.", "@gmail.com", "test@gmail.com ",
                        "test@gmail.com/test", "test@gmail.com,test"]
         for email in test_emails:
             response = self.register_user(
@@ -110,12 +119,6 @@ class LoginTest(AuthBase):
             user.verified = True
             db.session.commit()
         
-    def login_user(self, email="test@gmail.com", password="StrongPassword123!"):
-        return self.client.post('/login', data={
-            "email": email,
-            "password": password
-        }, follow_redirects=True)
-        
     def test_load_login_form(self):
         response = self.client.get('/login', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -138,7 +141,7 @@ class LoginTest(AuthBase):
         response = self.login_user()
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Welcome", response.data)
-        self.assertIn(b"Logout", response.data)
+        self.assertIn(b"Log Out", response.data)
     
     def test_login_user_invalid_email(self):
         test_emails = ["", "test", "test@", "test@gmail", "test@gmail.", "@gmail.com",

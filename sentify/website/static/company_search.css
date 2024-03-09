@@ -368,32 +368,6 @@
     width: 600px;
 }
 
-#search-input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 95%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  padding: 5px;
-  box-sizing: border-box;
-  margin-left: 20px;
-  padding-top: 8px;
-  padding-right: 30px; /* space for the icon */
-  background-image: url('https://cdn.animaapp.com/projects/65db38b26cce403ea94fca79/releases/65df28fa24e4781821d2e07a/img/search-list-top.svg'); /* your icon's URL */
-  background-repeat: no-repeat;
-  background-size: 100%; /* adjust as needed */
-  background-position: 525px;
-}
-
-#search-input, #search-input::placeholder, #results {
-    font-size: 16px; /* adjust as needed */
-}
-#search-input:focus {
-    border-bottom: none ;
-    box-shadow: none;
-}
 
 .search-list-top-suq0Hj {
     background-color: white;
@@ -1188,9 +1162,7 @@
 .add-button:hover {
     color: #888; /* Adjust hover color as needed */
     font-size: 240px; /* Adjust scale as needed */
-
 }
-
 
 .rectangle-10-g7RNeJ {
     border-color: var(--black);
@@ -1227,14 +1199,14 @@
 }
 
 .companies-container-2 {
-    top: 52.5%;
-    margin-left: 8%;
+    top: 63.5%;
+    margin-left: 10%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-gap:  20px;
     max-width: 85%;
+    max-height: 820px;
     position: relative;
-    max-height: 900px; /* Set a fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
@@ -1304,8 +1276,7 @@
 }
 
 .container-suggested {
-    top: 55%;
-    left: 7.5%;
+    top: 10%;
     width: 85%;
     position: relative;
 }

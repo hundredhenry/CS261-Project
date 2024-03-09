@@ -1,8 +1,13 @@
 from sqlalchemy import text
-from website import db
+from . import db
 
-# Returns a result set of all companies ordered by most to least followed
 def recommend_general():
+    """
+    Retrieves the top 5 companies based on the number of followers.
+
+    Returns:
+        companies: A result set containing the stock ticker and count of followers for each company.
+    """
     qry = text("""
     SELECT companies.stock_ticker, COUNT(follows.stock_ticker) AS count 
     FROM companies 
@@ -14,8 +19,20 @@ def recommend_general():
     companies = db.session.execute(qry)
     return companies
 
-# Returns a result set of companies in sectors followed by the user ordered by most to least followed
 def recommend_specific(user_id):
+    """
+    Recommends specific companies to a user based on the sectors of companies they follow.
+
+    Args:
+        user_id (int): The ID of the user.
+
+    Returns:
+        companies (ResultProxy): A ResultProxy object containing the recommended companies.
+
+    Raises:
+        None
+
+    """
     # Get the sectors of companies followed by the user
     qrytext = text("SELECT DISTINCT companies.sector_id FROM companies, follows WHERE companies.stock_ticker = follows.stock_ticker AND follows.user_id = (:user_id)")
     qry = qrytext.bindparams(user_id = user_id)
@@ -49,5 +66,4 @@ def recommend_specific(user_id):
             print("Specific companies returned")
             return companies
 
-    print("General companies returned")
     return recommend_general()

@@ -1,5 +1,5 @@
+from datetime import datetime, date
 from flask_login import UserMixin
-from datetime import date
 from . import db
 
 # Model of a user
@@ -31,30 +31,29 @@ class Notification(db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    read = db.Column(db.Integer, default = False)
+    read = db.Column(db.Boolean, default = False)
     message = db.Column(db.Text, nullable = False)
+    time = db.Column(db.DateTime, default = datetime.now)
 
     def __init__(self, user_id, message):
         self.user_id = user_id
         self.message = message
 
 # Model of a follow
-class Follow(UserMixin, db.Model):
+class Follow(db.Model):
     __tablename__ = 'follows'
 
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    stock_ticker = db.Column(db.String(10),
-                             db.ForeignKey('companies.stock_ticker'),
-                             nullable = False)
+    stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False)
 
     def __init__(self, user_id, stock_ticker):
         self.user_id = user_id
         self.stock_ticker = stock_ticker
 
 # Model of a sector
-class Sector(UserMixin, db.Model):
+class Sector(db.Model):
     __tablename__ = 'sectors'
 
     # Attributes
@@ -68,7 +67,7 @@ class Sector(UserMixin, db.Model):
         self.sector_name = sector_name
 
 # Model of a company
-class Company(UserMixin, db.Model):
+class Company(db.Model):
     __tablename__ = 'companies'
 
     # Attributes
@@ -76,7 +75,6 @@ class Company(UserMixin, db.Model):
     company_name = db.Column(db.String(32), nullable = False)
     sector_id = db.Column(db.Integer, db.ForeignKey('sectors.id'), nullable = False)
     description = db.Column(db.Text)
-    positive_rating = db.Column(db.Integer, default = 0) # 0 to 100% positive articles
     last_updated = db.Column(db.Date, default = date(1970, 1, 1))
 
     # Relations
@@ -89,22 +87,24 @@ class Company(UserMixin, db.Model):
         self.sector_id = sector_id
 
 # Model of an article
-class Article(UserMixin, db.Model):
+class Article(db.Model):
     __tablename__ = 'articles'
 
     # Attributes
-    url = db.Column(db.String(100), primary_key = True)
-    title = db.Column(db.String(100), nullable = False)
-    stock_ticker = db.Column(db.String(10),
-                             db.ForeignKey('companies.stock_ticker'),
-                             nullable = False)
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    url = db.Column(db.Text, nullable = False)
+    title = db.Column(db.Text, nullable = False)
+    stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False)
     source_name = db.Column(db.String(50), nullable = False)
-    source_domain = db.Column(db.String(50), nullable = False)
+    source_domain = db.Column(db.Text, nullable = False)
     published = db.Column(db.Date, nullable = False)
     description = db.Column(db.Text)
-    banner_image = db.Column(db.String(100))
+    banner_image = db.Column(db.Text)
     sentiment_label = db.Column(db.String(10), nullable = False)
     sentiment_score = db.Column(db.Float, nullable = False)
+
+    # Relation
+    topics = db.relationship('Topic', secondary = 'article_topics', backref = 'article_topic')
 
     def __init__(self, title, stock_ticker, source_name, source_domain,
                  url, published, description, banner_image, 
@@ -119,6 +119,43 @@ class Article(UserMixin, db.Model):
         self.banner_image = banner_image
         self.sentiment_label = sentiment_label
         self.sentiment_score = sentiment_score
+        self.topics = []
+
+class Topic(db.Model):
+    __tablename__ = 'topics'
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    topic = db.Column(db.String(50), nullable = False)
+
+    def __init__(self, topic):
+        self.topic = topic
+
+class ArticleTopic(db.Model):
+    __tablename__ = 'article_topics'
+
+    # Attributes
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'), primary_key = True)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), primary_key = True)
+
+    def __init__(self, article_id, topic_id):
+        self.article_id = article_id
+        self.topic = topic_id
+
+class SentimentRating(db.Model):
+    __tablename__ = 'sentiment_ratings'
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False) 
+    date = db.Column(db.Date, nullable = False)
+    rating = db.Column(db.Float, nullable = False)
+
+    def __init__(self, stock_ticker, date, rating):
+        self.stock_ticker = stock_ticker
+        self.date = date
+        self.rating = rating
+
 
 # Add data to the database
 def dbinit():
@@ -151,7 +188,7 @@ def dbinit():
         Company("GOOG", "Alphabet", tech_id),
         Company("HD", "The Home Depot", retail_id),
         Company("JNJ", "Johnson & Johnson", healthcare_id),
-        Company("BRK.A", "Berkshire Hathaway", finance_id),
+        Company("BRK-A", "Berkshire Hathaway", finance_id),
         Company("KO", "Coca-Cola", foodbev_id),
         Company("LLY", "Eli Lilly and Company", healthcare_id),
         Company("MA", "Mastercard", finance_id),
@@ -167,4 +204,25 @@ def dbinit():
         Company("WMT", "Walmart", retail_id)   
     ]
     db.session.add_all(company_list)
+
+    # Add article topics
+    topic_list = [
+        Topic("Blockchain"), 
+        Topic("Earnings"), 
+        Topic("IPO"), 
+        Topic("Mergers & Acquisitions"), 
+        Topic("Financial Markets"), 
+        Topic("Economy - Fiscal"), 
+        Topic("Economy - Monetary"), 
+        Topic("Economy - Macro"), 
+        Topic("Energy & Transportation"),
+        Topic("Finance"), 
+        Topic("Life Sciences"), 
+        Topic("Manufacturing"), 
+        Topic("Real Estate & Construction"), 
+        Topic("Retail & Wholesale"), 
+        Topic("Technology")
+    ]
+    db.session.add_all(topic_list)
+
     db.session.commit()

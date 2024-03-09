@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %} Sentify - Sign up {% endblock %}
+{% block title %} Sentify - Contact Us {% endblock %}
 {% block stylesheet %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css') }}">
 {% endblock %}
 {% block content %}
 <div class="form-container">
-    <h2 class="site-title">Register</h2>
+    <h2 class="site-title">Contact Us</h2>
     <form action="" method="POST">
         <div class="input-group"> 
-            <input type="text" name="name" placeholder="First Name" autocomplete="given-name" maxlength="16" required>
+            <input type="text" name="name" placeholder="Name" autocomplete="given-name" maxlength="16" required>
         </div>
         {% with messages = get_flashed_messages(category_filter=["name_error"]) %}
             {% if messages %}
@@ -27,36 +27,18 @@
             </div>
             {% endif %}
         {% endwith %}
-        <div class="input-group"> 
-            <input type="password" name="password" placeholder="Password" required>
-        </div>
-        {% with messages = get_flashed_messages(category_filter=["pw_error"]) %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-danger">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
         <div class="input-group">
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required> 
+            <textarea name="message" placeholder="Message" rows="6" required></textarea>
         </div>
-        {% with messages = get_flashed_messages(category_filter=["pw_match_error"]) %}
+        {% with messages = get_flashed_messages(category_filter=["message_error"]) %}
             {% if messages %}
             <div class="alert alert-danger">
                 {{ messages[0] }}
             </div>
             {% endif %}
         {% endwith %}
-        <div class="input-group">
-            <label for="showPasswordCheckbox">Show Password</label>
-            <input type="checkbox" id="showPasswordCheckbox" onclick="togglePasswordVisibility()">
-        </div>
-        <div class="visual-text"> 
-            Already have an account? <a class="link" href="/login">Login here</a> 
-        </div>
-        <button type="submit" class="reg-button">Get Started</button> 
+
+        <button type="submit" class="reg-button">Submit</button> 
     </form>
 </div>
 <script src="/static/scripts/register.js"></script>
