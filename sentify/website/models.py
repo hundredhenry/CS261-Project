@@ -46,9 +46,7 @@ class Follow(db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    stock_ticker = db.Column(db.String(10),
-                             db.ForeignKey('companies.stock_ticker'),
-                             nullable = False)
+    stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False)
 
     def __init__(self, user_id, stock_ticker):
         self.user_id = user_id
@@ -96,9 +94,7 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     url = db.Column(db.Text, nullable = False)
     title = db.Column(db.Text, nullable = False)
-    stock_ticker = db.Column(db.String(10),
-                             db.ForeignKey('companies.stock_ticker'),
-                             nullable = False)
+    stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False)
     source_name = db.Column(db.String(50), nullable = False)
     source_domain = db.Column(db.Text, nullable = False)
     published = db.Column(db.Date, nullable = False)
@@ -106,6 +102,8 @@ class Article(db.Model):
     banner_image = db.Column(db.Text)
     sentiment_label = db.Column(db.String(10), nullable = False)
     sentiment_score = db.Column(db.Float, nullable = False)
+
+    # Relation
     topics = db.relationship('Topic', secondary = 'article_topics', backref = 'article_topic')
 
     def __init__(self, title, stock_ticker, source_name, source_domain,
@@ -149,9 +147,7 @@ class SentimentRating(db.Model):
 
     # Attributes
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    stock_ticker = db.Column(db.String(10),
-                             db.ForeignKey('companies.stock_ticker'),
-                             nullable = False)
+    stock_ticker = db.Column(db.String(10), db.ForeignKey('companies.stock_ticker'), nullable = False) 
     date = db.Column(db.Date, nullable = False)
     rating = db.Column(db.Float, nullable = False)
 
@@ -209,11 +205,24 @@ def dbinit():
     ]
     db.session.add_all(company_list)
 
-    # Add topics
-    topics = [Topic("Blockchain"), Topic("Earnings"), Topic("IPO"), Topic("Mergers & Acquisitions"), Topic("Financial Markets"), 
-              Topic("Economy - Fiscal"), Topic("Economy - Monetary"), Topic("Economy - Macro"), Topic("Energy & Transportation"),
-              Topic("Finance"), Topic("Life Sciences"), Topic("Manufacturing"), Topic("Real Estate & Construction"), 
-              Topic("Retail & Wholesale"), Topic("Technology")]
-    db.session.add_all(topics)
+    # Add article topics
+    topic_list = [
+        Topic("Blockchain"), 
+        Topic("Earnings"), 
+        Topic("IPO"), 
+        Topic("Mergers & Acquisitions"), 
+        Topic("Financial Markets"), 
+        Topic("Economy - Fiscal"), 
+        Topic("Economy - Monetary"), 
+        Topic("Economy - Macro"), 
+        Topic("Energy & Transportation"),
+        Topic("Finance"), 
+        Topic("Life Sciences"), 
+        Topic("Manufacturing"), 
+        Topic("Real Estate & Construction"), 
+        Topic("Retail & Wholesale"), 
+        Topic("Technology")
+    ]
+    db.session.add_all(topic_list)
 
     db.session.commit()
