@@ -31,12 +31,14 @@
             <input type="password" name="password" placeholder="Password" required>
         </div>
         {% with messages = get_flashed_messages(category_filter=["pw_error"]) %}
-            {% if messages %}
-            <div class="alert alert-danger">
-                {{ messages[0] }}
-            </div>
-            {% endif %}
-        {% endwith %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
         <div class="input-group">
             <input type="password" name="confirm_password" placeholder="Confirm Password" required> 
         </div>

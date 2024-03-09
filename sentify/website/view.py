@@ -111,7 +111,19 @@ def register():
             flash('Passwords do not match!', category='pw_match_error')
             error_occurred = True
         if len(password) < 8:
-            flash('Password must be at least 8 characters!', category='pw_error')
+            flash('Must have at least 8 characters!', category='pw_error')
+            error_occurred = True
+        if not re.search("[A-Z]", password):
+            flash('Must contain at least one uppercase letter!', category='pw_error')
+            error_occurred = True
+        if not re.search("[a-z]", password):
+            flash('Must contain at least one lowercase letter!', category='pw_error')
+            error_occurred = True
+        if not re.search("[0-9]", password):
+            flash('Must contain at least one number!', category='pw_error')
+            error_occurred = True
+        if not re.search("[!@#$%^&*()_+=-{};:'<>,.?/|`~]", password):
+            flash('Must contain at least one special character!', category='pw_error')
             error_occurred = True
         if not error_occurred:
             user_exists  = User.query.filter_by(email=email).first()
