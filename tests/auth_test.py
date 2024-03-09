@@ -16,8 +16,8 @@ class AuthBase(unittest.TestCase):
         self.socketio = socketio
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        self.db.session.remove()
+        self.db.drop_all()
         self.app_context.pop()
 
     def register_user(self, firstname="Test",

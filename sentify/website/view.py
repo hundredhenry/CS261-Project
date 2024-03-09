@@ -687,10 +687,10 @@ def get_notifs():
 
     return jsonify(notif_list)
 
+@handle_api_sqlalchemy_error
 @views.route('/api/delete/notifications', defaults={'notification_id': None}, methods=['DELETE'])
 @views.route('/api/delete/notification/<int:notification_id>', methods=['DELETE'])
 @login_required
-@handle_api_sqlalchemy_error
 def delete_notifications(notification_id):
     """
     Deletes notifications from the database.

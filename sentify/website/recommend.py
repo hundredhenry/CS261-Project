@@ -66,5 +66,4 @@ def recommend_specific(user_id):
             print("Specific companies returned")
             return companies
 
-    print("General companies returned")
     return recommend_general()
