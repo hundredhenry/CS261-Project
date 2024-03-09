@@ -41,7 +41,10 @@ def create_app(config_object=None):
     from .view import views 
     from . import models
     app.register_blueprint(views, url_prefix="/")
+    
     resetdb = False
+    if app.config['TESTING'] is True:
+        resetdb = True
     if resetdb:
         with app.app_context():
             for _ in range(3):

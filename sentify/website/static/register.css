@@ -103,6 +103,7 @@ cursor: pointer;
   font-family: 'Inter', 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 12px;
-  white-space: nowrap;
+  white-space: normal;
   text-align: center;
+  max-width: 200px;
 }

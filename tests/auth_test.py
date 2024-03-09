@@ -16,8 +16,8 @@ class AuthBase(unittest.TestCase):
         self.socketio = socketio
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        self.db.session.remove()
+        self.db.drop_all()
         self.app_context.pop()
 
     def register_user(self, firstname="Test",
@@ -30,6 +30,13 @@ class AuthBase(unittest.TestCase):
             "password": password,
             "confirm_password": confirm_password
         }, follow_redirects=True)
+    
+    def login_user(self, email="test@gmail.com", password="StrongPassword123!"):
+        return self.client.post('/login', data={
+            "email": email,
+            "password": password
+        }, follow_redirects=True)
+
 class RegistrationTest(AuthBase):
     def test_load_register_form(self):
         response = self.client.get('/register', follow_redirects=True)
@@ -72,7 +79,6 @@ class RegistrationTest(AuthBase):
         test_emails = ["", "test", "test@", "test@gmail", "test@gmail.", "@gmail.com", "test@gmail.com ",
                        "test@gmail.com/test", "test@gmail.com,test"]
         for email in test_emails:
-            print("Testing email: ", email)
             response = self.register_user(
                 email=email
             )
@@ -112,12 +118,6 @@ class LoginTest(AuthBase):
         if user:
             user.verified = True
             db.session.commit()
-        
-    def login_user(self, email="test@gmail.com", password="StrongPassword123!"):
-        return self.client.post('/login', data={
-            "email": email,
-            "password": password
-        }, follow_redirects=True)
         
     def test_load_login_form(self):
         response = self.client.get('/login', follow_redirects=True)

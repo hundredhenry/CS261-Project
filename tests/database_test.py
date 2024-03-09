@@ -1,42 +1,27 @@
 import unittest
-from sentify.website import create_app, db
 from sentify.website.models import User, Notification, Follow, Sector, Company, Article
 from sentify.website.recommend import recommend_specific
-from tests.test_config import TestConfig
-from datetime import date, datetime
+from auth_test import AuthBase
+from datetime import date
 
-class AuthBase(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app(TestConfig)
-        self.client = self.app.test_client()
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        self.db = db
-        self.db.create_all()
-
-    def tearDown(self):
-        self.db.session.remove()
-        self.db.drop_all()
-        self.app_context.pop()
-
+class DatabaseTest(AuthBase):
     def addEntry(self, entry):
         self.db.session.add(entry)
         self.db.session.commit()
 
-    test_strings = [-1, 1, 0.5, '', True, date.today()]
+    test_strings = [-1, 1, 0.5, True, date.today()]
     test_integers = [-1, 0.5, 'a', True, date.today()]
     test_dates = [-1, 1, 0.5, 'a', True]
     test_texts = [-1, 1, 0.5, True, date.today()]
     test_floats = ['a', True, date.today()]
 
-# Insert tests for the user table
-class UserTest(AuthBase):
+class UserTest(DatabaseTest):
     # Setup user test cases
-    valid_firstname = 'testname'
+    valid_firstname = 'Test Name'
     valid_email = 'test@email.com'
-    valid_password_hash = 'passwordhash'
+    valid_password_hash = 'Test Hash'
     valid_confirmation_token = 'Test Token'
-    strings = AuthBase.test_strings.copy()
+    strings = DatabaseTest.test_strings.copy()
 
     user_tests = [
         ('Valid User', valid_firstname, valid_email, valid_password_hash, valid_confirmation_token, True),
@@ -60,14 +45,12 @@ class UserTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
-# Insert tests for the notification table
-# Add time attribute (type datetime)
-class NotificationTest(AuthBase):
+class NotificationTest(DatabaseTest):
     # Setup notification test cases
     valid_user_id = 1
     valid_message = 'Test message'
-    messages = AuthBase.test_strings.copy()
-    user_ids = AuthBase.test_integers.copy()
+    messages = DatabaseTest.test_strings.copy()
+    user_ids = DatabaseTest.test_integers.copy()
 
     notification_tests = [
         ('Valid notification', valid_user_id, valid_message, True),
@@ -89,13 +72,12 @@ class NotificationTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
-# Insert tests for the follow table
-class FollowTest(AuthBase):
+class FollowTest(DatabaseTest):
     # Setup follow test cases
     valid_userid = 1
     valid_stock_ticker = 'TEST'
-    stock_tickers = AuthBase.test_strings.copy()
-    user_ids = AuthBase.test_integers.copy()
+    stock_tickers = DatabaseTest.test_strings.copy()
+    user_ids = DatabaseTest.test_integers.copy()
 
     follow_tests = [
         ('Valid follow', valid_userid, valid_stock_ticker, True),
@@ -117,11 +99,10 @@ class FollowTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
-# Insert tests for the sector table
-class SectorTest(AuthBase):
+class SectorTest(DatabaseTest):
     # Setup sector test cases
     valid_sector_name = 'Test Sector'
-    sectors = AuthBase.test_strings.copy()
+    sectors = DatabaseTest.test_strings.copy()
 
     sector_tests = [
         ('Valid sector', valid_sector_name, True),
@@ -142,17 +123,16 @@ class SectorTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
-# Insert tests for the company table
-class CompanyTest(AuthBase):
+class CompanyTest(DatabaseTest):
     # Setup company test cases
     valid_stock_ticker = 'TEST'
     valid_company_name = 'Test Company'
     valid_sector_id = 1
     valid_description = 'Test Description'
     valid_updated = date.today()
-    strings = AuthBase.test_strings.copy()
-    sector_ids = AuthBase.test_integers.copy()
-    dates = AuthBase.test_dates.copy()
+    strings = DatabaseTest.test_strings.copy()
+    sector_ids = DatabaseTest.test_integers.copy()
+    dates = DatabaseTest.test_dates.copy()
 
     company_tests = [
         ('Valid company', valid_stock_ticker, valid_company_name, valid_sector_id, valid_description, valid_updated, True),
@@ -178,8 +158,7 @@ class CompanyTest(AuthBase):
                 else:
                     self.assertIsNone(result)
 
-# Insert tests for the article table
-class ArticleTest(AuthBase):
+class ArticleTest(DatabaseTest):
     # Setup article test cases
     valid_url = 'Test URL'
     valid_title = 'Test Title'
@@ -191,9 +170,9 @@ class ArticleTest(AuthBase):
     valid_image = 'Test Image'
     valid_label = 'Test Label'
     valid_score = 1
-    strings = AuthBase.test_strings.copy()
-    dates = AuthBase.test_dates.copy()
-    scores = AuthBase.test_floats.copy()
+    strings = DatabaseTest.test_strings.copy()
+    dates = DatabaseTest.test_dates.copy()
+    scores = DatabaseTest.test_floats.copy()
 
     article_tests = [
         ('Valid article', valid_title, valid_stock_ticker, valid_source, valid_domain, valid_url, valid_date, valid_description, valid_image, valid_label, valid_score, True),

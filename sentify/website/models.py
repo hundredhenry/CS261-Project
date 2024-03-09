@@ -35,10 +35,9 @@ class Notification(db.Model):
     message = db.Column(db.Text, nullable = False)
     time = db.Column(db.DateTime, default = datetime.now)
 
-    def __init__(self, user_id, message, sent):
+    def __init__(self, user_id, message):
         self.user_id = user_id
         self.message = message
-        self.sent = sent
 
 # Model of a follow
 class Follow(db.Model):
