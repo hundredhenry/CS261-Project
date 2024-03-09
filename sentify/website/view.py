@@ -10,8 +10,8 @@ from flask_login import login_user, login_required, logout_user, current_user
 from flask_socketio import join_room
 from sqlalchemy import func, desc
 from werkzeug.security import generate_password_hash, check_password_hash
-from recommend import recommend_specific
 
+from .recommend import recommend_specific
 from . import db, socketio
 from .decorators import handle_sqlalchemy_error, handle_api_sqlalchemy_error
 from .email import send_email

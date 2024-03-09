@@ -1,5 +1,5 @@
 from sqlalchemy import text
-from website import db
+from . import db
 
 def recommend_general():
     """

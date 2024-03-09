@@ -1,11 +1,13 @@
 import unittest
 from sentify.website import create_app, db
 from sentify.website.models import User, Notification, Follow, Sector, Company, Article
+from sentify.website.recommend import recommend_specific
+from tests.test_config import TestConfig
 from datetime import date
 
 class AuthBase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(TestConfig)
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
